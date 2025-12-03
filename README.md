@@ -146,15 +146,10 @@ Bu projeyi **Vercel** üzerine tek tıkla deploy edebilirsiniz.
 
 ## ☕ Bana Kahve Ismarla
 
-Bu proje işine yaradıysa ve geliştirmemi desteklemek istiyorsan, bana bir kahve ısmarlayabilirsin! Desteklerin projeyi daha ileri taşımam için motive ediyor. 🚀
-
 Bu proje işine yaradıysa ve geliştirmemi desteklemek istiyorsan, bana bir kahve ısmarlayabilirsin! Ayrıca projeyi beğendiysen **GitHub'da bir yıldız (⭐)** vererek de destek olabilirsin. Desteklerin projeyi daha ileri taşımam için motive ediyor. 🚀
 
-<div align="left">
-  <a href="https://www.buymeacoffee.com/galileoff">
-    <img src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=☕&slug=galileoff&button_colour=FF5F5F&font_colour=ffffff&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00" alt="Buy Me a Coffee" height="40" />
-  </a>
-  &nbsp;
+[![Buy Me a Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=☕&slug=galileoff&button_colour=FF5F5F&font_colour=ffffff&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/galileoff)
+<div>  
   <a href="https://github.com/galile0ff/galileoff-StockControlPanel/stargazers">
     <img src="https://img.shields.io/github/stars/galile0ff/galileoff-StockControlPanel?style=social&label=Star&height=40" alt="GitHub Star" height="40" />
   </a>
