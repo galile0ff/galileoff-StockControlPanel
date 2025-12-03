@@ -143,7 +143,7 @@ Bu projeyi **Vercel** üzerine tek tıkla deploy edebilirsiniz.
 
 ## ☕ Bana Kahve Ismarla
 
-Bu proje işine yaradıysa ve geliştirmemi desteklemek istiyorsan, bana bir kahve ısmarlayabilirsin! Ayrıca projeyi beğendiysen **GitHub'da bir yıldız (⭐)** vererek de destek olabilirsin. Desteklerin projeyi daha ileri taşımam için motive ediyor. 🚀
+Bu proje işine yaradıysa ve geliştirmemi desteklemek istiyorsan, bana bir kahve ısmarlayabilirsin! Ayrıca projeyi beğendiysen **GitHub'da yıldız (⭐)** vererek de destek olabilirsin. Desteklerin projeyi daha ileri taşımam için motive ediyor. 🚀
 
 [![Buy Me a Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=☕&slug=galileoff&button_colour=FF5F5F&font_colour=ffffff&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/galileoff)
 <div>
