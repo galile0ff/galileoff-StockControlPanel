@@ -42,26 +42,54 @@ Proje, performans ve ölçeklenebilirlik için en güncel teknolojilerle gelişt
 
 ---
 
-## 🗂 Proje Yapısı
+## 🗂 Dosya Yapısı
 
 galileoff-StockControlPanel/
-├── components/           # UI Bileşenleri (Formlar, Listeler, Layout)
+├── components/                 # UI Bileşenleri
 │   ├── CategoryForm.tsx
+│   ├── ColorForm.tsx
+│   ├── Layout.tsx
+│   ├── ProductForm.tsx
 │   ├── ProductList.tsx
 │   ├── SalesList.tsx
-│   └── ...
-├── lib/                  # Yardımcı kütüphaneler
-│   └── supabaseClient.ts # Supabase bağlantı ayarları
-├── pages/                # Next.js Sayfaları ve Route yapısı
-│   ├── index.tsx         # Dashboard
-│   ├── api/              # Backend API Endpoint'leri
+│   ├── SizeForm.tsx
+│   ├── Form.module.css
+│   └── Layout.module.css
+│
+├── lib/                        # Konfigürasyon ve Yardımcılar
+│   └── supabaseClient.ts
+│
+├── pages/                      # Sayfalar ve Route Yapısı
+│   ├── api/                    # Backend API Endpoint'leri
+│   │   ├── categories.ts
+│   │   ├── colors.ts
+│   │   ├── dashboard-stats.ts
 │   │   ├── products.ts
+│   │   ├── product-variants.ts
 │   │   ├── sales.ts
-│   │   └── ...
-│   ├── manage/           # Yönetim sayfaları (Ekle/Düzenle)
+│   │   └── sizes.ts
+│   │
+│   ├── manage/                 # Yönetim Sayfaları
+│   │   ├── add-product.tsx
+│   │   ├── categories.tsx
+│   │   ├── colors.tsx
+│   │   ├── products.tsx
+│   │   └── sizes.tsx
+│   │
+│   ├── products/
+│   │   └── [id].tsx
+│   │
+│   ├── _app.tsx
+│   ├── index.tsx               # Dashboard Ana Sayfası
+│   ├── login.tsx
 │   └── sales.tsx
-└── styles/               # CSS Modülleri ve Global stiller
-
+│
+└── styles/                     # Global Stiller ve Modüller
+    ├── Dashboard.module.css
+    ├── Login.module.css
+    ├── Table.module.css
+    └── globals.css
+    
 ---
 
 ## ⚡ Kullanım
