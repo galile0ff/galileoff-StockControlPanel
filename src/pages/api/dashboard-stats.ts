@@ -7,7 +7,7 @@ const supabaseAdmin = createClient(
 );
 
 // Stoku azalan olarak kabul edilecek eşik değeri
-const LOW_STOCK_THRESHOLD = 10;
+const LOW_STOCK_THRESHOLD = 1;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
