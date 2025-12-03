@@ -11,14 +11,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'POST':
       // Yeni bir ürün varyantı ekle
       try {
-        const { product_id, size_id, color_id, stock, image_url } = req.body;
+        const { product_id, size_id, color_id, stock, image_url, is_defective } = req.body;
         if (!product_id || !size_id || !color_id || stock === undefined) {
           return res.status(400).json({ error: 'Product ID, size, color, and stock are required.' });
         }
 
         const { data, error } = await supabaseAdmin
           .from('product_variants')
-          .insert([{ product_id, size_id, color_id, stock, image_url }])
+          .insert([{ product_id, size_id, color_id, stock, image_url, is_defective }])
           .select()
           .single();
 
@@ -38,14 +38,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'PUT':
       // Mevcut bir ürün varyantını güncelle (stok/resim)
       try {
-        const { id, stock, image_url } = req.body;
+        const { id, stock, image_url, is_defective } = req.body;
         if (!id) {
           return res.status(400).json({ error: 'Variant ID is required' });
         }
 
-        const updateData: { stock?: number, image_url?: string } = {};
+        const updateData: { stock?: number, image_url?: string, is_defective?: boolean } = {};
         if (stock !== undefined) updateData.stock = stock;
         if (image_url !== undefined) updateData.image_url = image_url;
+        if (is_defective !== undefined) updateData.is_defective = is_defective;
         
         const { data, error } = await supabaseAdmin
           .from('product_variants')

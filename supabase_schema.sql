@@ -47,6 +47,7 @@ CREATE TABLE product_variants (
   color_id UUID REFERENCES colors(id) ON DELETE SET NULL,
   stock INTEGER NOT NULL DEFAULT 0,
   image_url TEXT, -- Varyanta özel resim
+  is_defective BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT now(),
   UNIQUE(product_id, size_id, color_id) -- Bir ürünün aynı beden ve renkteki varyantı benzersiz olmalıdır.
 );

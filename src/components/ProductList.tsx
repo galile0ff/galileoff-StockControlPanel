@@ -25,6 +25,7 @@ interface ProductVariant {
   id: string;
   stock: number;
   image_url: string | null;
+  is_defective: boolean;
   size: Size;
   color: Color;
 }
@@ -42,6 +43,7 @@ interface Product {
 
 const ProductList = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [defectFilter, setDefectFilter] = useState<'all' | 'defective' | 'non-defective'>('all');
   const { data: products, error } = useSWR<Product[]>('/api/products', fetcher);
 
 
@@ -103,9 +105,15 @@ const ProductList = () => {
     });
   });
 
-  const filteredVariants = allVariants.filter((variant) =>
+  let filteredVariants = allVariants.filter((variant) =>
     variant.productName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (defectFilter === 'defective') {
+    filteredVariants = filteredVariants.filter(variant => variant.is_defective);
+  } else if (defectFilter === 'non-defective') {
+    filteredVariants = filteredVariants.filter(variant => !variant.is_defective);
+  }
 
   return (
     <div>
@@ -116,13 +124,24 @@ const ProductList = () => {
         </Link>
       </div>
 
-      <input
-        type="text"
-        placeholder="Ürün adına göre ara..."
-        className={styles.searchInput}
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+        <input
+          type="text"
+          placeholder="Ürün adına göre ara..."
+          className={styles.searchInput}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <select
+          value={defectFilter}
+          onChange={(e) => setDefectFilter(e.target.value as 'all' | 'defective' | 'non-defective')}
+          className={styles.selectFilter}
+        >
+          <option value="all">Tümü</option>
+          <option value="defective">Defolu Ürünler</option>
+          <option value="non-defective">Defosuz Ürünler</option>
+        </select>
+      </div>
 
       {error && <p>Ürünler yüklenirken bir hata oluştu.</p>}
       {!products && !error && <p>Yükleniyor...</p>}
@@ -142,6 +161,7 @@ const ProductList = () => {
                 <th>Beden</th>
                 <th>Renk</th>
                 <th>Stok</th>
+                <th>Defo Durumu</th>
                 <th>İşlemler</th>
               </tr>
             </thead>
@@ -171,6 +191,7 @@ const ProductList = () => {
                     </div>
                   </td>
                   <td>{variant.stock}</td>
+                  <td>{variant.is_defective ? 'Evet' : 'Hayır'}</td>
                   <td>
                     <div className={styles.buttonGroup}>
                       {/* Varyant düzenleme sayfası henüz yok, bu yüzden product.id'ye yönlendiriyoruz */}

@@ -79,6 +79,7 @@ function AddVariantForm({ productId }: { productId: string }) {
     const [sizeId, setSizeId] = useState('');
     const [colorId, setColorId] = useState('');
     const [stock, setStock] = useState('');
+    const [isDefective, setIsDefective] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [variantError, setVariantError] = useState<string | null>(null);
   
@@ -91,15 +92,16 @@ function AddVariantForm({ productId }: { productId: string }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-            product_id: productId, 
-            size_id: sizeId, 
-            color_id: colorId, 
+            product_id: productId,
+            size_id: sizeId,
+            color_id: colorId,
             stock: parseInt(stock, 10) || 0,
+            is_defective: isDefective,
         }),
       });
   
       if (res.ok) {
-        setSizeId(''); setColorId(''); setStock('');
+        setSizeId(''); setColorId(''); setStock(''); setIsDefective(false);
         mutate(`/api/products?id=${productId}`);
       } else {
         const err = await res.json();
@@ -130,6 +132,16 @@ function AddVariantForm({ productId }: { productId: string }) {
                 <div className={styles.formField}>
                     <label>Stok</label>
                     <input type="text" inputMode="numeric" value={stock} onChange={e => setStock(e.target.value.replace(/[^0-9]/g, ''))} required />
+                </div>
+                <div className={styles.formField}>
+                    <label className={styles.checkboxLabel}>
+                        <input
+                            type="checkbox"
+                            checked={isDefective}
+                            onChange={(e) => setIsDefective(e.target.checked)}
+                        />
+                        Defolu Ürün
+                    </label>
                 </div>
             </div>
             {variantError && <p className={styles.formError}>{variantError}</p>}
@@ -162,11 +174,11 @@ const ProductDetailPage = () => {
     }
   }
 
-  const handleUpdateVariant = async (variantId: string, stock: number) => {
+  const handleUpdateVariant = async (variantId: string, stock: number, isDefective: boolean) => {
     const res = await fetch('/api/product-variants', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: variantId, stock }),
+        body: JSON.stringify({ id: variantId, stock, is_defective: isDefective }),
     });
     if (res.ok) {
         alert('Varyant güncellendi.');
@@ -189,7 +201,7 @@ const ProductDetailPage = () => {
         <h2>Ürün Varyantları</h2>
         <table className={tableStyles.table}>
             <thead>
-                <tr><th>Beden</th><th>Renk</th><th>Stok</th><th>İşlemler</th></tr>
+                <tr><th>Beden</th><th>Renk</th><th>Stok</th><th>Defolu</th><th>İşlemler</th></tr>
             </thead>
             <tbody>
                 {product.product_variants && product.product_variants.length > 0 ? (
@@ -202,7 +214,7 @@ const ProductDetailPage = () => {
                     />
                   ))
                 ) : (
-                    <tr><td colSpan={4}>Bu ürüne ait varyant bulunamadı.</td></tr>
+                    <tr><td colSpan={5}>Bu ürüne ait varyant bulunamadı.</td></tr>
                 )}
             </tbody>
         </table>
@@ -214,17 +226,19 @@ const ProductDetailPage = () => {
 };
 
 // Her bir varyant satırını temsil eden component
-function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (id: string) => void, onUpdate: (id: string, stock: number) => void }) {
+function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (id: string) => void, onUpdate: (id: string, stock: number, isDefective: boolean) => void }) {
     const [stock, setStock] = useState(String(variant.stock));
+    const [isDefective, setIsDefective] = useState(variant.is_defective || false);
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         setStock(String(variant.stock));
+        setIsDefective(variant.is_defective || false);
     }, [variant]);
 
     const handleSave = () => {
         const stockAsNumber = parseInt(stock, 10) || 0;
-        onUpdate(variant.id, stockAsNumber);
+        onUpdate(variant.id, stockAsNumber, isDefective);
         setIsEditing(false);
     }
     
@@ -237,6 +251,13 @@ function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (
                     <input className={styles.tableInput} type="text" inputMode="numeric" value={stock} onChange={e => setStock(e.target.value.replace(/[^0-9]/g, ''))} />
                 ) : (
                     stock
+                )}
+            </td>
+            <td>
+                {isEditing ? (
+                    <input type="checkbox" checked={isDefective} onChange={(e) => setIsDefective(e.target.checked)} />
+                ) : (
+                    isDefective ? 'Evet' : 'Hayır'
                 )}
             </td>
             <td>

@@ -108,6 +108,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
                   id,
                   stock,
                   image_url,
+                  is_defective,
                   size:sizes(id, name),
                   color:colors(id, name, hex_code)
                 )
@@ -139,6 +140,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
                   id,
                   stock,
                   image_url,
+                  is_defective,
                   size:sizes(id, name),
                   color:colors(id, name, hex_code)
                 )

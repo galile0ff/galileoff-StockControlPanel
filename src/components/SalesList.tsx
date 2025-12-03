@@ -35,6 +35,7 @@ const SalesList = () => {
               <tr>
                 <th>Ürün Detayı</th>
                 <th>Adet</th>
+                <th>Defo Durumu</th>
                 <th>Satış Tarihi</th>
               </tr>
             </thead>
@@ -48,6 +49,7 @@ const SalesList = () => {
                     </span>
                   </td>
                   <td>{sale.quantity}</td>
+                  <td>{sale.variant.is_defective ? 'Evet' : 'Hayır'}</td>
                   <td>{formatDate(sale.sale_date)}</td>
                 </tr>
 
