@@ -128,6 +128,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
           name,
           description,
           created_at,
+          ignore_low_stock,
           category:categories(id, name),
           product_variants (
             id,
