@@ -8,13 +8,15 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart, // Yeni import
-  Bar,      // Yeni import
-  Legend    // Yeni import
+  BarChart,
+  Bar,
+  Legend
 } from 'recharts';
 import styles from '../styles/Dashboard.module.css';
-import tableStyles from '../styles/Table.module.css';
+import tableStyles from '../styles/Table.module.css'; // Table.module.css'i import ediyoruz
 
+// CSS değişkenlerinden renkleri almak için basit bir helper fonksiyonu (sadece örnek, gerçek uygulamada daha sağlam bir yol tercih edilebilir)
+// const getCssVariable = (varName: string) => typeof window !== 'undefined' ? getComputedStyle(document.documentElement).getPropertyValue(varName) : '';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Dashboard = () => {
@@ -31,6 +33,11 @@ const Dashboard = () => {
       'Defolu Ürün': data.total_defective_stock || 0,
     },
   ];
+
+  // Renk değişkenlerini doğrudan HEX kodları olarak tanımlayalım, Recharts ile uyumlu olması için
+  const accentColor = '#4F85F7'; // hsl(220, 80%, 60%) karşılığı
+  const successColor = '#33CC33'; // hsl(120, 50%, 40%) karşılığı
+  const errorColor = '#E54747';   // hsl(0, 70%, 60%) karşılığı
 
   return (
     <div className={styles.container}>
@@ -68,24 +75,29 @@ const Dashboard = () => {
               bottom: 5,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" /> {/* Grid rengi */}
             <XAxis dataKey="date" tickFormatter={(tick) => {
               const [year, month, day] = tick.split('-');
               return `${day}/${month}`;
-            }} />
-            <YAxis />
-            <Tooltip formatter={(value: number) => [`Satış: ${value}`]} />
+            }} stroke="var(--color-text-secondary)" /> {/* Eksen rengi */}
+            <YAxis stroke="var(--color-text-secondary)" /> {/* Eksen rengi */}
+            <Tooltip
+              contentStyle={{ backgroundColor: 'var(--color-bg-secondary)', border: '1px solid var(--color-border)', borderRadius: '0.5rem' }}
+              labelStyle={{ color: 'var(--color-text-primary)' }}
+              itemStyle={{ color: 'var(--color-text-primary)' }}
+              formatter={(value: number) => [`Satış: ${value}`, 'Toplam']}
+            />
             <Line
               type="monotone"
               dataKey="sales"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
+              stroke={accentColor}
+              activeDot={{ r: 8, fill: accentColor, stroke: 'white', strokeWidth: 2 }}
             />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
-      <div className={styles.chartContainer} style={{ marginTop: '40px' }}>
+      <div className={styles.chartContainer} style={{ marginTop: 'var(--spacing-xl)' }}>
         <h2>Mevcut Stok Durumu (Defolu / Defosuz)</h2>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart
@@ -97,13 +109,17 @@ const Dashboard = () => {
               bottom: 5,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="Defosuz Ürün" fill="#82ca9d" />
-            <Bar dataKey="Defolu Ürün" fill="#ffc658" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" /> {/* Grid rengi */}
+            <XAxis dataKey="name" stroke="var(--color-text-secondary)" /> {/* Eksen rengi */}
+            <YAxis stroke="var(--color-text-secondary)" /> {/* Eksen rengi */}
+            <Tooltip
+              contentStyle={{ backgroundColor: 'var(--color-bg-secondary)', border: '1px solid var(--color-border)', borderRadius: '0.5rem' }}
+              labelStyle={{ color: 'var(--color-text-primary)' }}
+              itemStyle={{ color: 'var(--color-text-primary)' }}
+            />
+            <Legend wrapperStyle={{ color: 'var(--color-text-primary)' }} /> {/* Legend rengi */}
+            <Bar dataKey="Defosuz Ürün" fill={successColor} />
+            <Bar dataKey="Defolu Ürün" fill={errorColor} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -122,9 +138,9 @@ const Dashboard = () => {
             <tbody>
               {data.low_stock_items?.length > 0 ? (
                 data.low_stock_items.map((item: any) => (
-                  <tr key={item.id}>
+                  <tr key={item.id} className={tableStyles.variantRow}> {/* Tablo satır stili */}
                     <td>
-                      <Link href={`/manage/products/${item.product?.id}`}>
+                      <Link href={`/manage/products/${item.product?.id}`} style={{ color: 'var(--color-accent)' }}>
                         {item.product?.name} ({item.size?.name}, {item.color?.name})
                       </Link>
                     </td>
@@ -132,7 +148,7 @@ const Dashboard = () => {
                   </tr>
                 ))
               ) : (
-                <tr>
+                <tr className={tableStyles.variantRow}>
                   <td colSpan={2}>Stoku azalan ürün yok.</td>
                 </tr>
               )}
@@ -153,9 +169,9 @@ const Dashboard = () => {
             <tbody>
             {data.best_selling_items?.length > 0 ? (
                 data.best_selling_items.map((item: any) => (
-                  <tr key={item.variant_id}>
+                  <tr key={item.variant_id} className={tableStyles.variantRow}> {/* Tablo satır stili */}
                     <td>
-                      <Link href={`/manage/products/${item.product_id}`}>
+                      <Link href={`/manage/products/${item.product_id}`} style={{ color: 'var(--color-accent)' }}>
                         {item.product_name} ({item.size_name}, {item.color_name})
                       </Link>
                     </td>
@@ -163,7 +179,7 @@ const Dashboard = () => {
                   </tr>
                 ))
               ) : (
-                <tr>
+                <tr className={tableStyles.variantRow}>
                   <td colSpan={2}>Henüz satış verisi yok.</td>
                 </tr>
               )}

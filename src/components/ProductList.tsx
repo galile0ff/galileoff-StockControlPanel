@@ -156,7 +156,7 @@ const ProductList = () => {
         </Link>
       </div>
 
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+      <div className={styles.flexContainer}>
         <input
           type="text"
           placeholder="Ürün adına göre ara..."
@@ -208,17 +208,17 @@ const ProductList = () => {
                           <img
                             src={product.image_url}
                             alt={product.name}
-                            style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '5px' }}
+                            className={styles.productImage}
                           />
                         )}
                         <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                          {product.is_low_stock && <span title="Düşük Stok!" style={{ color: 'red', fontWeight: 'bold' }}>🟢</span>}
+                          {product.is_low_stock && <span title="Düşük Stok!" className={styles.lowStockIcon}>!</span>} {/* İkonu değiştirdim */}
                           <strong>{product.name}</strong> ({product.category?.name || 'Kategorisiz'})
 
                           <button
                             onClick={() => handleDeleteProduct(product.id)}
                             className={`${styles.actionButton} ${styles.deleteButton}`}
-                            style={{ marginLeft: '10px', padding: '0.3rem 0.6rem', fontSize: '0.75rem' }}
+                            style={{ marginLeft: '10px' }} // Stil düzeltmesi
                           >
                             Ürünü Sil
                           </button>
@@ -240,7 +240,7 @@ const ProductList = () => {
                               width: '15px',
                               height: '15px',
                               backgroundColor: variant.color?.hex_code || '#ccc',
-                              border: '1px solid #000',
+                              border: '1px solid var(--color-border)', // Yeni stil
                               borderRadius: '3px',
                             }}
                           ></span>
@@ -275,5 +275,3 @@ const ProductList = () => {
 };
 
 export default ProductList;
-
-

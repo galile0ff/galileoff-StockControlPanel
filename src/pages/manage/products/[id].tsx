@@ -106,8 +106,8 @@ function EditProductDetails({ product }: { product: any }) {
             onChange={handleImageChange}
           />
           {(imagePreview || product.image_url) && (
-            <div style={{ marginTop: '10px' }}>
-              <img src={imagePreview || product.image_url} alt="Ürün Önizleme" style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'contain' }} />
+            <div style={{ marginTop: 'var(--spacing-sm)' }}>
+              <img src={imagePreview || product.image_url} alt="Ürün Önizleme" className={styles.productImage} />
             </div>
           )}
         </div>
@@ -168,7 +168,7 @@ function AddVariantForm({ productId }: { productId: string }) {
     };
 
     return (
-        <form onSubmit={handleAddVariant} className={styles.form} style={{ marginTop: '2rem' }}>
+        <form onSubmit={handleAddVariant} className={styles.form} style={{ marginTop: 'var(--spacing-xl)' }}> {/* marginTop için değişken kullanıldı */}
             <h2>Yeni Varyant Ekle</h2>
             <div className={styles.formGrid}>
                 {/* Form alanları... */}
@@ -254,7 +254,7 @@ const ProductDetailPage = () => {
       
       <EditProductDetails product={product} />
 
-      <div className={tableStyles.tableContainer} style={{ marginTop: '2rem' }}>
+      <div className={tableStyles.tableContainer} style={{ marginTop: 'var(--spacing-xl)' }}>
         <h2>Ürün Varyantları</h2>
         <table className={tableStyles.table}>
             <thead>
@@ -271,7 +271,7 @@ const ProductDetailPage = () => {
                     />
                   ))
                 ) : (
-                    <tr><td colSpan={5}>Bu ürüne ait varyant bulunamadı.</td></tr>
+                    <tr className={tableStyles.variantRow}><td colSpan={5}>Bu ürüne ait varyant bulunamadı.</td></tr>
                 )}
             </tbody>
         </table>
@@ -300,7 +300,7 @@ function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (
     }
     
     return (
-        <tr>
+        <tr className={tableStyles.variantRow}> {/* Varyant satırına sınıf eklendi */}
             <td>{variant.size?.name || '-'}</td>
             <td>{variant.color?.name || '-'}</td>
             <td>
@@ -319,11 +319,11 @@ function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (
             </td>
             <td>
                 {isEditing ? (
-                    <button onClick={handleSave} className={tableStyles.actionButton} style={{backgroundColor: '#38A169'}}>Kaydet</button>
+                    <button onClick={handleSave} className={`${tableStyles.actionButton} ${tableStyles.soldButton}`}>Kaydet</button>
                 ) : (
                     <button onClick={() => setIsEditing(true)} className={tableStyles.actionButton}>Düzenle</button>
                 )}
-                <button onClick={() => onDelete(variant.id)} className={tableStyles.actionButton} style={{backgroundColor: '#E53E3E', marginLeft: '10px'}}>Sil</button>
+                <button onClick={() => onDelete(variant.id)} className={`${tableStyles.actionButton} ${tableStyles.deleteButton}`}>Sil</button> {/* Inline stil kaldırıldı */}
             </td>
         </tr>
     )

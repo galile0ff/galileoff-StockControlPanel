@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useSWR from 'swr';
-import styles from '../styles/Table.module.css';
+import styles from '../styles/Table.module.css'; // Table.module.css kullanılıyor
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -61,21 +61,24 @@ const SalesList = () => {
     <div>
       <div className={styles.header}>
         <h1>Yapılan Satışlar</h1>
-        {totalSalesCount !== undefined && (
-          <p>Toplam Satış Sayısı: {totalSalesCount}</p>
-        )}
-        <div className={styles.filterOptions}>
-          <label htmlFor="dateFilter">Filtrele:</label>
-          <select
-            id="dateFilter"
-            value={selectedFilter}
-            onChange={(e) => setSelectedFilter(e.target.value)}
-          >
-            <option value="hepsi">Hepsi</option>
-            <option value="son_3_gun">Son 3 Gün</option>
-            <option value="son_1_hafta">Son 1 Hafta</option>
-            <option value="son_1_ay">Son 1 Ay</option>
-          </select>
+        <div className={styles.flexContainer}> {/* flexContainer sınıfını kullan */}
+          {totalSalesCount !== undefined && (
+            <p>Toplam Satış Sayısı: {totalSalesCount}</p>
+          )}
+          <div className={styles.filterOptions}> {/* Bu div için stil eklenmedi, select'i doğrudan styles.selectFilter ile stylize edeceğiz. */}
+            <label htmlFor="dateFilter" style={{ marginRight: 'var(--spacing-sm)' }}>Filtrele:</label>
+            <select
+              id="dateFilter"
+              value={selectedFilter}
+              onChange={(e) => setSelectedFilter(e.target.value)}
+              className={styles.selectFilter}
+            >
+              <option value="hepsi">Hepsi</option>
+              <option value="son_3_gun">Son 3 Gün</option>
+              <option value="son_1_hafta">Son 1 Hafta</option>
+              <option value="son_1_ay">Son 1 Ay</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -98,7 +101,7 @@ const SalesList = () => {
                 <tr key={sale.id}>
                   <td>
                     {sale.variant.product.name}
-                    <span style={{ color: '#718096', marginLeft: '8px' }}>
+                    <span style={{ color: 'var(--color-text-secondary)', marginLeft: 'var(--spacing-xs)' }}> {/* CSS değişkeni kullan */}
                       ({sale.variant.size.name}, {sale.variant.color.name})
                     </span>
                   </td>
@@ -110,7 +113,7 @@ const SalesList = () => {
               ))}
                {sales.length === 0 && (
                 <tr>
-                    <td colSpan={3}>Henüz hiç satış yapılmamış.</td>
+                    <td colSpan={4}>Henüz hiç satış yapılmamış.</td> {/* Colspan düzeltildi */}
                 </tr>
             )}
             </tbody>

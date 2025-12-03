@@ -14,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const supabase = createSupabaseBrowserClient();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar state'i
 
   useEffect(() => {
     const getInitialSession = async () => {
@@ -42,6 +43,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     await supabase.auth.signOut();
   };
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  // Router değiştiğinde sidebar'ı kapat
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [router.pathname]);
+
   if (loading) {
     return <div>Yükleniyor...</div>;
   }
@@ -52,19 +62,27 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className={styles.container}>
-      <aside className={styles.sidebar}>
+      {/* Mobil menü butonu */}
+      <button className={styles.menuButton} onClick={toggleSidebar}>
+        {sidebarOpen ? 'X' : '☰'}
+      </button>
+
+      {/* Overlay */}
+      {sidebarOpen && <div className={styles.overlay} onClick={toggleSidebar}></div>}
+
+      <aside className={`${styles.sidebar} ${sidebarOpen ? styles.open : ''}`}>
         <div className={styles.logo}>
           <Link href="/">İNCEWEAR</Link>
         </div>
         <nav className={styles.nav}>
-          <Link href="/">Dashboard</Link>
+          <Link href="/" className={router.pathname === '/' ? styles.active : ''}>Dashboard</Link>
           <p className={styles.navHeading}>Yönetim</p>
-          <Link href="/manage/products">Ürünler</Link>
-          <Link href="/manage/categories">Kategoriler</Link>
-          <Link href="/manage/sizes">Bedenler</Link>
-          <Link href="/manage/colors">Renkler</Link>
+          <Link href="/manage/products" className={router.pathname.startsWith('/manage/products') ? styles.active : ''}>Ürünler</Link>
+          <Link href="/manage/categories" className={router.pathname === '/manage/categories' ? styles.active : ''}>Kategoriler</Link>
+          <Link href="/manage/sizes" className={router.pathname === '/manage/sizes' ? styles.active : ''}>Bedenler</Link>
+          <Link href="/manage/colors" className={router.pathname === '/manage/colors' ? styles.active : ''}>Renkler</Link>
           <p className={styles.navHeading}>Satış</p>
-          <Link href="/sales">Satışlar</Link>
+          <Link href="/sales" className={router.pathname === '/sales' ? styles.active : ''}>Satışlar</Link>
         </nav>
       </aside>
       <main className={styles.mainContent}>

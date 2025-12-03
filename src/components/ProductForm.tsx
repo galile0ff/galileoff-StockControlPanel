@@ -113,8 +113,8 @@ const ProductForm = () => {
               onChange={handleImageChange}
             />
             {imagePreview && (
-              <div style={{ marginTop: '10px' }}>
-                <img src={imagePreview} alt="Ürün Önizleme" style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'contain' }} />
+              <div style={{ marginTop: 'var(--spacing-sm)' }}> {/* Margin top için değişken kullanıldı */}
+                <img src={imagePreview} alt="Ürün Önizleme" className={styles.productImage} />
               </div>
             )}
           </div>

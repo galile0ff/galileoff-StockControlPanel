@@ -4,27 +4,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-xl);
 }
 
 .addButton {
-    background-color: #2d3748;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.25rem;
+    background-color: var(--color-accent);
+    color: var(--color-bg-secondary);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: 0.375rem;
     text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.2s;
+    font-weight: var(--font-weight-medium);
+    transition: all 0.2s ease-in-out;
 }
 
 .addButton:hover {
-    background-color: #4a5568;
+    filter: brightness(1.1);
+    box-shadow: var(--shadow-light);
 }
 
 .tableContainer {
-    background-color: #fff;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    background-color: var(--color-bg-secondary);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-md);
     overflow-x: auto; /* Küçük ekranlarda kaydırma sağlar */
 }
 
@@ -32,19 +33,21 @@
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    color: var(--color-text-primary);
 }
 
 .table th,
 .table td {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #edf2f7;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .table th {
-    font-size: 0.8rem;
+    font-size: calc(var(--font-size-base) * 0.8);
     text-transform: uppercase;
-    color: #4a5568;
-    background-color: #f7fafc;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-primary); /* Başlık arka planı */
+    font-weight: var(--font-weight-semibold);
 }
 
 .table tbody tr:last-child td {
@@ -52,104 +55,129 @@
 }
 
 .actionButton {
-    background-color: #4299e1; /* blue-500 */
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
+    background-color: var(--color-accent);
+    color: var(--color-bg-secondary);
+    padding: var(--spacing-xs) var(--spacing-sm); /* Daha küçük düğmeler */
+    border-radius: 0.375rem;
     text-decoration: none;
-    font-size: 0.875rem;
-    transition: background-color 0.2s;
+    font-size: calc(var(--font-size-base) * 0.85); /* Daha küçük font */
+    transition: all 0.2s ease-in-out;
+    border: none;
+    cursor: pointer;
 }
 
 .actionButton:hover {
-    background-color: #2b6cb0; /* blue-700 */
+    filter: brightness(1.1);
+    box-shadow: var(--shadow-light);
 }
 
 .deleteButton {
-  background-color: #e53e3e; /* red-500 */
+  background-color: var(--color-error);
 }
 
-.deleteButton:hover {
-  background-color: #c53030; /* red-700 */
+.soldButton {
+  background-color: var(--color-success);
 }
 
 .buttonGroup {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--spacing-sm);
   align-items: center;
 }
 
-.searchInput {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid #e2e8f0; /* light gray */
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+.searchInput,
+.selectFilter {
+  width: 100%; /* Mobil'de tam genişlik */
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  font-size: var(--font-size-base);
+  box-shadow: var(--shadow-light); /* Hafif gölge */
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-.searchInput:focus {
+.searchInput:focus,
+.selectFilter:focus {
   outline: none;
-  border-color: #4299e1; /* blue-500 */
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* blue-500 with transparency */
-}
-
-.soldButton {
-  background-color: #48bb78; /* green-500 */
-}
-
-.soldButton:hover {
-  background-color: #38a169; /* green-700 */
-}
-
-.productRow {
-    background-color: #f0f4f8; /* Light gray-blue for product rows */
-    font-weight: bold;
-    border-bottom: 2px solid #cbd5e0; /* Darker border below product row */
-}
-
-.variantRow {
-    background-color: #ffffff; /* White for variant rows */
-    border-bottom: 1px dashed #e2e8f0; /* Dashed border between variants */
-}
-
-.variantRow td:first-child {
-    padding-left: 3rem; /* Indent variant details */
-}
-
-/* Ensure the last variant row of a product doesn't have a dashed border if the next row is a productRow */
-.productRow + .variantRow:first-of-type {
-  border-top: none; /* No top border for the first variant if it follows a product row */
-}
-
-.variantRow:last-of-type {
-  border-bottom: none; /* Remove bottom border from the last variant row */
-}
-
-/* If the last variant row is followed by another product row, ensure no double border */
-.variantRow:last-of-type + .productRow {
-  border-top: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px hsla(220, 80%, 60%, 0.2);
 }
 
 .selectFilter {
-  width: auto;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid #e2e8f0; /* light gray */
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
-  background-color: white;
   appearance: none; /* Remove default select arrow */
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.6-6.4H19.4c-4.4%200-8.8%202-13.6%206.4-4.8%204.8-6.4%2013.2-6.4%2017.6s2%2013.2%206.4%2017.6l128%20128c4.8%204.8%2013.2%206.4%2017.6%206.4s13.2-2%2017.6-6.4l128-128c4.8-4.8%206.4-13.2%206.4-17.6S291.8%2074.2%20287%2069.4z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"); /* Custom arrow */
   background-repeat: no-repeat;
-  background-position: right 0.7em top 50%, 0 0;
-  background-size: 0.65em auto, 100%;
+  background-position: right var(--spacing-sm) center;
+  background-size: 0.8em;
+  padding-right: calc(var(--spacing-md) + 0.8em); /* Ok için yer aç */
 }
 
-.selectFilter:focus {
-  outline: none;
-  border-color: #4299e1; /* blue-500 */
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* blue-500 with transparency */
+@media (min-width: 768px) {
+    .searchInput, .selectFilter {
+        width: auto; /* Masaüstünde otomatik genişlik */
+        margin-bottom: 0;
+    }
+}
+
+
+.productRow {
+    background-color: var(--color-bg-primary); /* Ürün satırı arka planı */
+    font-weight: var(--font-weight-medium);
+    border-bottom: 2px solid var(--color-border); /* Ürün satırı altında daha kalın kenarlık */
+}
+
+.variantRow {
+    background-color: var(--color-bg-secondary); /* Varyant satırı arka planı */
+    transition: background-color 0.2s ease-in-out;
+}
+
+.variantRow:hover {
+  background-color: var(--color-bg-primary); /* Hover efekti */
+}
+
+.variantRow td:first-child {
+    padding-left: var(--spacing-xl); /* Varyant detaylarını içeriden başlat */
+}
+
+/* Ürün resimleri */
+.productImage {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 0.375rem;
+  box-shadow: var(--shadow-light);
+}
+
+/* Düşük stok ikonu */
+.lowStockIcon {
+  color: var(--color-error); /* Kırmızı ikonu */
+  font-weight: var(--font-weight-bold);
+  margin-right: var(--spacing-xs);
+}
+
+/* Flex kapsayıcısı için genel stil */
+.flexContainer {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap; /* Mobil'de alt alta geçmesi için */
+}
+
+.flexContainer > * {
+  flex: 1; /* Esneklik */
+  min-width: 200px; /* Minimum genişlik */
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+  .header h1 {
+    margin-bottom: 0;
+  }
 }

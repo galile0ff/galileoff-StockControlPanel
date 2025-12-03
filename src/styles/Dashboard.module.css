@@ -1,53 +1,83 @@
 /* src/styles/Dashboard.module.css */
 
 .container {
-    width: 100%;
+  padding: var(--spacing-md); /* Genel konteyner paddingi */
 }
 
+/* İstatistik Kartları */
 .statsGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-    margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
 }
 
 .statCard {
-    background-color: #fff;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    text-align: center;
+  background-color: var(--color-bg-secondary);
+  padding: var(--spacing-lg);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-md); /* Glassmorphism'e yakın hafif gölge */
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid var(--color-border); /* Hafif kenarlık */
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
 }
 
 .statCard h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #1a202c;
-    margin: 0;
+  font-size: calc(var(--font-size-base) * 2);
+  color: var(--color-accent); /* Vurgu rengi */
+  margin-bottom: var(--spacing-sm);
 }
 
 .statCard p {
-    margin: 0;
-    color: #718096;
-    margin-top: 0.5rem;
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
 }
 
+/* Grafik Konteynerleri */
+.chartContainer {
+  background-color: var(--color-bg-secondary);
+  padding: var(--spacing-lg);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--spacing-xl);
+  border: 1px solid var(--color-border);
+  position: relative; /* Tooltip için */
+}
+
+.chartContainer h2 {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-text-primary);
+}
+
+/* Listeler (Stoku Azalanlar, En Çok Satanlar) */
 .listsGrid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-}
-
-@media (min-width: 1024px) {
-    .listsGrid {
-        grid-template-columns: 1fr 1fr;
-    }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
 }
 
 .listHeader {
-    font-size: 1.25rem;
-    font-weight: 500;
-    padding: 0 1.5rem;
-    margin-bottom: 1rem;
+  font-size: calc(var(--font-size-base) * 1.25);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+/* Küçük ekranlar için düzenlemeler */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-sm);
+  }
+  .statCard h2 {
+    font-size: calc(var(--font-size-base) * 1.5);
+  }
+  .chartContainer h2, .listsGrid .listHeader {
+    font-size: calc(var(--font-size-base) * 1.1);
+  }
 }

@@ -3,7 +3,7 @@ import useSWR, { mutate } from 'swr';
 import styles from './Form.module.css';
 import colornames from 'colornames';
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res => res.json()));
 
 // Basit bir Türkçe-İngilizce renk haritası
 const turkishToEnglish: { [key: string]: string } = {
@@ -143,13 +143,13 @@ const ColorForm = () => {
           <ul className={styles.list}>
             {colors.map((color: any) => (
               <li key={color.id} className={styles.listItem}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
                   <span style={{ 
                     width: '20px', 
                     height: '20px', 
                     backgroundColor: color.hex_code || '#ccc',
                     borderRadius: '50%',
-                    border: '1px solid #ddd'
+                    border: '1px solid var(--color-border)' // CSS değişkeni kullan
                   }}></span>
                   {color.name}
                 </span>
