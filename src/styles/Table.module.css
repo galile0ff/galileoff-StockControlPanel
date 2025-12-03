@@ -1,0 +1,66 @@
+/* src/styles/Table.module.css */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.addButton {
+    background-color: #2d3748;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.addButton:hover {
+    background-color: #4a5568;
+}
+
+.tableContainer {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    overflow-x: auto; /* Küçük ekranlarda kaydırma sağlar */
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table th,
+.table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.table th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #4a5568;
+    background-color: #f7fafc;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.actionButton {
+    background-color: #4299e1; /* blue-500 */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+    background-color: #2b6cb0; /* blue-700 */
+}
