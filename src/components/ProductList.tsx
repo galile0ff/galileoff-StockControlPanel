@@ -35,7 +35,8 @@ interface Product {
   description: string | null;
   created_at: string;
   category: Category;
-  ignore_low_stock: boolean; // Yeni eklenen alan
+  ignore_low_stock: boolean;
+  is_low_stock: boolean; // Yeni eklenen alan
   product_variants: ProductVariant[];
 }
 
@@ -87,7 +88,7 @@ const ProductList = () => {
     }
   };
 
-  const allVariants: (ProductVariant & { productName: string; productId: string; categoryName: string; ignoreLowStock: boolean })[] = [];
+  const allVariants: (ProductVariant & { productName: string; productId: string; categoryName: string; ignoreLowStock: boolean; isLowStock: boolean })[] = [];
 
   products?.forEach((product) => {
     product.product_variants.forEach((variant) => {
@@ -96,7 +97,8 @@ const ProductList = () => {
         productName: product.name,
         productId: product.id,
         categoryName: product.category?.name || 'Kategorisiz',
-        ignoreLowStock: product.ignore_low_stock, // ignore_low_stock değerini ekle
+        ignoreLowStock: product.ignore_low_stock,
+        isLowStock: product.is_low_stock, // is_low_stock değerini ekle
       });
     });
   });
@@ -148,6 +150,7 @@ const ProductList = () => {
                 <tr key={variant.id}>
                                     <td>
                                       <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                        {variant.isLowStock && <span title="Düşük Stok!" style={{ color: 'red', fontWeight: 'bold' }}>🟢</span>}
                                         {variant.productName}
                                       </div>
                                     </td>                  <td>{variant.categoryName}</td>

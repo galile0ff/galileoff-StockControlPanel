@@ -93,57 +93,70 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id } = req.query;
 
-    if (id) {
-      // Belirli bir ürünü ve tüm varyantlarını getir
-      const { data: product, error } = await supabaseAdmin
-        .from('products')
-        .select(`
-          id,
-          name,
-          description,
-          created_at,
-          ignore_low_stock,
-          category:categories(id, name),
-          product_variants (
-            id,
-            stock,
-            image_url,
-            size:sizes(id, name),
-            color:colors(id, name, hex_code)
-          )
-        `)
-        .eq('id', id)
-        .single();
-      if (error) throw error;
-      if (!product) return res.status(404).json({ error: 'Product not found' });
-      
-      return res.status(200).json(product);
-
-    } else {
-      // Tüm ürünlerin listesini getir (varyantları ile birlikte)
-      const { data, error } = await supabaseAdmin
-        .from('products')
-        .select(`
-          id,
-          name,
-          description,
-          created_at,
-          ignore_low_stock,
-          category:categories(id, name),
-          product_variants (
-            id,
-            stock,
-            image_url,
-            size:sizes(id, name),
-            color:colors(id, name, hex_code)
-          )
-        `)
-        .order('name', { ascending: true });
-
-      if (error) throw error;
-      return res.status(200).json(data);
-    }
-  } catch (error: any) {
+          if (id) {
+            // Belirli bir ürünü ve tüm varyantlarını getir
+            const { data: product, error } = await supabaseAdmin
+              .from('products')
+              .select(`
+                id,
+                name,
+                description,
+                created_at,
+                ignore_low_stock,
+                category:categories(id, name),
+                product_variants (
+                  id,
+                  stock,
+                  image_url,
+                  size:sizes(id, name),
+                  color:colors(id, name, hex_code)
+                )
+              `)
+              .eq('id', id)
+              .single();
+            if (error) throw error;
+            if (!product) return res.status(404).json({ error: 'Product not found' });
+            
+            let isLowStock = false;
+            if (!product.ignore_low_stock) {
+                isLowStock = product.product_variants.some(variant => variant.stock <= 10);
+            }
+            
+            return res.status(200).json({ ...product, is_low_stock: isLowStock });
+    
+          } else {
+            // Tüm ürünlerin listesini getir (varyantları ile birlikte)
+            const { data, error } = await supabaseAdmin
+              .from('products')
+              .select(`
+                id,
+                name,
+                description,
+                created_at,
+                ignore_low_stock,
+                category:categories(id, name),
+                product_variants (
+                  id,
+                  stock,
+                  image_url,
+                  size:sizes(id, name),
+                  color:colors(id, name, hex_code)
+                )
+              `)
+              .order('name', { ascending: true });
+    
+            if (error) throw error;
+    
+            const productsWithLowStockStatus = data.map(product => {
+                let isLowStock = false;
+                if (!product.ignore_low_stock) {
+                    isLowStock = product.product_variants.some(variant => variant.stock <= 10);
+                }
+                return { ...product, is_low_stock: isLowStock };
+            });
+    
+            return res.status(200).json(productsWithLowStockStatus);
+          }  } catch (error: any) {
     return res.status(500).json({ error: error.message });
   }
 }
