@@ -44,6 +44,7 @@ Proje, performans ve ölçeklenebilirlik için en güncel teknolojilerle gelişt
 
 ## 🗂 Dosya Yapısı
 
+```text
 galileoff-StockControlPanel/
 ├── components/                 # UI Bileşenleri
 │   ├── CategoryForm.tsx
