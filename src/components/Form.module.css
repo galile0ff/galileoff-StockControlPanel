@@ -1,0 +1,196 @@
+/* src/components/Form.module.css */
+
+.form {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  margin-bottom: 2rem;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 1rem;
+}
+
+.inputGroup input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.inputGroup button {
+  padding: 0.75rem 1.5rem;
+  background-color: #2d3748;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.inputGroup button:hover {
+  background-color: #4a5568;
+}
+
+.inputGroup button:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.formError {
+  color: #e53e3e;
+  margin-top: 0.5rem;
+}
+
+.listContainer {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.deleteButton {
+  background-color: #e53e3e;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: #c53030;
+}
+
+.editButton {
+  background-color: #38a169; /* green */
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.editButton:hover {
+  background-color: #2f855a;
+}
+
+.cancelButton {
+  background-color: #718096; /* gray */
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancelButton:hover {
+  background-color: #4a5568;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* For multi-field forms like ProductForm */
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formField label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.formField input,
+.formField select,
+.formField textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+.formActions {
+  margin-top: 1.5rem;
+  text-align: right;
+}
+
+.formActions button {
+  padding: 0.75rem 1.5rem;
+  background-color: #2d3748;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.formActions button:hover {
+  background-color: #4a5568;
+}
+
+.formActions button:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+/* For inline editing in tables */
+.tableInput {
+  width: 80px;
+  padding: 0.5rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
