@@ -1,95 +1,246 @@
-/* src/styles/Login.module.css */
-
+/* --- Global Reset --- */
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  width: 100%;
   min-height: 100vh;
-  background-color: var(--color-bg-primary); /* Global arka plan rengi */
-  padding: var(--spacing-md);
-  font-family: var(--font-family-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #09090b;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #fff;
+  padding: 16px; /* Mobilde kenarlara yapışmaması için */
 }
 
-.loginBox {
-  background-color: var(--color-bg-secondary); /* Beyaz kart arka planı */
-  padding: var(--spacing-xl);
-  border-radius: 0.75rem;
-  box-shadow: var(--shadow-lg); /* Belirgin bir gölge */
+.container * {
+  box-sizing: border-box; /* Kritik: Boyut hesaplamasını düzeltir */
+}
+
+/* --- Arka Plan Efektleri --- */
+.glowOrb1, .glowOrb2 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 1;
+  opacity: 0.4;
+  pointer-events: none; /* Tıklamayı engelle */
+}
+
+.glowOrb1 {
+  width: 300px; /* Mobilde çok büyük olmasın diye küçülttük */
+  height: 300px;
+  background: #4f46e5;
+  top: -50px;
+  left: -50px;
+}
+
+.glowOrb2 {
+  width: 250px;
+  height: 250px;
+  background: #ec4899;
+  bottom: -50px;
+  right: -50px;
+}
+
+/* --- Glass Kart --- */
+.glassCard {
+  position: relative;
+  z-index: 10;
   width: 100%;
-  max-width: 400px;
+  max-width: 400px; /* Genişliği biraz artırdık */
+  padding: 40px;
+  
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Header */
+.header {
   text-align: center;
-  border: 1px solid var(--color-border); /* Hafif kenarlık */
+  margin-bottom: 32px;
+}
+
+.logoIcon {
+  color: #fff;
+  margin-bottom: 12px;
 }
 
 .title {
-  font-size: calc(var(--font-size-base) * 1.75);
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-sm);
-  font-weight: var(--font-weight-bold);
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  margin: 0;
+  color: #fff;
 }
 
 .subtitle {
-  font-size: var(--font-size-base);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-xl);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .inputGroup {
-  margin-bottom: var(--spacing-lg);
-  text-align: left;
-}
-
-.inputGroup label {
-  display: block;
-  margin-bottom: var(--spacing-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-}
-
-.inputGroup input {
+  position: relative;
   width: 100%;
-  /* Stiller globals.css'den miras alınacak */
 }
 
-.error {
-  color: var(--color-error);
-  margin-top: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
-  font-size: calc(var(--font-size-base) * 0.9);
-}
-
-.button {
+/* INPUT AYARLARI (Kritik Kısım) */
+.input {
   width: 100%;
-  padding: var(--spacing-md);
-  background-color: var(--color-accent);
-  color: var(--color-bg-secondary);
-  border: none;
-  border-radius: 0.375rem;
-  font-size: calc(var(--font-size-base) * 1.1);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
+  height: 52px;
+  
+  /* Arka plan ve Kenarlık */
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  
+  /* Yazı Tipi */
+  color: #ffffff !important;
+  font-size: 15px;
+  
+  /* PADDING: Soldan 50px boşluk bırakıyoruz ki ikon sığsın */
+  padding: 0 16px 0 50px !important; 
+  
+  outline: none;
   transition: all 0.2s ease-in-out;
 }
 
-.button:hover {
-  filter: brightness(1.1);
-  box-shadow: var(--shadow-light);
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
-.button:disabled {
-  background-color: var(--color-text-secondary);
+/* Focus Durumu */
+.input:focus {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  border-color: #6366f1; /* Focus olunca border indigo olsun */
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+/* SOL İKON */
+.icon {
+  position: absolute;
+  left: 16px; /* Soldan 16px içeride */
+  top: 50%;
+  transform: translateY(-50%); /* Dikey ortala */
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none; /* İkona tıklayınca arkadaki inputa geçsin */
+  transition: color 0.2s;
+  z-index: 5;
+}
+
+/* Input focus olunca ikonu parlat (JSX sırası sayesinde çalışır) */
+.input:focus ~ .icon {
+  color: #ffffff;
+}
+
+/* Göz Butonu (Sağda) */
+.eyeBtn {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.eyeBtn:hover {
+  color: #fff;
+}
+
+/* Hata Kutusu */
+.errorMessage {
+  font-size: 13px;
+  color: #fca5a5;
+  background: rgba(127, 29, 29, 0.4);
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+/* Buton */
+.submitBtn {
+  margin-top: 8px;
+  height: 52px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
   cursor: not-allowed;
-  filter: grayscale(30%);
+  transform: none;
 }
 
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* --- RESPONSIVE AYARLAR (Mobil Uyum) --- */
 @media (max-width: 480px) {
-  .loginBox {
-    padding: var(--spacing-lg);
+  .glassCard {
+    padding: 24px; /* Mobilde iç boşluğu azalt */
+    max-width: 100%;
   }
+
   .title {
-    font-size: calc(var(--font-size-base) * 1.5);
+    font-size: 20px;
+    letter-spacing: 3px;
   }
-  .button {
-    font-size: var(--font-size-base);
+  
+  .glowOrb1, .glowOrb2 {
+    filter: blur(60px); /* Performans için blur azaltılabilir */
+    opacity: 0.3;
+  }
+  
+  .input {
+    font-size: 16px; /* iOS'te zoom yapmayı engeller */
   }
 }

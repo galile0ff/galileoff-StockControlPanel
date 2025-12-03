@@ -2,12 +2,15 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/Login.module.css';
 import { createSupabaseBrowserClient } from '../lib/supabaseClient';
+import { Mail, Lock, Eye, EyeOff, Loader2, Command } from 'lucide-react';
 
 const LoginPage = () => {
   const supabase = createSupabaseBrowserClient();
   const router = useRouter();
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,46 +25,73 @@ const LoginPage = () => {
     });
 
     if (error) {
-      setError(error.message);
+      setError("Parolan yanlış veya kullanıcı bulunamadı.");
       setIsLoading(false);
     } else {
-      // Middleware geri kalanını halledecek ve kullanıcıyı yönlendirecek.
-      // Yine de biz de manuel yönlendirme yapabiliriz.
       router.push('/');
     }
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.loginBox}>
-        <h1 className={styles.title}>İNCEWEAR PANEL</h1>
-        <p className={styles.subtitle}>Lütfen giriş yapın</p>
-        <form onSubmit={handleLogin}>
+      <div className={styles.glowOrb1}></div>
+      <div className={styles.glowOrb2}></div>
+
+      <div className={styles.glassCard}>
+        <div className={styles.header}>
+          <Command size={40} className={styles.logoIcon} strokeWidth={1.5} />
+          <h1 className={styles.title}>INCEWEAR</h1>
+          <p className={styles.subtitle}>Yönetim Paneli</p>
+        </div>
+
+        <form onSubmit={handleLogin} className={styles.form}>
+          
           <div className={styles.inputGroup}>
-            <label htmlFor="email">Email</label>
             <input
               id="email"
               type="email"
+              placeholder="E-posta adresi"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className={styles.input}
               required
             />
+            {/* İkon inputun altında olmalı (CSS ~ seçicisi için) ama görsel olarak solda duracak */}
+            <Mail className={styles.icon} size={20} />
           </div>
+
           <div className={styles.inputGroup}>
-            <label htmlFor="password">Şifre</label>
             <input
               id="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Şifre"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className={styles.input}
               required
             />
+            <Lock className={styles.icon} size={20} />
+            
+            <button
+              type="button"
+              className={styles.eyeBtn}
+              onClick={() => setShowPassword(!showPassword)}
+              tabIndex={-1} // Tab ile butona odaklanmayı engeller (opsiyonel)
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
           </div>
-          {error && <p className={styles.error}>{error}</p>}
-          <button type="submit" className={styles.button} disabled={isLoading}>
-            {isLoading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
+
+          {error && <div className={styles.errorMessage}>{error}</div>}
+
+          <button type="submit" className={styles.submitBtn} disabled={isLoading}>
+            {isLoading ? <Loader2 className={styles.spinner} size={20} /> : 'Giriş Yap'}
           </button>
         </form>
+        
+        <div className={styles.footer}>
+          <span>© 2025 galileoff.</span>
+        </div>
       </div>
     </div>
   );

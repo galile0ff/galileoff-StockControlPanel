@@ -22,6 +22,10 @@
   top: 0;
   height: 100vh; /* Viewport yüksekliği kadar */
   z-index: 1000; /* Diğer içeriklerin üzerinde kalması için */
+  border-top-right-radius: 0; /* Sağ üst köşeyi keskin yap */
+  border-bottom-right-radius: 0; /* Sağ alt köşeyi keskin yap */
+  border-top-left-radius: var(--border-radius-sm); /* Sol üst köşeyi hafifçe yuvarla */
+  border-bottom-left-radius: var(--border-radius-sm); /* Sol alt köşeyi hafifçe yuvarla */
 }
 
 /* Mobil görünüm için sidebar'ı varsayılan olarak gizle */
@@ -60,7 +64,7 @@
   color: var(--color-text-sidebar);
   text-decoration: none;
   padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: 0.375rem; /* 6px */
+  border-radius: var(--border-radius-sm); /* Daha tutarlı */
   transition: background-color 0.2s, color 0.2s;
   margin-bottom: var(--spacing-xs);
   display: flex;
@@ -70,7 +74,7 @@
 
 .nav a:hover,
 .nav a.active { /* Aktif link stili */
-  background-color: hsla(220, 80%, 60%, 0.2); /* Vurgu renginin şeffaf hali */
+  background-color: hsla(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l), 0.2); /* Vurgu renginin şeffaf hali */
   color: var(--color-text-sidebar);
 }
 
@@ -126,7 +130,7 @@
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
   padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: 0.375rem;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -134,14 +138,17 @@
 .logoutButton:hover {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
-  color: white;
+  color: var(--color-bg-secondary); /* Beyaz yazı */
+  filter: brightness(1.05); /* globals.css ile tutarlı */
+  transform: translateY(-1px); /* globals.css ile tutarlı */
+  box-shadow: var(--shadow-light); /* globals.css ile tutarlı */
 }
 
 /* Glassmorphism kart örneği */
 .glassCard {
   background-color: hsla(0, 0%, 100%, 0.2); /* Yarı şeffaf beyaz */
   backdrop-filter: var(--backdrop-filter-glass);
-  border-radius: 1rem;
+  border-radius: var(--border-radius-sm);
   border: 1px solid hsla(0, 0%, 100%, 0.3);
   box-shadow: var(--shadow-glass);
   padding: var(--spacing-xl);
@@ -159,8 +166,15 @@
   color: white;
   border: none;
   padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: 0.375rem;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
+  transition: all 0.2s ease-in-out; /* globals.css'teki gibi transition ekle */
+}
+
+.menuButton:hover {
+  filter: brightness(1.05); /* globals.css ile tutarlı */
+  transform: translateY(-1px); /* globals.css ile tutarlı */
+  box-shadow: var(--shadow-light); /* globals.css ile tutarlı */
 }
 
 @media (max-width: 768px) {
