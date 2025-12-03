@@ -24,7 +24,6 @@ interface Color {
 interface ProductVariant {
   id: string;
   stock: number;
-  price: number;
   image_url: string | null;
   size: Size;
   color: Color;
@@ -139,7 +138,6 @@ const ProductList = () => {
                 <th>Beden</th>
                 <th>Renk</th>
                 <th>Stok</th>
-                <th>Fiyat</th>
                 <th>İşlemler</th>
               </tr>
             </thead>
@@ -165,7 +163,6 @@ const ProductList = () => {
                     </div>
                   </td>
                   <td>{variant.stock}</td>
-                  <td>{variant.price.toFixed(2)}</td>
                   <td>
                     <div className={styles.buttonGroup}>
                       {/* Varyant düzenleme sayfası henüz yok, bu yüzden product.id'ye yönlendiriyoruz */}

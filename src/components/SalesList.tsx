@@ -35,7 +35,6 @@ const SalesList = () => {
               <tr>
                 <th>Ürün Detayı</th>
                 <th>Adet</th>
-                <th>Toplam Fiyat</th>
                 <th>Satış Tarihi</th>
               </tr>
             </thead>
@@ -49,14 +48,13 @@ const SalesList = () => {
                     </span>
                   </td>
                   <td>{sale.quantity}</td>
-                  <td>{sale.total_price} ₺</td>
                   <td>{formatDate(sale.sale_date)}</td>
                 </tr>
 
               ))}
                {sales.length === 0 && (
                 <tr>
-                    <td colSpan={4}>Henüz hiç satış yapılmamış.</td>
+                    <td colSpan={3}>Henüz hiç satış yapılmamış.</td>
                 </tr>
             )}
             </tbody>

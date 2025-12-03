@@ -95,7 +95,6 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
           product_variants (
             id,
             stock,
-            price,
             image_url,
             size:sizes(id, name),
             color:colors(id, name, hex_code)
@@ -103,7 +102,6 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
         `)
         .eq('id', id)
         .single();
-
       if (error) throw error;
       if (!product) return res.status(404).json({ error: 'Product not found' });
       
@@ -122,7 +120,6 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
           product_variants (
             id,
             stock,
-            price,
             image_url,
             size:sizes(id, name),
             color:colors(id, name, hex_code)

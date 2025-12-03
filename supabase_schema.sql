@@ -45,7 +45,6 @@ CREATE TABLE product_variants (
   size_id UUID REFERENCES sizes(id) ON DELETE SET NULL,
   color_id UUID REFERENCES colors(id) ON DELETE SET NULL,
   stock INTEGER NOT NULL DEFAULT 0,
-  price NUMERIC(10, 2) NOT NULL,
   image_url TEXT, -- Varyanta özel resim
   created_at TIMESTAMPTZ DEFAULT now(),
   UNIQUE(product_id, size_id, color_id) -- Bir ürünün aynı beden ve renkteki varyantı benzersiz olmalıdır.
@@ -57,7 +56,6 @@ CREATE TABLE sales (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   variant_id UUID NOT NULL REFERENCES product_variants(id) ON DELETE RESTRICT,
   quantity INTEGER NOT NULL CHECK (quantity > 0),
-  total_price NUMERIC(10, 2) NOT NULL,
   sale_date TIMESTAMPTZ DEFAULT now()
 );
 
@@ -129,11 +127,10 @@ LANGUAGE plpgsql
 AS $$
 DECLARE
   current_stock INTEGER;
-  variant_price NUMERIC;
   new_stock INTEGER;
 BEGIN
-  -- 1. İşlem anındaki stok ve fiyatı al ve satırı kilitle (FOR UPDATE)
-  SELECT stock, price INTO current_stock, variant_price
+  -- 1. İşlem anındaki stoku al ve satırı kilitle (FOR UPDATE)
+  SELECT stock INTO current_stock
   FROM product_variants
   WHERE id = p_variant_id
   FOR UPDATE;
@@ -154,8 +151,8 @@ BEGIN
   WHERE id = p_variant_id;
 
   -- 4. Satışlar tablosuna kaydı ekle
-  INSERT INTO sales (variant_id, quantity, total_price)
-  VALUES (p_variant_id, p_quantity, variant_price * p_quantity);
+  INSERT INTO sales (variant_id, quantity)
+  VALUES (p_variant_id, p_quantity);
 
   -- 5. Kalan stoku döndür
   RETURN new_stock;

@@ -16,7 +16,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .select(`
             id,
             quantity,
-            total_price,
             sale_date,
             variant:product_variants (
               id,
