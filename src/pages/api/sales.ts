@@ -11,7 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'GET':
       // Tüm satışları listele (varyant ve ürün bilgileriyle birlikte)
       try {
-        const { data, error } = await supabaseAdmin
+        const { startDate, endDate } = req.query;
+
+        let query = supabaseAdmin
           .from('sales')
           .select(`
             id,
@@ -24,11 +26,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               size:sizes(name),
               color:colors(name)
             )
-          `)
-          .order('sale_date', { ascending: false });
+          `, { count: 'exact' });
+
+        if (startDate) {
+          query = query.gte('sale_date', `${startDate}T00:00:00Z`); // Başlangıç tarihi için ISO formatı
+        }
+        if (endDate) {
+          query = query.lte('sale_date', `${endDate}T23:59:59Z`); // Bitiş tarihi için ISO formatı
+        }
+
+        const { data, error, count } = await query.order('sale_date', { ascending: false });
 
         if (error) throw error;
-        res.status(200).json(data);
+        res.status(200).json({ sales: data, totalCount: count });
       } catch (error: any) {
         res.status(500).json({ error: error.message });
       }

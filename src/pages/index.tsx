@@ -1,5 +1,17 @@
 import useSWR from 'swr';
 import Link from 'next/link';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart, // Yeni import
+  Bar,      // Yeni import
+  Legend    // Yeni import
+} from 'recharts';
 import styles from '../styles/Dashboard.module.css';
 import tableStyles from '../styles/Table.module.css';
 
@@ -11,6 +23,15 @@ const Dashboard = () => {
   if (error) return <div className={styles.container}>Veriler yüklenirken bir hata oluştu.</div>;
   if (!data) return <div className={styles.container}>Yükleniyor...</div>;
 
+  const nonDefectiveStock = (data.total_product_stock || 0) - (data.total_defective_stock || 0);
+  const stockComparisonData = [
+    {
+      name: 'Stok Durumu', // X ekseninde bu isim görünür
+      'Defosuz Ürün': nonDefectiveStock,
+      'Defolu Ürün': data.total_defective_stock || 0,
+    },
+  ];
+
   return (
     <div className={styles.container}>
       <h1>Dashboard</h1>
@@ -18,21 +39,73 @@ const Dashboard = () => {
       {/* İstatistik Kartları */}
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>
-          <h2>{data.product_count ?? 0}</h2>
-          <p>Toplam Ürün</p>
+          <h2>{data.total_unique_products ?? 0}</h2>
+          <p>Toplam Ürün Çeşidi</p>
         </div>
         <div className={styles.statCard}>
-          <h2>{data.category_count ?? 0}</h2>
-          <p>Toplam Kategori</p>
+          <h2>{data.total_product_stock ?? 0}</h2>
+          <p>Toplam Ürün (Stok)</p>
         </div>
         <div className={styles.statCard}>
-          <h2>{data.size_count ?? 0}</h2>
-          <p>Toplam Beden</p>
+          <h2>{data.total_sales_quantity ?? 0}</h2>
+          <p>Toplam Satış Adedi</p>
         </div>
         <div className={styles.statCard}>
-          <h2>{data.color_count ?? 0}</h2>
-          <p>Toplam Renk</p>
+          <h2>{data.total_defective_stock ?? 0}</h2>
+          <p>Toplam Defolu Ürün</p>
         </div>
+      </div>
+
+      <div className={styles.chartContainer}>
+        <h2>Son 30 Günlük Satış Trendi</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart
+            data={data.daily_sales_data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" tickFormatter={(tick) => {
+              const [year, month, day] = tick.split('-');
+              return `${day}/${month}`;
+            }} />
+            <YAxis />
+            <Tooltip formatter={(value: number) => [`Satış: ${value}`]} />
+            <Line
+              type="monotone"
+              dataKey="sales"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className={styles.chartContainer} style={{ marginTop: '40px' }}>
+        <h2>Mevcut Stok Durumu (Defolu / Defosuz)</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart
+            data={stockComparisonData}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="Defosuz Ürün" fill="#82ca9d" />
+            <Bar dataKey="Defolu Ürün" fill="#ffc658" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
 
       <div className={styles.listsGrid}>
