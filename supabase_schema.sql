@@ -33,6 +33,7 @@ CREATE TABLE products (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   description TEXT,
+  image_url TEXT, -- Added this line
   category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
   ignore_low_stock BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT now()
@@ -56,7 +57,7 @@ CREATE TABLE product_variants (
 -- Yapılan her satışı kaydeder. Hangi varyantın, ne kadar ve ne zaman satıldığını tutar.
 CREATE TABLE sales (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  variant_id UUID NOT NULL REFERENCES product_variants(id) ON DELETE RESTRICT,
+  variant_id UUID NOT NULL REFERENCES product_variants(id) ON DELETE CASCADE,
   quantity INTEGER NOT NULL CHECK (quantity > 0),
   sale_date TIMESTAMPTZ DEFAULT now()
 );

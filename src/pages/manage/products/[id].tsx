@@ -15,59 +15,116 @@ function EditProductDetails({ product }: { product: any }) {
   const [description, setDescription] = useState(product.description || '');
   const [categoryId, setCategoryId] = useState(product.category?.id || '');
   const [ignoreLowStock, setIgnoreLowStock] = useState(product.ignore_low_stock || false);
+  const [imageFile, setImageFile] = useState<File | null>(null); // State for the new image file
+  const [imagePreview, setImagePreview] = useState<string | null>(product.image_url || null); // State for image preview
   const [isLoading, setIsLoading] = useState(false);
+
+  // Update image preview if product.image_url changes externally (e.g., after initial load)
+  useEffect(() => {
+    setImagePreview(product.image_url || null);
+  }, [product.image_url]);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file)); // Create a URL for preview
+    } else {
+      setImageFile(null);
+      setImagePreview(product.image_url || null); // Revert to existing image if cleared
+    }
+  };
 
   const handleUpdateDetails = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    const res = await fetch('/api/products', {
+
+    let res;
+    if (imageFile) {
+      // If a new image is selected, send as FormData
+      const formData = new FormData();
+      formData.append('id', product.id);
+      formData.append('name', name);
+      formData.append('description', description);
+      formData.append('category_id', categoryId || '');
+      formData.append('ignore_low_stock', String(ignoreLowStock));
+      formData.append('image', imageFile);
+
+      res = await fetch('/api/products', {
+        method: 'PUT',
+        body: formData, // No Content-Type header; browser sets it
+      });
+    } else {
+      // Otherwise, send as JSON
+      res = await fetch('/api/products', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: product.id, name, description, category_id: categoryId, ignore_low_stock: ignoreLowStock }),
-    });
+        body: JSON.stringify({
+          id: product.id,
+          name,
+          description,
+          category_id: categoryId,
+          ignore_low_stock: ignoreLowStock,
+        }),
+      });
+    }
+
     if (res.ok) {
-        alert('Ürün bilgileri güncellendi.');
-        mutate(`/api/products?id=${product.id}`);
+      alert('Ürün bilgileri güncellendi.');
+      mutate(`/api/products?id=${product.id}`);
     } else {
-        alert('Hata: Bilgiler güncellenemedi.');
+      alert('Hata: Bilgiler güncellenemedi.');
     }
     setIsLoading(false);
   };
 
   return (
     <form onSubmit={handleUpdateDetails} className={styles.form}>
-        <h2>Ürün Bilgileri</h2>
-        <div className={styles.formGrid}>
-            {/* Form alanları... */}
-            <div className={styles.formField}>
-                <label>Ürün Adı</label>
-                <input value={name} onChange={e => setName(e.target.value)} required />
-            </div>
-            <div className={styles.formField}>
-                <label>Kategori</label>
-                <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
-                    <option value="">Kategori Seç</option>
-                    {categories?.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
-            </div>
-            <div className={`${styles.formField} ${styles.fullWidth}`}>
-                <label>Açıklama</label>
-                <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} />
-            </div>
-            <div className={styles.formField}>
-                <label className={styles.checkboxLabel}>
-                    <input 
-                        type="checkbox" 
-                        checked={ignoreLowStock} 
-                        onChange={(e) => setIgnoreLowStock(e.target.checked)} 
-                    />
-                    Düşük Stok Uyarısını Yoksay
-                </label>
-            </div>
+      <h2>Ürün Bilgileri</h2>
+      <div className={styles.formGrid}>
+        <div className={styles.formField}>
+          <label>Ürün Adı</label>
+          <input value={name} onChange={e => setName(e.target.value)} required />
         </div>
-        <div className={styles.formActions}>
-            <button type="submit" disabled={isLoading}>{isLoading ? 'Kaydediliyor...' : 'Bilgileri Güncelle'}</button>
+        <div className={styles.formField}>
+          <label>Kategori</label>
+          <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
+            <option value="">Kategori Seç</option>
+            {categories?.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
+          </select>
         </div>
+        <div className={`${styles.formField} ${styles.fullWidth}`}>
+          <label>Açıklama</label>
+          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} />
+        </div>
+        <div className={`${styles.formField} ${styles.fullWidth}`}>
+          <label htmlFor="productImage">Ürün Görseli</label>
+          <input
+            id="productImage"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+          {(imagePreview || product.image_url) && (
+            <div style={{ marginTop: '10px' }}>
+              <img src={imagePreview || product.image_url} alt="Ürün Önizleme" style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'contain' }} />
+            </div>
+          )}
+        </div>
+        <div className={styles.formField}>
+          <label className={styles.checkboxLabel}>
+            <input
+              type="checkbox"
+              checked={ignoreLowStock}
+              onChange={(e) => setIgnoreLowStock(e.target.checked)}
+            />
+            Düşük Stok Uyarısını Yoksay
+          </label>
+        </div>
+      </div>
+      <div className={styles.formActions}>
+        <button type="submit" disabled={isLoading}>{isLoading ? 'Kaydediliyor...' : 'Bilgileri Güncelle'}</button>
+      </div>
     </form>
   );
 }

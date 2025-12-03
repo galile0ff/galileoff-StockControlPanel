@@ -102,3 +102,54 @@
 .soldButton:hover {
   background-color: #38a169; /* green-700 */
 }
+
+.productRow {
+    background-color: #f0f4f8; /* Light gray-blue for product rows */
+    font-weight: bold;
+    border-bottom: 2px solid #cbd5e0; /* Darker border below product row */
+}
+
+.variantRow {
+    background-color: #ffffff; /* White for variant rows */
+    border-bottom: 1px dashed #e2e8f0; /* Dashed border between variants */
+}
+
+.variantRow td:first-child {
+    padding-left: 3rem; /* Indent variant details */
+}
+
+/* Ensure the last variant row of a product doesn't have a dashed border if the next row is a productRow */
+.productRow + .variantRow:first-of-type {
+  border-top: none; /* No top border for the first variant if it follows a product row */
+}
+
+.variantRow:last-of-type {
+  border-bottom: none; /* Remove bottom border from the last variant row */
+}
+
+/* If the last variant row is followed by another product row, ensure no double border */
+.variantRow:last-of-type + .productRow {
+  border-top: none;
+}
+
+.selectFilter {
+  width: auto;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e2e8f0; /* light gray */
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+  background-color: white;
+  appearance: none; /* Remove default select arrow */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.6-6.4H19.4c-4.4%200-8.8%202-13.6%206.4-4.8%204.8-6.4%2013.2-6.4%2017.6s2%2013.2%206.4%2017.6l128%20128c4.8%204.8%2013.2%206.4%2017.6%206.4s13.2-2%2017.6-6.4l128-128c4.8-4.8%206.4-13.2%206.4-17.6S291.8%2074.2%20287%2069.4z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 0.65em auto, 100%;
+}
+
+.selectFilter:focus {
+  outline: none;
+  border-color: #4299e1; /* blue-500 */
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* blue-500 with transparency */
+}

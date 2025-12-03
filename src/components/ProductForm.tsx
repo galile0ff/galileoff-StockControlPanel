@@ -13,22 +13,39 @@ const ProductForm = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [categoryId, setCategoryId] = useState('');
+  const [imageFile, setImageFile] = useState<File | null>(null); // State for the image file
+  const [imagePreview, setImagePreview] = useState<string | null>(null); // State for image preview
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file)); // Create a URL for preview
+    } else {
+      setImageFile(null);
+      setImagePreview(null);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setFormError(null);
 
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('category_id', categoryId || ''); // Send empty string if null
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+
     const res = await fetch('/api/products', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name,
-        description,
-        category_id: categoryId || null,
-      }),
+      // Do NOT set Content-Type header when sending FormData; browser sets it automatically
+      body: formData,
     });
 
     if (res.ok) {
@@ -86,6 +103,22 @@ const ProductForm = () => {
               rows={4}
             />
           </div>
+
+          <div className={`${styles.formField} ${styles.fullWidth}`}>
+            <label htmlFor="image">Ürün Görseli</label>
+            <input
+              id="image"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            {imagePreview && (
+              <div style={{ marginTop: '10px' }}>
+                <img src={imagePreview} alt="Ürün Önizleme" style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'contain' }} />
+              </div>
+            )}
+          </div>
+
         </div>
 
         {formError && <p className={styles.formError}>{formError}</p>}

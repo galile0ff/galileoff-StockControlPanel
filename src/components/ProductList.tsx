@@ -38,6 +38,7 @@ interface Product {
   category: Category;
   ignore_low_stock: boolean;
   is_low_stock: boolean; // Yeni eklenen alan
+  image_url: string | null; // Ürünün ana görsel URL'si
   product_variants: ProductVariant[];
 }
 
@@ -66,6 +67,25 @@ const ProductList = () => {
     }
   };
 
+  const handleDeleteProduct = async (productId: string) => {
+    if (!confirm('Bu ürünü ve tüm varyantlarını kalıcı olarak silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) {
+      return;
+    }
+
+    const res = await fetch('/api/products', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: productId }),
+    });
+
+    if (res.ok) {
+      mutate('/api/products'); // Ürün listesini yeniden doğrula
+    } else {
+      const errorData = await res.json();
+      alert(`Ürün silinirken bir hata oluştu: ${errorData.error || 'Bilinmeyen bir hata.'}`);
+    }
+  };
+
   const handleSold = async (variantId: string, currentStock: number) => {
     if (currentStock <= 0) {
       alert('Stok 0 veya altında olduğu için satış yapılamaz.');
@@ -90,35 +110,47 @@ const ProductList = () => {
     }
   };
 
-  const allVariants: (ProductVariant & { productName: string; productId: string; categoryName: string; ignoreLowStock: boolean; isLowStock: boolean })[] = [];
+  let currentProducts = products ? [...products] : [];
 
-  products?.forEach((product) => {
-    product.product_variants.forEach((variant) => {
-      allVariants.push({
-        ...variant,
-        productName: product.name,
-        productId: product.id,
-        categoryName: product.category?.name || 'Kategorisiz',
-        ignoreLowStock: product.ignore_low_stock,
-        isLowStock: product.is_low_stock, // is_low_stock değerini ekle
-      });
-    });
-  });
-
-  let filteredVariants = allVariants.filter((variant) =>
-    variant.productName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  if (defectFilter === 'defective') {
-    filteredVariants = filteredVariants.filter(variant => variant.is_defective);
-  } else if (defectFilter === 'non-defective') {
-    filteredVariants = filteredVariants.filter(variant => !variant.is_defective);
+  if (searchTerm) {
+    currentProducts = currentProducts.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }
+
+  const filteredProducts = currentProducts.filter((product) => {
+    // If product has no variants, always include it
+    if (product.product_variants.length === 0) {
+      return true;
+    }
+
+    // If product has variants, include it if any variant matches the defect filter
+    return product.product_variants.some((variant) => {
+      if (defectFilter === 'defective') {
+        return variant.is_defective;
+      } else if (defectFilter === 'non-defective') {
+        return !variant.is_defective;
+      }
+      return true; // 'all' filter, so all variants match
+    });
+  }).map((product) => {
+      // After determining which products to show,
+      // now filter the variants within those products for display
+      const filteredProductVariants = product.product_variants.filter((variant) => {
+        if (defectFilter === 'defective') {
+          return variant.is_defective;
+        } else if (defectFilter === 'non-defective') {
+          return !variant.is_defective;
+        }
+        return true; // 'all' filter
+      });
+      return { ...product, product_variants: filteredProductVariants };
+  });
 
   return (
     <div>
       <div className={styles.header}>
-        <h1>Ürün Varyantları</h1>
+        <h1>Ürün Listesi</h1>
         <Link href="/manage/add-product" legacyBehavior>
           <a className={styles.addButton}>Yeni Ürün Ekle</a>
         </Link>
@@ -145,19 +177,20 @@ const ProductList = () => {
 
       {error && <p>Ürünler yüklenirken bir hata oluştu.</p>}
       {!products && !error && <p>Yükleniyor...</p>}
-      {products && allVariants.length === 0 && <p>Henüz ürün varyantı bulunmamaktadır.</p>}
-
-      {filteredVariants && filteredVariants.length === 0 && searchTerm !== '' && (
-        <p>Aradığınız kritere uygun ürün varyantı bulunamadı.</p>
+      {products && filteredProducts.length === 0 && searchTerm === '' && (
+        <p>Henüz ürün bulunmamaktadır.</p>
       )}
 
-      {filteredVariants && filteredVariants.length > 0 && (
+      {filteredProducts && filteredProducts.length === 0 && searchTerm !== '' && (
+        <p>Aradığınız kritere uygun ürün bulunamadı.</p>
+      )}
+
+      {filteredProducts && filteredProducts.length > 0 && (
         <div className={styles.tableContainer}>
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Ürün Adı</th>
-                <th>Kategori</th>
+                <th>Ürün Adı / Kategori</th>
                 <th>Beden</th>
                 <th>Renk</th>
                 <th>Stok</th>
@@ -166,47 +199,72 @@ const ProductList = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredVariants.map((variant) => (
-                <tr key={variant.id}>
-                                    <td>
-                                      <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                        {variant.isLowStock && <span title="Düşük Stok!" style={{ color: 'red', fontWeight: 'bold' }}>🟢</span>}
-                                        {variant.productName}
-                                      </div>
-                                    </td>                  <td>{variant.categoryName}</td>
-                  <td>{variant.size?.name || '-'}</td>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          width: '15px',
-                          height: '15px',
-                          backgroundColor: variant.color?.hex_code || '#ccc',
-                          border: '1px solid #000',
-                          borderRadius: '3px',
-                        }}
-                      ></span>
-                      {variant.color?.name || '-'}
-                    </div>
-                  </td>
-                  <td>{variant.stock}</td>
-                  <td>{variant.is_defective ? 'Evet' : 'Hayır'}</td>
-                  <td>
-                    <div className={styles.buttonGroup}>
-                      {/* Varyant düzenleme sayfası henüz yok, bu yüzden product.id'ye yönlendiriyoruz */}
-                      <Link href={`/manage/products/${variant.productId}`} legacyBehavior>
-                        <a className={styles.actionButton}>Düzenle</a>
-                      </Link>
-                      <button onClick={() => handleSold(variant.id, variant.stock)} className={`${styles.actionButton} ${styles.soldButton}`}>
-                        Satıldı
-                      </button>
-                      <button onClick={() => handleDelete(variant.id)} className={`${styles.actionButton} ${styles.deleteButton}`}>
-                        Sil
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+              {filteredProducts.map((product) => (
+                <React.Fragment key={product.id}>
+                  <tr className={styles.productRow}>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        {product.image_url && (
+                          <img
+                            src={product.image_url}
+                            alt={product.name}
+                            style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '5px' }}
+                          />
+                        )}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          {product.is_low_stock && <span title="Düşük Stok!" style={{ color: 'red', fontWeight: 'bold' }}>🟢</span>}
+                          <strong>{product.name}</strong> ({product.category?.name || 'Kategorisiz'})
+
+                          <button
+                            onClick={() => handleDeleteProduct(product.id)}
+                            className={`${styles.actionButton} ${styles.deleteButton}`}
+                            style={{ marginLeft: '10px', padding: '0.3rem 0.6rem', fontSize: '0.75rem' }}
+                          >
+                            Ürünü Sil
+                          </button>
+                        </div>
+                      </div>
+
+                    </td>
+                    <td colSpan={5}></td> {/* Span across variant columns */}
+                  </tr>
+                  {product.product_variants.map((variant) => (
+                    <tr key={variant.id} className={styles.variantRow}>
+                      <td></td> {/* Empty cell for alignment under product name */}
+                      <td>{variant.size?.name || '-'}</td>
+                      <td>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <span
+                            style={{
+                              display: 'inline-block',
+                              width: '15px',
+                              height: '15px',
+                              backgroundColor: variant.color?.hex_code || '#ccc',
+                              border: '1px solid #000',
+                              borderRadius: '3px',
+                            }}
+                          ></span>
+                          {variant.color?.name || '-'}
+                        </div>
+                      </td>
+                      <td>{variant.stock}</td>
+                      <td>{variant.is_defective ? 'Evet' : 'Hayır'}</td>
+                      <td>
+                        <div className={styles.buttonGroup}>
+                          <Link href={`/manage/products/${product.id}`} legacyBehavior>
+                            <a className={styles.actionButton}>Düzenle</a>
+                          </Link>
+                          <button onClick={() => handleSold(variant.id, variant.stock)} className={`${styles.actionButton} ${styles.soldButton}`}>
+                            Satıldı
+                          </button>
+                          <button onClick={() => handleDelete(variant.id)} className={`${styles.actionButton} ${styles.deleteButton}`}>
+                            Sil
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </React.Fragment>
               ))}
             </tbody>
           </table>
@@ -217,4 +275,5 @@ const ProductList = () => {
 };
 
 export default ProductList;
+
 

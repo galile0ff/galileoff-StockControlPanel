@@ -1,10 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
+import { IncomingForm } from 'formidable'; // Import formidable
+import { promises as fs } from 'fs'; // Import file system promises
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
   process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 );
+
+// Disable Next.js body parser for formidable to work
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -28,13 +37,55 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const { id } = req.body;
+        // Manually parse the JSON body as bodyParser is disabled
+        let id: string;
+        if (req.headers['content-type'] === 'application/json') {
+          const body = await new Promise<string>((resolve) => {
+            let data = '';
+            req.on('data', (chunk) => {
+              data += chunk;
+            });
+            req.on('end', () => {
+              resolve(data);
+            });
+          });
+          id = JSON.parse(body).id;
+        } else {
+          // Fallback for other content types if necessary, or throw an error
+          return res.status(400).json({ error: 'Unsupported content type' });
+        }
+
         if (!id) {
             return res.status(400).json({ error: 'Product ID is required' });
         }
 
+        // 1. Get the product's image_url before deleting the product
+        const { data: productData, error: fetchError } = await supabaseAdmin
+            .from('products')
+            .select('image_url')
+            .eq('id', id)
+            .single();
+
+        if (fetchError) throw fetchError;
+
+        if (productData?.image_url) {
+            // Extract the file path from the image_url
+            // Assuming URL format like: https://[project_ref].supabase.co/storage/v1/object/public/product-images/filename.ext
+            const fullPathInBucket = productData.image_url.split('/public/product-images/')[1]; // bucket içindeki yol, örn: product_images/1764784111927.jpg
+
+            if (fullPathInBucket) {
+                const { error: deleteImageError } = await supabaseAdmin.storage
+                    .from('product-images')
+                    .remove([fullPathInBucket]);
+
+                if (deleteImageError) {
+                    console.error('Error deleting image from storage:', deleteImageError);
+                } // Eksik olan kapanış süslü parantezi buraya eklendi
+            }
+        } // Bu süslü parantez 'if (productData?.image_url)' bloğunu kapatıyor
+
         // Supabase'de 'product_variants' tablosunda 'products' tablosuna
-        // 'ON DELETE CASCADE' ayarı olduğunu varsayıyoruz. 
+        // 'ON DELETE CASCADE' ayarı olduğunu varsayıyoruz.
         // Bu sayede ürün silindiğinde ilişkili tüm varyantlar da otomatik silinir.
         const { error } = await supabaseAdmin
             .from('products')
@@ -45,14 +96,32 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
 
         return res.status(200).json({ message: 'Product deleted successfully' });
     } catch (error: any) {
+        console.error('API Error in handleDelete:', error);
         return res.status(500).json({ error: error.message });
     }
 }
 
 
 async function handlePut(req: NextApiRequest, res: NextApiResponse) {
+  const form = new IncomingForm();
+
   try {
-    const { id, name, description, category_id, ignore_low_stock } = req.body;
+    const { fields, files } = await new Promise<{ fields: any, files: any }>((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) return reject(err);
+        resolve({ fields, files });
+      });
+    });
+
+    const id = Array.isArray(fields.id) ? fields.id[0] : fields.id;
+    const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
+    const description = Array.isArray(fields.description) ? fields.description[0] : fields.description;
+    const category_id = Array.isArray(fields.category_id) ? fields.category_id[0] : fields.category_id;
+    const ignore_low_stock_str = Array.isArray(fields.ignore_low_stock) ? fields.ignore_low_stock[0] : fields.ignore_low_stock;
+    const ignore_low_stock = ignore_low_stock_str === 'true'; // Convert string to boolean
+
+    const imageFile = Array.isArray(files.image) ? files.image[0] : files.image;
+
     if (!id || !name) {
       return res.status(400).json({ error: 'Product ID and name are required' });
     }
@@ -62,6 +131,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
       description: string;
       category_id: string | null;
       ignore_low_stock?: boolean;
+      image_url?: string | null;
     } = {
       name,
       description,
@@ -71,6 +141,38 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     if (typeof ignore_low_stock === 'boolean') {
       updateData.ignore_low_stock = ignore_low_stock;
     }
+
+    let imageUrl: string | null = null;
+
+    if (imageFile) {
+      const fileContent = await fs.readFile(imageFile.filepath);
+      const fileExt = imageFile.originalFilename?.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `product_images/${fileName}`; // Görselleri product_images klasörüne kaydet
+
+      const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+        .from('product-images')
+        .upload(filePath, fileContent, {
+          contentType: imageFile.mimetype || 'image/jpeg',
+          upsert: true, // Upsert to overwrite if exists (though file name is unique)
+        });
+
+      if (uploadError) {
+        console.error('Supabase upload error:', uploadError);
+        throw new Error('Image upload failed');
+      }
+
+      const { data: publicUrlData } = supabaseAdmin.storage
+        .from('product-images')
+        .getPublicUrl(filePath);
+
+      imageUrl = publicUrlData.publicUrl;
+      updateData.image_url = imageUrl;
+    }
+    // If no new image is provided, and imageFile is not present in form,
+    // we don't change the existing image_url.
+    // If the user wants to remove an image, a separate mechanism would be needed.
+
 
     const { data, error } = await supabaseAdmin
       .from('products')
@@ -85,7 +187,8 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     return res.status(200).json(data);
 
   } catch (error: any) {
-    return res.status(500).json({ error: error.message });
+    console.error('API Error in handlePut:', error);
+    return res.status(500).json({ error: error.message || 'Internal Server Error' });
   }
 }
 
@@ -102,6 +205,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
                 name,
                 description,
                 created_at,
+                image_url,
                 ignore_low_stock,
                 category:categories(id, name),
                 product_variants (
@@ -134,6 +238,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
                 name,
                 description,
                 created_at,
+                image_url,
                 ignore_low_stock,
                 category:categories(id, name),
                 product_variants (
@@ -164,19 +269,53 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function handlePost(req: NextApiRequest, res: NextApiResponse) {
+  const form = new IncomingForm();
+
   try {
-    const { name, description, category_id } = req.body;
+    const { fields, files } = await new Promise<{ fields: any, files: any }>((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) return reject(err);
+        resolve({ fields, files });
+      });
+    });
+
+    const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
+    const description = Array.isArray(fields.description) ? fields.description[0] : fields.description;
+    const category_id = Array.isArray(fields.category_id) ? fields.category_id[0] : fields.category_id;
+    const imageFile = Array.isArray(files.image) ? files.image[0] : files.image;
 
     if (!name || !category_id) {
       return res.status(400).json({ error: 'Product name and category are required' });
     }
 
-    // Şimdilik sadece ana ürün oluşturuluyor. 
-    // Varyantlar (stok, beden, renk) ayrı bir işlemle eklenecek.
+    let imageUrl: string | null = null;
+
+    if (imageFile) {
+      const fileContent = await fs.readFile(imageFile.filepath);
+      const fileExt = imageFile.originalFilename?.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `product_images/${fileName}`; // Görselleri product_images klasörüne kaydet
+
+      const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+        .from('product-images') // Ensure you have a bucket named 'product-images'
+        .upload(filePath, fileContent, {
+          contentType: imageFile.mimetype || 'image/jpeg',
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabaseAdmin.storage
+        .from('product-images')
+        .getPublicUrl(filePath);
+
+      imageUrl = publicUrlData.publicUrl;
+    }
+
     const { data, error } = await supabaseAdmin
       .from('products')
       .insert([
-        { name, description, category_id },
+        { name, description, category_id, image_url: imageUrl },
       ])
       .select()
       .single();
@@ -185,6 +324,8 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
     return res.status(201).json(data);
 
   } catch (error: any) {
-    return res.status(500).json({ error: error.message });
+    console.error('API Error:', error);
+    return res.status(500).json({ error: error.message || 'Internal Server Error' });
   }
 }
+
