@@ -84,6 +84,7 @@ galileoff-StockControlPanel/
     ├── Login.module.css
     ├── Table.module.css
     └── globals.css
+```
     
 ---
 
