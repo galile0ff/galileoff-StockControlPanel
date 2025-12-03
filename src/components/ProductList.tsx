@@ -1,67 +1,154 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useSWR, { mutate } from 'swr';
 import Link from 'next/link';
-import styles from '../styles/Table.module.css'; // Genel tablo stillerini kullanacağız
+import styles from '../styles/Table.module.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const ProductList = () => {
-  const { data: products, error } = useSWR('/api/products', fetcher);
+interface Category {
+  id: string;
+  name: string;
+}
 
-  const handleDelete = async (productId: string) => {
-    if (!confirm('Bu ürünü ve ilişkili tüm varyantlarını kalıcı olarak silmek istediğinizden emin misiniz?')) {
+interface Size {
+  id: string;
+  name: string;
+}
+
+interface Color {
+  id: string;
+  name: string;
+  hex_code: string;
+}
+
+interface ProductVariant {
+  id: string;
+  stock: number;
+  price: number;
+  image_url: string | null;
+  size: Size;
+  color: Color;
+}
+
+interface Product {
+  id: string;
+  name: string;
+  description: string | null;
+  created_at: string;
+  category: Category;
+  product_variants: ProductVariant[];
+}
+
+const ProductList = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const { data: products, error } = useSWR<Product[]>('/api/products', fetcher);
+
+
+
+  const handleDelete = async (variantId: string) => {
+    if (!confirm('Bu varyantı kalıcı olarak silmek istediğinizden emin misiniz?')) {
       return;
     }
 
-    const res = await fetch('/api/products', {
+    const res = await fetch('/api/product-variants', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: productId }),
+      body: JSON.stringify({ id: variantId }),
     });
 
     if (res.ok) {
-      // Listeyi yeniden doğrulamak için SWR'nin mutate fonksiyonunu kullanıyoruz
-      mutate('/api/products');
+      mutate('/api/products'); // Ürün listesini ve varyantları yeniden doğrula
     } else {
-      alert('Ürün silinirken bir hata oluştu.');
+      alert('Varyant silinirken bir hata oluştu.');
     }
   };
+
+  const allVariants: (ProductVariant & { productName: string; productId: string; categoryName: string })[] = [];
+
+  products?.forEach((product) => {
+    product.product_variants.forEach((variant) => {
+      allVariants.push({
+        ...variant,
+        productName: product.name,
+        productId: product.id,
+        categoryName: product.category?.name || 'Kategorisiz',
+      });
+    });
+  });
+
+  const filteredVariants = allVariants.filter((variant) =>
+    variant.productName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
       <div className={styles.header}>
-        <h1>Ürünler</h1>
+        <h1>Ürün Varyantları</h1>
         <Link href="/manage/add-product" legacyBehavior>
           <a className={styles.addButton}>Yeni Ürün Ekle</a>
         </Link>
       </div>
 
+      <input
+        type="text"
+        placeholder="Ürün adına göre ara..."
+        className={styles.searchInput}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
       {error && <p>Ürünler yüklenirken bir hata oluştu.</p>}
       {!products && !error && <p>Yükleniyor...</p>}
+      {products && allVariants.length === 0 && <p>Henüz ürün varyantı bulunmamaktadır.</p>}
 
-      {products && (
+      {filteredVariants && filteredVariants.length === 0 && searchTerm !== '' && (
+        <p>Aradığınız kritere uygun ürün varyantı bulunamadı.</p>
+      )}
+
+      {filteredVariants && filteredVariants.length > 0 && (
         <div className={styles.tableContainer}>
           <table className={styles.table}>
             <thead>
               <tr>
                 <th>Ürün Adı</th>
-                <th>Açıklama</th>
                 <th>Kategori</th>
+                <th>Beden</th>
+                <th>Renk</th>
+                <th>Stok</th>
+                <th>Fiyat</th>
                 <th>İşlemler</th>
               </tr>
             </thead>
             <tbody>
-              {products.map((product: any) => (
-                <tr key={product.id}>
-                  <td>{product.name}</td>
-                  <td>{product.description || '-'}</td>
-                  <td>{product.category?.name || 'Kategorisiz'}</td>
+              {filteredVariants.map((variant) => (
+                <tr key={variant.id}>
+                  <td>{variant.productName}</td>
+                  <td>{variant.categoryName}</td>
+                  <td>{variant.size?.name || '-'}</td>
+                  <td>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          width: '15px',
+                          height: '15px',
+                          backgroundColor: variant.color?.hex_code || '#ccc',
+                          border: '1px solid #000',
+                          borderRadius: '3px',
+                        }}
+                      ></span>
+                      {variant.color?.name || '-'}
+                    </div>
+                  </td>
+                  <td>{variant.stock}</td>
+                  <td>{variant.price.toFixed(2)}</td>
                   <td>
                     <div className={styles.buttonGroup}>
-                      <Link href={`/manage/products/${product.id}`} legacyBehavior>
-                        <a className={styles.actionButton}>Detay/Düzenle</a>
+                      {/* Varyant düzenleme sayfası henüz yok, bu yüzden product.id'ye yönlendiriyoruz */}
+                      <Link href={`/manage/products/${variant.productId}`} legacyBehavior>
+                        <a className={styles.actionButton}>Düzenle</a>
                       </Link>
-                      <button onClick={() => handleDelete(product.id)} className={`${styles.actionButton} ${styles.deleteButton}`}>
+                      <button onClick={() => handleDelete(variant.id)} className={`${styles.actionButton} ${styles.deleteButton}`}>
                         Sil
                       </button>
                     </div>

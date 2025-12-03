@@ -110,14 +110,23 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json(product);
 
     } else {
-      // Tüm ürünlerin listesini getir
+      // Tüm ürünlerin listesini getir (varyantları ile birlikte)
       const { data, error } = await supabaseAdmin
         .from('products')
         .select(`
           id,
           name,
           description,
-          category:categories(id, name)
+          created_at,
+          category:categories(id, name),
+          product_variants (
+            id,
+            stock,
+            price,
+            image_url,
+            size:sizes(id, name),
+            color:colors(id, name, hex_code)
+          )
         `)
         .order('name', { ascending: true });
 
