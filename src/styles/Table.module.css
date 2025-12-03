@@ -94,3 +94,11 @@
   border-color: #4299e1; /* blue-500 */
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* blue-500 with transparency */
 }
+
+.soldButton {
+  background-color: #48bb78; /* green-500 */
+}
+
+.soldButton:hover {
+  background-color: #38a169; /* green-700 */
+}

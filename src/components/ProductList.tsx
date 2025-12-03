@@ -63,6 +63,28 @@ const ProductList = () => {
     }
   };
 
+  const handleSold = async (variantId: string, currentStock: number) => {
+    if (currentStock <= 0) {
+      alert('Stok 0 veya altında olduğu için satış yapılamaz.');
+      return;
+    }
+    if (!confirm('Bu varyanttan bir adet satıldığını onaylıyor musunuz? Stok 1 adet azaltılacaktır.')) {
+      return;
+    }
+
+    const res = await fetch('/api/product-variants', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: variantId, stock: currentStock - 1 }),
+    });
+
+    if (res.ok) {
+      mutate('/api/products'); // Ürün listesini ve varyantları yeniden doğrula
+    } else {
+      alert('Varyant stok güncellenirken bir hata oluştu.');
+    }
+  };
+
   const allVariants: (ProductVariant & { productName: string; productId: string; categoryName: string })[] = [];
 
   products?.forEach((product) => {
@@ -148,6 +170,9 @@ const ProductList = () => {
                       <Link href={`/manage/products/${variant.productId}`} legacyBehavior>
                         <a className={styles.actionButton}>Düzenle</a>
                       </Link>
+                      <button onClick={() => handleSold(variant.id, variant.stock)} className={`${styles.actionButton} ${styles.soldButton}`}>
+                        Satıldı
+                      </button>
                       <button onClick={() => handleDelete(variant.id)} className={`${styles.actionButton} ${styles.deleteButton}`}>
                         Sil
                       </button>
