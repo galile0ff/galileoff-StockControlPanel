@@ -14,6 +14,7 @@ function EditProductDetails({ product }: { product: any }) {
   const [name, setName] = useState(product.name);
   const [description, setDescription] = useState(product.description || '');
   const [categoryId, setCategoryId] = useState(product.category?.id || '');
+  const [ignoreLowStock, setIgnoreLowStock] = useState(product.ignore_low_stock || false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUpdateDetails = async (e: React.FormEvent) => {
@@ -22,7 +23,7 @@ function EditProductDetails({ product }: { product: any }) {
     const res = await fetch('/api/products', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: product.id, name, description, category_id: categoryId }),
+        body: JSON.stringify({ id: product.id, name, description, category_id: categoryId, ignore_low_stock: ignoreLowStock }),
     });
     if (res.ok) {
         alert('Ürün bilgileri güncellendi.');
@@ -52,6 +53,16 @@ function EditProductDetails({ product }: { product: any }) {
             <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>Açıklama</label>
                 <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} />
+            </div>
+            <div className={styles.formField}>
+                <label className={styles.checkboxLabel}>
+                    <input 
+                        type="checkbox" 
+                        checked={ignoreLowStock} 
+                        onChange={(e) => setIgnoreLowStock(e.target.checked)} 
+                    />
+                    Düşük Stok Uyarısını Yoksay
+                </label>
             </div>
         </div>
         <div className={styles.formActions}>

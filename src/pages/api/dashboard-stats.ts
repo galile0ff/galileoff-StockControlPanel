@@ -23,7 +23,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { count: size_count } = await supabaseAdmin.from('sizes').select('*', { count: 'exact', head: true });
 
     // 2. Stoku azalan ürünler
-    const { data: low_stock_items } = await supabaseAdmin
+    // Önce düşük stok uyarısı yoksayılacak ürünlerin ID'lerini al
+    const { data: ignoredProducts, error: ignoredProductsError } = await supabaseAdmin
+      .from('products')
+      .select('id')
+      .eq('ignore_low_stock', true);
+
+    if (ignoredProductsError) {
+      console.error("Error fetching ignored products:", ignoredProductsError);
+      throw ignoredProductsError;
+    }
+
+    const ignoredProductIds = ignoredProducts?.map(p => p.id) || [];
+
+    console.log('Ignored Product IDs for filtering:', ignoredProductIds);
+
+    let lowStockQuery = supabaseAdmin
       .from('product_variants')
       .select(`
         id,
@@ -32,9 +47,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         size:sizes(name),
         color:colors(name)
       `)
-      .lt('stock', LOW_STOCK_THRESHOLD)
+      .lt('stock', LOW_STOCK_THRESHOLD);
+
+    // Eğer yoksayılacak ürünler varsa, bunları hariç tut
+    if (ignoredProductIds.length > 0) {
+      // lowStockQuery = lowStockQuery.filter('product_id', 'not.in', ignoredProductIds); // Önceki deneme
+      for (const productId of ignoredProductIds) {
+        lowStockQuery = lowStockQuery.neq('product_id', productId);
+      }
+    }
+    
+    const { data: low_stock_items, error: lowStockError } = await lowStockQuery
       .order('stock', { ascending: true })
       .limit(5);
+
+    if (lowStockError) {
+      console.error("Error fetching low stock items:", lowStockError);
+      throw lowStockError;
+    }
 
     // 3. En çok satan ürün varyantları
     const { data: best_selling_items } = await supabaseAdmin

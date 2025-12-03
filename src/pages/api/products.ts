@@ -52,18 +52,29 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
 
 async function handlePut(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { id, name, description, category_id } = req.body;
+    const { id, name, description, category_id, ignore_low_stock } = req.body;
     if (!id || !name) {
       return res.status(400).json({ error: 'Product ID and name are required' });
     }
 
+    const updateData: {
+      name: string;
+      description: string;
+      category_id: string | null;
+      ignore_low_stock?: boolean;
+    } = {
+      name,
+      description,
+      category_id: category_id || null,
+    };
+
+    if (typeof ignore_low_stock === 'boolean') {
+      updateData.ignore_low_stock = ignore_low_stock;
+    }
+
     const { data, error } = await supabaseAdmin
       .from('products')
-      .update({
-        name,
-        description,
-        category_id: category_id || null,
-      })
+      .update(updateData)
       .eq('id', id)
       .select()
       .single();
@@ -91,6 +102,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
           name,
           description,
           created_at,
+          ignore_low_stock,
           category:categories(id, name),
           product_variants (
             id,

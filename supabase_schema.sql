@@ -34,6 +34,7 @@ CREATE TABLE products (
   name TEXT NOT NULL,
   description TEXT,
   category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
+  ignore_low_stock BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
