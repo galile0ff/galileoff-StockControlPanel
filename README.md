@@ -1,12 +1,10 @@
 # galileoff-StockControlPanel
 
-<div align="center">
-
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fusername%2Fgalileoff-StockControlPanel)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/username/galileoff-StockControlPanel?style=social)](https://github.com/username/galileoff-StockControlPanel/stargazers)
 
-**Premium Giyim Stok Takip Paneli**
+**galileoff Giyim Stok Takip Paneli**
 <br>
 Modern ve hızlı bir web paneli ile ürünlerini, stoklarını, beden ve renk seçeneklerini yönet.<br>
 Dashboard üzerinden kritik stok seviyelerini ve satış performansını anlık takip et.
