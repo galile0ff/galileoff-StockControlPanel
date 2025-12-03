@@ -46,7 +46,7 @@ Proje, performans ve ölçeklenebilirlik için en güncel teknolojilerle gelişt
 
 ```text
 galileoff-StockControlPanel/
-├── components/                 # UI Bileşenleri
+├── components/
 │   ├── CategoryForm.tsx
 │   ├── ColorForm.tsx
 │   ├── Layout.tsx
@@ -56,12 +56,14 @@ galileoff-StockControlPanel/
 │   ├── SizeForm.tsx
 │   ├── Form.module.css
 │   └── Layout.module.css
-│
-├── lib/                        # Konfigürasyon ve Yardımcılar
+├── lib/
 │   └── supabaseClient.ts
-│
-├── pages/                      # Sayfalar ve Route Yapısı
-│   ├── api/                    # Backend API Endpoint'leri
+├── pages/
+│   ├── _app.tsx
+│   ├── index.tsx
+│   ├── login.tsx
+│   ├── sales.tsx
+│   ├── api/
 │   │   ├── categories.ts
 │   │   ├── colors.ts
 │   │   ├── dashboard-stats.ts
@@ -69,23 +71,15 @@ galileoff-StockControlPanel/
 │   │   ├── product-variants.ts
 │   │   ├── sales.ts
 │   │   └── sizes.ts
-│   │
-│   ├── manage/                 # Yönetim Sayfaları
+│   ├── manage/
 │   │   ├── add-product.tsx
 │   │   ├── categories.tsx
 │   │   ├── colors.tsx
 │   │   ├── products.tsx
 │   │   └── sizes.tsx
-│   │
-│   ├── products/
-│   │   └── [id].tsx
-│   │
-│   ├── _app.tsx
-│   ├── index.tsx               # Dashboard Ana Sayfası
-│   ├── login.tsx
-│   └── sales.tsx
-│
-└── styles/                     # Global Stiller ve Modüller
+│   └── products/
+│       └── [id].tsx
+└── styles/
     ├── Dashboard.module.css
     ├── Login.module.css
     ├── Table.module.css
