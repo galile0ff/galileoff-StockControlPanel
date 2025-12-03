@@ -146,20 +146,11 @@ const ProductList = () => {
             <tbody>
               {filteredVariants.map((variant) => (
                 <tr key={variant.id}>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                      {variant.productName}
-                      {variant.ignoreLowStock && (
-                        <span 
-                          title="Düşük Stok Uyarısı Yoksayılıyor" 
-                          style={{ cursor: 'help', color: '#FFD700', fontSize: '1.2em' }}
-                        >
-                          ⚠️
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                  <td>{variant.categoryName}</td>
+                                    <td>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                        {variant.productName}
+                                      </div>
+                                    </td>                  <td>{variant.categoryName}</td>
                   <td>{variant.size?.name || '-'}</td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
