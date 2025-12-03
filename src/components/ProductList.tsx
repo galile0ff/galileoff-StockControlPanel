@@ -68,20 +68,22 @@ const ProductList = () => {
       alert('Stok 0 veya altında olduğu için satış yapılamaz.');
       return;
     }
-    if (!confirm('Bu varyanttan bir adet satıldığını onaylıyor musunuz? Stok 1 adet azaltılacaktır.')) {
+    if (!confirm('Bu varyanttan bir adet satıldığını onaylıyor musunuz? Satış kaydedildiğinde stok otomatik olarak 1 adet azaltılacaktır.')) {
       return;
     }
 
-    const res = await fetch('/api/product-variants', {
-      method: 'PUT',
+    // Directly record the sale, which also triggers stock reduction via the backend function
+    const salesRes = await fetch('/api/sales', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: variantId, stock: currentStock - 1 }),
+      body: JSON.stringify({ variant_id: variantId, quantity: 1 }),
     });
 
-    if (res.ok) {
+    if (salesRes.ok) {
       mutate('/api/products'); // Ürün listesini ve varyantları yeniden doğrula
     } else {
-      alert('Varyant stok güncellenirken bir hata oluştu.');
+      const salesError = await salesRes.json();
+      alert(`Satış kaydedilirken bir hata oluştu: ${salesError.error}`);
     }
   };
 
