@@ -67,8 +67,8 @@ function AddVariantForm({ productId }: { productId: string }) {
     const { data: colors } = useSWR('/api/colors', fetcher);
     const [sizeId, setSizeId] = useState('');
     const [colorId, setColorId] = useState('');
-    const [stock, setStock] = useState(0);
-    const [price, setPrice] = useState(0);
+    const [stock, setStock] = useState('');
+    const [price, setPrice] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [variantError, setVariantError] = useState<string | null>(null);
   
@@ -80,11 +80,17 @@ function AddVariantForm({ productId }: { productId: string }) {
       const res = await fetch('/api/product-variants', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: productId, size_id: sizeId, color_id: colorId, stock, price }),
+        body: JSON.stringify({ 
+            product_id: productId, 
+            size_id: sizeId, 
+            color_id: colorId, 
+            stock: parseInt(stock, 10) || 0, 
+            price: parseFloat(price) || 0 
+        }),
       });
   
       if (res.ok) {
-        setSizeId(''); setColorId(''); setStock(0); setPrice(0);
+        setSizeId(''); setColorId(''); setStock(''); setPrice('');
         mutate(`/api/products?id=${productId}`);
       } else {
         const err = await res.json();
@@ -114,11 +120,11 @@ function AddVariantForm({ productId }: { productId: string }) {
                 </div>
                 <div className={styles.formField}>
                     <label>Stok</label>
-                    <input type="number" value={stock} onChange={e => setStock(Number(e.target.value))} required />
+                    <input type="text" inputMode="numeric" value={stock} onChange={e => setStock(e.target.value.replace(/[^0-9]/g, ''))} required />
                 </div>
                 <div className={styles.formField}>
                     <label>Alınan Fiyat (₺)</label>
-                    <input type="number" step="0.01" value={price} onChange={e => setPrice(Number(e.target.value))} required />
+                    <input type="text" inputMode="decimal" value={price} onChange={e => setPrice(e.target.value.replace(/[^0-9.]/g, ''))} required />
                 </div>
             </div>
             {variantError && <p className={styles.formError}>{variantError}</p>}
@@ -138,7 +144,7 @@ const ProductDetailPage = () => {
   const { data: product, error } = useSWR(id ? `/api/products?id=${id}` : null, fetcher);
 
   const handleDeleteVariant = async (variantId: string) => {
-    if (!confirm('Bu varyantı silmek istediğinizden emin misiniz?')) return;
+    if (!confirm('Bu varyantı silmeye cidden kararlı mısın, yoksa sadece tık oyunu mu bu?')) return;
     const res = await fetch('/api/product-variants', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
@@ -203,17 +209,19 @@ const ProductDetailPage = () => {
 
 // Her bir varyant satırını temsil eden component
 function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (id: string) => void, onUpdate: (id: string, stock: number, price: number) => void }) {
-    const [stock, setStock] = useState(variant.stock);
-    const [price, setPrice] = useState(variant.price);
+    const [stock, setStock] = useState(String(variant.stock));
+    const [price, setPrice] = useState(String(variant.price));
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
-        setStock(variant.stock);
-        setPrice(variant.price);
+        setStock(String(variant.stock));
+        setPrice(String(variant.price));
     }, [variant]);
 
     const handleSave = () => {
-        onUpdate(variant.id, stock, price);
+        const stockAsNumber = parseInt(stock, 10) || 0;
+        const priceAsNumber = parseFloat(price) || 0;
+        onUpdate(variant.id, stockAsNumber, priceAsNumber);
         setIsEditing(false);
     }
     
@@ -223,14 +231,14 @@ function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (
             <td>{variant.color?.name || '-'}</td>
             <td>
                 {isEditing ? (
-                    <input className={styles.tableInput} type="number" value={stock} onChange={e => setStock(Number(e.target.value))} />
+                    <input className={styles.tableInput} type="text" inputMode="numeric" value={stock} onChange={e => setStock(e.target.value.replace(/[^0-9]/g, ''))} />
                 ) : (
                     stock
                 )}
             </td>
             <td>
                 {isEditing ? (
-                    <input className={styles.tableInput} type="number" step="0.01" value={price} onChange={e => setPrice(Number(e.target.value))} />
+                    <input className={styles.tableInput} type="text" inputMode="decimal" value={price} onChange={e => setPrice(e.target.value.replace(/[^0-9.]/g, ''))} />
                 ) : (
                     price
                 )}

@@ -64,6 +64,7 @@ const ProductForm = () => {
               id="category"
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
+              required
             >
               <option value="">Kategori Seçin</option>
               {categoriesError && <option disabled>Kategoriler yüklenemedi</option>}

@@ -17,12 +17,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'PUT':
       await handlePut(req, res);
       break;
-    // DELETE metodunu daha sonra ekleyeceğiz.
+    case 'DELETE':
+      await handleDelete(req, res);
+      break;
     default:
-      res.setHeader('Allow', ['GET', 'POST', 'PUT']);
+      res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
       res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
+
+async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
+    try {
+        const { id } = req.body;
+        if (!id) {
+            return res.status(400).json({ error: 'Product ID is required' });
+        }
+
+        // Supabase'de 'product_variants' tablosunda 'products' tablosuna
+        // 'ON DELETE CASCADE' ayarı olduğunu varsayıyoruz. 
+        // Bu sayede ürün silindiğinde ilişkili tüm varyantlar da otomatik silinir.
+        const { error } = await supabaseAdmin
+            .from('products')
+            .delete()
+            .eq('id', id);
+
+        if (error) throw error;
+
+        return res.status(200).json({ message: 'Product deleted successfully' });
+    } catch (error: any) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
 
 async function handlePut(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -107,8 +133,8 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { name, description, category_id } = req.body;
 
-    if (!name) {
-      return res.status(400).json({ error: 'Product name is required' });
+    if (!name || !category_id) {
+      return res.status(400).json({ error: 'Product name and category are required' });
     }
 
     // Şimdilik sadece ana ürün oluşturuluyor. 

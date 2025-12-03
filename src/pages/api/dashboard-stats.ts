@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .select(`
         id,
         stock,
-        product:products(name),
+        product:products(id, name),
         size:sizes(name),
         color:colors(name)
       `)

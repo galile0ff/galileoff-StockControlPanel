@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (error) {
           // '23505' unique constraint violation (aynı ürün, beden, renk kombinasyonu zaten var)
           if (error.code === '23505') {
-            return res.status(409).json({ error: 'This product variant (size and color combination) already exists.' });
+            return res.status(409).json({ error: 'Bu boyut ve renk zaten var, yeni bir şey sanma.' });
           }
           throw error;
         }

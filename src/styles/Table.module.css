@@ -64,3 +64,17 @@
 .actionButton:hover {
     background-color: #2b6cb0; /* blue-700 */
 }
+
+.deleteButton {
+  background-color: #e53e3e; /* red-500 */
+}
+
+.deleteButton:hover {
+  background-color: #c53030; /* red-700 */
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
