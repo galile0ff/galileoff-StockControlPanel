@@ -168,7 +168,7 @@ function AddVariantForm({ productId }: { productId: string }) {
     };
 
     return (
-        <form onSubmit={handleAddVariant} className={styles.form} style={{ marginTop: 'var(--spacing-xl)' }}> {/* marginTop için değişken kullanıldı */}
+        <form onSubmit={handleAddVariant} className={styles.form}> {/* marginTop için değişken kullanıldı */}
             <h2>Yeni Varyant Ekle</h2>
             <div className={styles.formGrid}>
                 {/* Form alanları... */}
@@ -252,7 +252,10 @@ const ProductDetailPage = () => {
     <div>
       <h1>Ürün Düzenle</h1>
       
-      <EditProductDetails product={product} />
+      <div className={styles.section}>
+        <h2>Ürün Bilgileri</h2>
+        <EditProductDetails product={product} />
+      </div>
 
       <div className={tableStyles.tableContainer} style={{ marginTop: 'var(--spacing-xl)' }}>
         <h2>Ürün Varyantları</h2>
@@ -277,7 +280,9 @@ const ProductDetailPage = () => {
         </table>
       </div>
       
-      <AddVariantForm productId={product.id} />
+      <div className={styles.section}>
+        <AddVariantForm productId={product.id} />
+      </div>
     </div>
   );
 };

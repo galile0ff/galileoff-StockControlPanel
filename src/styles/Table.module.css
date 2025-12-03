@@ -29,6 +29,15 @@
     overflow-x: auto; /* Küçük ekranlarda kaydırma sağlar */
 }
 
+.tableContainer h2 {
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md) var(--spacing-lg); /* Üst, sağ, alt, sol boşlukları artırıldı */
+  margin-top: 0; /* Varsayılan üst marjı sıfırla */
+  margin-bottom: var(--spacing-md); /* Altına boşluk eklendi */
+  color: var(--color-text-primary); /* Metin rengini belirle */
+  font-size: calc(var(--font-size-base) * 1.5); /* Başlık boyutunu ayarla */
+  font-weight: var(--font-weight-semibold); /* Kalınlığı ayarla */
+}
+
 .table {
     width: 100%;
     border-collapse: collapse;
