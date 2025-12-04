@@ -230,6 +230,16 @@
   transition: opacity 0.3s;
 }
 
+/* Tema geçişini masaüstü görünümde konumlandırma */
+.themeToggleDesktop {
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  margin-top: auto; /* Footer'a doğru iter */
+}
+
 /* --- MEDIA QUERIES (Mobil) --- */
 @media (max-width: 768px) {
   .menuButton {
@@ -264,6 +274,10 @@
   .showOverlay {
     opacity: 1;
     pointer-events: auto;
+  }
+
+  .themeToggleDesktop {
+    display: none; /* Mobilde gizle */
   }
 }
 

@@ -1,8 +1,8 @@
 .themeToggleButton {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-glass);
   backdrop-filter: var(--backdrop-filter-glass);
   -webkit-backdrop-filter: var(--backdrop-filter-glass);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--border-glass);
   box-shadow: var(--shadow-glass);
   color: var(--text-primary);
   border-radius: var(--border-radius-sm);
@@ -15,7 +15,7 @@
 }
 
 .themeToggleButton:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--bg-glass-hover);
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
