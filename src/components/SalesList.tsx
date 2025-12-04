@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useSWR from 'swr';
-import styles from '../styles/Table.module.css';
+import formStyles from '../components/Form.module.css';
+import tableStyles from '../styles/Table.module.css';
 import paginationStyles from './Pagination.module.css';
 import { 
   ShoppingCart, 
@@ -99,38 +100,38 @@ const SalesList = () => {
   };
 
   return (
-    <div className={styles.pageWrapper}>
-      <div className={styles.ambientLight1} style={{ background: '#10b981' }}></div>
-      <div className={styles.ambientLight2} style={{ background: '#0ea5e9' }}></div>
+    <div className={formStyles.pageWrapper}>
+      <div className={tableStyles.ambientLight1} style={{ background: '#10b981' }}></div>
+      <div className={tableStyles.ambientLight2} style={{ background: '#0ea5e9' }}></div>
 
-      <div className={styles.contentContainer}>
+      <div className={formStyles.contentContainer}>
         
-        <header className={styles.glassHeader}>
-          <div className={styles.headerLeft}>
-            <div className={styles.iconBox} style={{ color: '#6ee7b7', borderColor: 'rgba(16, 185, 129, 0.3)', background: 'rgba(16, 185, 129, 0.1)' }}>
+        <header className={formStyles.glassHeader}>
+          <div className={formStyles.headerLeft}>
+            <div className={formStyles.iconBox}>
               <ShoppingCart size={28} />
             </div>
             <div>
-              <h1 className={styles.pageTitle}>Satış Geçmişi</h1>
-              <p className={styles.pageSubtitle}>Gerçekleşen satışları inceleyin</p>
+              <h1 className={formStyles.pageTitle}>Satış Geçmişi</h1>
+              <p className={formStyles.pageSubtitle}>Gerçekleşen satışları inceleyin</p>
             </div>
           </div>
           
-          <div className={styles.statBadge}>
-            <Sparkles size={14} className={styles.statIcon} />
+          <div className={formStyles.statBadge}>
+            <Sparkles size={14} className={formStyles.statIcon} />
             <span>Toplam Satış: <strong>{totalSalesCount ?? 0}</strong></span>
           </div>
         </header>
 
-        <div className={styles.controlsBar}>
-          <div className={styles.filtersContainer}>
-            <div className={styles.filterWrapper}>
-              <Filter size={18} className={styles.filterIcon} />
+        <div className={tableStyles.controlsBar}>
+          <div className={tableStyles.filtersContainer}>
+            <div className={tableStyles.filterWrapper}>
+              <Filter size={18} className={tableStyles.filterIcon} />
               <select
                 id="dateFilter"
                 value={selectedFilter}
                 onChange={(e) => setSelectedFilter(e.target.value)}
-                className={styles.glassSelect}
+                className={tableStyles.glassSelect}
               >
                 <option value="hepsi">Tüm Zamanlar</option>
                 <option value="son_3_gun">Son 3 Gün</option>
@@ -138,13 +139,13 @@ const SalesList = () => {
                 <option value="son_1_ay">Son 1 Ay</option>
               </select>
             </div>
-            <div className={styles.filterWrapper}>
-              <Filter size={18} className={styles.filterIcon} />
+            <div className={tableStyles.filterWrapper}>
+              <Filter size={18} className={tableStyles.filterIcon} />
               <select
                 id="defectFilter"
                 value={defectFilter}
                 onChange={(e) => setDefectFilter(e.target.value)}
-                className={styles.glassSelect}
+                className={tableStyles.glassSelect}
               >
                 <option value="all">Tüm Durumlar</option>
                 <option value="defective">Sadece Defolular</option>
@@ -154,18 +155,18 @@ const SalesList = () => {
           </div>
         </div>
 
-        <div className={styles.glassCard} ref={tableRef}>
+        <div className={formStyles.glassCard} ref={tableRef}>
           {!sales && !error && (
-            <div className={styles.loadingState}>
-              <Loader2 className={styles.spin} size={32} />
+            <div className={tableStyles.loadingState}>
+              <Loader2 className={tableStyles.spin} size={32} />
               <p>Yükleniyor...</p>
             </div>
           )}
 
-          {error && <div className={styles.errorState}>Hata oluştu.</div>}
+          {error && <div className={tableStyles.errorState}>Hata oluştu.</div>}
 
           {sales && sales.length === 0 && (
-            <div className={styles.emptyState}>
+            <div className={tableStyles.emptyState}>
               <Package size={40} style={{ marginBottom: 10, opacity: 0.5 }} />
               <p>Bu tarih aralığında satış bulunamadı.</p>
             </div>
@@ -173,8 +174,8 @@ const SalesList = () => {
 
           {sales && sales.length > 0 && (
             <>
-              <div className={styles.tableResponsive}>
-                <table className={`${styles.glassTable} ${styles.salesTable}`}>
+              <div className={tableStyles.tableResponsive}>
+                <table className={`${tableStyles.glassTable} ${tableStyles.salesTable}`}>
                   <thead>
                     <tr>
                       <th>Ürün / Varyant</th>
@@ -187,35 +188,35 @@ const SalesList = () => {
                     {sales.map((sale: any) => (
                       <tr key={sale.id}>
                         <td>
-                          <div className={styles.salesProductInfo}>
-                            <div className={styles.productNameWrapper}>
-                              <Package size={16} className={styles.productNameIcon} />
-                              <span className={styles.salesProductName}>{sale.variant?.product?.name || 'Ürün Bulunamadı'}</span>
+                          <div className={tableStyles.salesProductInfo}>
+                            <div className={tableStyles.productNameWrapper}>
+                              <Package size={16} className={tableStyles.productNameIcon} />
+                              <span className={tableStyles.salesProductName}>{sale.variant?.product?.name || 'Ürün Bulunamadı'}</span>
                             </div>
-                            <div className={styles.variantBadgeWrapper}>
+                            <div className={tableStyles.variantBadgeWrapper}>
                               <Tag size={16} style={{ marginRight: 6, opacity: 0.7 }} />
-                              <span className={styles.salesVariantBadge}>
+                              <span className={tableStyles.salesVariantBadge}>
                                   {sale.variant?.size?.name || '-'} • {sale.variant?.color?.name || '-'}
                               </span>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <span className={styles.salesQuantityBadge}>{sale.quantity} Adet</span>
+                          <span className={tableStyles.salesQuantityBadge}>{sale.quantity} Adet</span>
                         </td>
                         <td>
                           {sale.variant?.is_defective ? (
-                            <div className={`${styles.statusBadge} ${styles.defective}`}>
+                            <div className={`${tableStyles.statusBadge} ${tableStyles.defective}`}>
                               <AlertTriangle size={14} /> Defolu
                             </div>
                           ) : (
-                            <div className={`${styles.statusBadge} ${styles.normal}`}>
+                            <div className={`${tableStyles.statusBadge} ${tableStyles.normal}`}>
                               <CheckCircle2 size={14} /> Normal
                             </div>
                           )}
                         </td>
                         <td>
-                          <div className={styles.dateWrapper}>
+                          <div className={tableStyles.dateWrapper}>
                              {formatDate(sale.sale_date)}
                           </div>
                         </td>

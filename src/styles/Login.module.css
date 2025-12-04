@@ -6,10 +6,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-primary); /* Tema değişkeni */
+  background-color: hsl(220, 25%, 5%); /* Sadece dark mode */
   overflow: hidden;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: var(--text-primary); /* Tema değişkeni */
+  color: hsl(220, 20%, 90%); /* Sadece dark mode */
   padding: 16px; /* Mobilde kenarlara yapışmaması için */
 }
 
@@ -30,7 +30,7 @@
 .glowOrb1 {
   width: 300px; /* Mobilde çok büyük olmasın diye küçülttük */
   height: 300px;
-  background: var(--accent); /* Tema değişkeni */
+  background: #7c3aed; /* Mor */
   top: -50px;
   left: -50px;
 }
@@ -38,7 +38,7 @@
 .glowOrb2 {
   width: 250px;
   height: 250px;
-  background: var(--accent); /* Tema değişkeni */
+  background: #ea580c; /* Turuncu */
   bottom: -50px;
   right: -50px;
 }
@@ -51,12 +51,12 @@
   max-width: 400px; /* Genişliği biraz artırdık */
   padding: 40px;
   
-  background: var(--bg-glass-card); /* Tema değişkeni */
-  backdrop-filter: var(--backdrop-filter-glass); /* Tema değişkeni */
-  -webkit-backdrop-filter: var(--backdrop-filter-glass);
-  border: 1px solid var(--border-glass); /* Tema değişkeni */
+  background: rgba(20, 20, 25, 0.5); /* Sadece dark mode */
+  backdrop-filter: blur(12px) saturate(180%); /* Sadece dark mode */
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12); /* Sadece dark mode */
   border-radius: 24px;
-  box-shadow: var(--shadow-lg); /* Tema değişkeni */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6); /* Sadece dark mode */
 }
 
 /* Header */
@@ -66,7 +66,7 @@
 }
 
 .logoIcon {
-  color: var(--text-primary); /* Tema değişkeni */
+  color: hsl(220, 20%, 90%); /* Sadece dark mode */
   margin-bottom: 12px;
 }
 
@@ -75,12 +75,12 @@
   font-weight: 300;
   letter-spacing: 4px;
   margin: 0;
-  color: var(--text-primary); /* Tema değişkeni */
+  color: hsl(220, 20%, 90%); /* Sadece dark mode */
 }
 
 .subtitle {
   font-size: 12px;
-  color: var(--text-secondary); /* Tema değişkeni */
+  color: hsl(220, 10%, 65%); /* Sadece dark mode */
   margin-top: 8px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -104,39 +104,40 @@
   height: 52px;
   
   /* Arka plan ve Kenarlık */
-  background-color: var(--bg-secondary); /* Tema değişkeni */
-  border: 1px solid var(--border); /* Tema değişkeni */
+  background-color: #000; /* Siyah yapıldı */
+  border: 1px solid #555; /* Siyah üzerinde görülebilmesi için koyu gri kenarlık */
   border-radius: 12px;
   
   /* Yazı Tipi */
-  color: var(--text-primary); /* Tema değişkeni */
+  color: hsl(220, 20%, 90%); /* Sadece dark mode */
   font-size: 15px;
   
-  /* PADDING: Soldan 50px boşluk bırakıyoruz ki ikon sığsın */
-  padding: 0 16px 0 50px; 
+  /* PADDING: Soldan 70px boşluk bırakıyoruz ki ikon sığsın */
+  padding: 0 16px 0 70px; 
   
   outline: none;
   transition: all 0.2s ease-in-out;
 }
 
 .input::placeholder {
-  color: var(--text-secondary); /* Tema değişkeni */
+  color: hsl(220, 10%, 45%); /* Placeholder rengini daha belirgin hale getir */
+  text-indent: 50px; /* Placeholder metnini içeri doğru it */
 }
 
 /* Focus Durumu */
 .input:focus {
-  background-color: var(--bg-primary); /* Tema değişkeni */
-  border-color: var(--accent); /* Tema değişkeni */
-  box-shadow: 0 0 0 4px hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15); /* Tema değişkeni */
+  background-color: #000; /* Siyah yapıldı */
+  border-color: hsl(200, 80%, 65%); /* Sadece dark mode */
+  box-shadow: 0 0 0 4px hsla(200, 80%, 65%, 0.15); /* Sadece dark mode */
 }
 
 /* SOL İKON */
 .icon {
   position: absolute;
-  left: 16px; /* Soldan 16px içeride */
+  left: 20px; /* İkonu biraz daha sağa kaydırdım */
   top: 50%;
   transform: translateY(-50%); /* Dikey ortala */
-  color: var(--text-secondary); /* Tema değişkeni */
+  color: hsl(220, 10%, 65%); /* Sadece dark mode */
   pointer-events: none; /* İkona tıklayınca arkadaki inputa geçsin */
   transition: color 0.2s;
   z-index: 5;
@@ -144,7 +145,7 @@
 
 /* Input focus olunca ikonu parlat (JSX sırası sayesinde çalışır) */
 .input:focus ~ .icon {
-  color: var(--text-primary); /* Tema değişkeni */
+  color: hsl(200, 80%, 65%); /* Sadece dark mode */
 }
 
 /* Göz Butonu (Sağda) */
@@ -156,7 +157,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--text-secondary); /* Tema değişkeni */
+  color: hsl(220, 10%, 65%); /* Sadece dark mode */
   padding: 4px;
   display: flex;
   align-items: center;
@@ -164,18 +165,18 @@
 }
 
 .eyeBtn:hover {
-  color: var(--text-primary); /* Tema değişkeni */
+  color: hsl(220, 20%, 90%); /* Sadece dark mode */
 }
 
 /* Hata Kutusu */
 .errorMessage {
   font-size: 13px;
-  color: var(--error);
-  background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.4);
+  color: hsl(0, 70%, 60%);
+  background: hsla(0, 70%, 60%, 0.4);
   padding: 12px;
   border-radius: 8px;
   text-align: center;
-  border: 1px solid hsla(var(--error-h), var(--error-s), var(--error-l), 0.3);
+  border: 1px solid hsla(0, 70%, 60%, 0.3);
 }
 
 /* Buton */
@@ -187,8 +188,8 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  background: linear-gradient(135deg, var(--accent) 0%, hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) + 10%)) 100%);
-  color: var(--text-inverted);
+  background: linear-gradient(135deg, hsl(294, 73%, 47%) 0%, hsl(200, 80%, 75%) 100%);
+  color: hsl(0, 0%, 100%);
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   align-items: center;
@@ -198,7 +199,7 @@
 
 .submitBtn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.4);
+  box-shadow: 0 10px 25px -5px hsla(200, 80%, 65%, 0.4);
 }
 
 .submitBtn:disabled {
@@ -220,7 +221,7 @@
   margin-top: 30px;
   text-align: center;
   font-size: 12px;
-  color: var(--text-secondary); /* Tema değişkeni */
+  color: hsl(220, 10%, 65%); /* Sadece dark mode */
 }
 
 /* --- RESPONSIVE AYARLAR (Mobil Uyum) --- */

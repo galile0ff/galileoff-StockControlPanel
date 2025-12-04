@@ -261,7 +261,7 @@
 }
 
 @media (max-width: 768px) {
-  .pageWrapper { padding-top: 20px; }
+  .pageWrapper { padding-top: 80px; }
   .contentContainer { width: 92%; }
   .glassHeader { flex-direction: column; align-items: flex-start; gap: 20px; }
   .headerLeft { gap: 12px; }
