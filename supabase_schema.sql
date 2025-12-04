@@ -134,7 +134,7 @@ DECLARE
 BEGIN
   -- 1. İşlem anındaki stoku al ve satırı kilitle (FOR UPDATE)
   SELECT stock INTO current_stock
-  FROM product_variants
+  FROM public.product_variants
   WHERE id = p_variant_id
   FOR UPDATE;
 
@@ -149,12 +149,12 @@ BEGIN
 
   -- 3. Stoku güncelle
   new_stock := current_stock - p_quantity;
-  UPDATE product_variants
+  UPDATE public.product_variants
   SET stock = new_stock
   WHERE id = p_variant_id;
 
   -- 4. Satışlar tablosuna kaydı ekle
-  INSERT INTO sales (variant_id, quantity)
+  INSERT INTO public.sales (variant_id, quantity)
   VALUES (p_variant_id, p_quantity);
 
   -- 5. Kalan stoku döndür
@@ -175,6 +175,7 @@ RETURNS TABLE (
   total_quantity_sold BIGINT
 )
 LANGUAGE sql
+SECURITY DEFINER SET search_path = public
 AS $$
   SELECT
     pv.id AS variant_id,
