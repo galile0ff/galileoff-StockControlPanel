@@ -1,7 +1,3 @@
-/* ========================================= */
-/* styles/Dashboard.module.css - FINAL V5 (No Scroll / Top 5) */
-/* ========================================= */
-
 /* --- GENEL GRİDLER --- */
 .listsGrid {
   display: grid;
@@ -26,8 +22,8 @@
 
 /* --- GRAFİK KUTUSU --- */
 .chartCard {
-  background: var(--bg-glass-card); /* Tema değişkeni */
-  border: 1px solid var(--border-glass); /* Tema değişkeni */
+  background: var(--bg-glass-card);
+  border: 1px solid var(--border-glass);
   border-radius: 24px;
   padding: 24px;
   backdrop-filter: var(--backdrop-filter-glass);
@@ -37,16 +33,16 @@
 
 /* --- STAT KARTLARI --- */
 .statCard {
-  background: var(--bg-glass-stat); /* Tema değişkeni */
-  border: 1px solid var(--border-light); /* Tema değişkeni */
+  background: var(--bg-glass-stat);
+  border: 1px solid var(--border-light);
   border-radius: 16px;
   padding: 20px;
   display: flex; justify-content: space-between; align-items: center;
   backdrop-filter: var(--backdrop-filter-glass);
 }
 .statContent { display: flex; flex-direction: column; gap: 8px; }
-.statLabel { font-size: 14px; color: var(--text-secondary); } /* Tema değişkeni */
-.statValue { font-size: 24px; font-weight: 700; color: var(--text-primary); } /* Tema değişkeni */
+.statLabel { font-size: 14px; color: var(--text-secondary); }
+.statValue { font-size: 24px; font-weight: 700; color: var(--text-primary); }
 .statIconBox { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
 
 /* ========================================= */
@@ -55,8 +51,8 @@
 
 /* Ana Kart */
 .unifiedCard {
-  background: var(--bg-glass-card); /* Tema değişkeni */
-  border: 1px solid var(--border-glass); /* Tema değişkeni */
+  background: var(--bg-glass-card);
+  border: 1px solid var(--border-glass);
   border-radius: 24px;
   overflow: hidden;
   backdrop-filter: var(--backdrop-filter-glass);
@@ -67,8 +63,8 @@
 
 /* Başlık Alanı */
 .unifiedHeader {
-  background: var(--bg-glass); /* Tema değişkeni */
-  border-bottom: 1px solid var(--border-light); /* Tema değişkeni */
+  background: var(--bg-glass);
+  border-bottom: 1px solid var(--border-light);
   padding: 20px 24px;
   display: flex; justify-content: space-between; align-items: center;
 }
@@ -80,10 +76,10 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 .viewAllLink {
-  font-size: 13px; color: var(--accent); text-decoration: none; /* Tema değişkeni */
+  font-size: 13px; color: var(--accent); text-decoration: none;
   display: flex; align-items: center; gap: 4px; transition: color 0.2s;
 }
-.viewAllLink:hover { color: var(--accent); } /* Tema değişkeni */
+.viewAllLink:hover { color: var(--accent); }
 
 /* Liste Alanı - SCROLL KALDIRILDI */
 .unifiedList {
@@ -96,34 +92,34 @@
 .unifiedRow {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 24px;
-  border-bottom: 1px solid var(--border-light); /* Tema değişkeni */
+  border-bottom: 1px solid var(--border-light);
   transition: background 0.2s;
 }
 .unifiedRow:last-child { border-bottom: none; }
-.unifiedRow:hover { background: var(--bg-hover); } /* Tema değişkeni */
+.unifiedRow:hover { background: var(--bg-hover); }
 
 /* İçerik Detayları */
 .rowLeft { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; }
 
 .productImage {
   width: 48px; height: 48px; border-radius: 12px;
-  object-fit: cover; border: 1px solid var(--border); /* Tema değişkeni */
-  background: var(--bg-primary); /* Tema değişkeni */
+  object-fit: cover; border: 1px solid var(--border);
+  background: var(--bg-primary);
 }
 
 .rowTextGroup { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
-.rowTitle { font-size: 15px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* Tema değişkeni */
-.rowSubtitle { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* Tema değişkeni */
+.rowTitle { font-size: 15px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rowSubtitle { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .rowRight { padding-left: 12px; flex-shrink: 0; }
 .unifiedBadge {
   min-width: 36px; height: 36px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 10px; font-weight: 700; font-size: 14px;
-  border: 1px solid var(--border-light); /* Tema değişkeni */ padding: 0 10px;
+  border: 1px solid var(--border-light); padding: 0 10px;
 }
-.badgeWarning { background: hsla(var(--warning-h), var(--warning-s), var(--warning-l), 0.15); color: var(--warning); border-color: hsla(var(--warning-h), var(--warning-s), var(--warning-l), 0.2); } /* Tema değişkeni */
-.badgePurple { background: hsla(var(--purple-h), var(--purple-s), var(--purple-l), 0.15); color: var(--purple); border-color: hsla(var(--purple-h), var(--purple-s), var(--purple-l), 0.2); } /* Tema değişkeni */
+.badgeWarning { background: hsla(var(--warning-h), var(--warning-s), var(--warning-l), 0.15); color: var(--warning); border-color: hsla(var(--warning-h), var(--warning-s), var(--warning-l), 0.2); }
+.badgePurple { background: hsla(var(--purple-h), var(--purple-s), var(--purple-l), 0.15); color: var(--purple); border-color: hsla(var(--purple-h), var(--purple-s), var(--purple-l), 0.2); }
 
 /* --- RESPONSIVE --- */
 @media (max-width: 1024px) {

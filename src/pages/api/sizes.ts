@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { name } = req.body;
         if (!name) {
-          return res.status(400).json({ error: 'Size name is required' });
+          return res.status(400).json({ error: 'Beden adı zorunludur' });
         }
 
         const { data, error } = await supabaseAdmin
@@ -50,7 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { id, name } = req.body;
         if (!id || !name) {
-          return res.status(400).json({ error: 'Size ID and name are required' });
+          return res.status(400).json({ error: 'Beden ID ve adı zorunludur' });
         }
 
         const { data, error } = await supabaseAdmin
@@ -61,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .single();
 
         if (error) throw error;
-        if (!data) return res.status(404).json({ error: 'Size not found' });
+        if (!data) return res.status(404).json({ error: 'Beden bulunamadı' });
 
         res.status(200).json(data);
       } catch (error: any) {
@@ -74,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             try {
               const { id } = req.body;
               if (!id) {
-                return res.status(400).json({ error: 'Size ID is required' });
+                return res.status(400).json({ error: 'Beden ID zorunludur' });
               }
       
               const { error } = await supabaseAdmin
@@ -84,9 +84,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       
               if (error) throw error;
       
-              res.status(200).json({ message: 'Size deleted successfully' });
+              res.status(200).json({ message: 'Beden başarıyla silindi' });
             } catch (error: any) {
-              // Foreign key violation
+              // Yabancı anahtar kısıtlama ihlali
               if (error.code === '23503') {
                 return res.status(409).json({ 
                   error: 'Bu beden, bir veya daha fazla ürün tarafından kullanıldığı için silinemez.' 

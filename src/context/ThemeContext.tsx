@@ -14,7 +14,7 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('dark'); // Varsayılan tema 'light'
+  const [theme, setTheme] = useState<Theme>('dark'); // Varsayılan tema 'dark'
 
   useEffect(() => {
     // localStorage'dan tema tercihini yükle

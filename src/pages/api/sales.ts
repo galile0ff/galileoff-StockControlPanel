@@ -76,10 +76,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { variant_id, quantity } = req.body;
         if (!variant_id || !quantity) {
-          return res.status(400).json({ error: 'Variant ID and quantity are required' });
+          return res.status(400).json({ error: 'Varyant ID ve miktar zorunludur' });
         }
         if (quantity <= 0) {
-          return res.status(400).json({ error: 'Quantity must be greater than zero' });
+          return res.status(400).json({ error: 'Miktar sıfırdan büyük olmalıdır' });
         }
 
         // 'create_sale_and_update_stock' adlı veritabanı fonksiyonunu çağırıyoruz
@@ -91,14 +91,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (error) throw error;
 
         res.status(200).json({ 
-          message: 'Sale created successfully',
+          message: 'Satış başarıyla oluşturuldu',
           remaining_stock: data 
         });
 
       } catch (error: any) {
         // Fonksiyondan gelen 'RAISE EXCEPTION' hatalarını yakala
         if (error.message.includes('Not enough stock')) {
-          return res.status(409).json({ error: 'Not enough stock for this variant.' });
+          return res.status(409).json({ error: 'Bu varyant için yeterli stok yok.' });
         }
         res.status(500).json({ error: error.message });
       }

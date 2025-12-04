@@ -72,7 +72,6 @@ const SizeForm = () => {
               <p className={styles.pageSubtitle}>Ürün bedenlerini düzenle/ekle.</p>
             </div>
           </div>
-          {/* TOPLAM */}
           <div className={styles.statBadge}>
             <Sparkles size={14} style={{color:'#fbbf24'}} />
             <span>Toplam Beden: <strong>{sizes?.length || 0}</strong></span>

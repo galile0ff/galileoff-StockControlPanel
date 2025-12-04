@@ -61,7 +61,7 @@ const ProductList = () => {
   const handleCriticalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
     setShowCritical(isChecked);
-    // Update URL without reloading the page
+    // Sayfayı yeniden yüklemeden URL'yi güncelle
     if (isChecked) {
       router.push('/manage/products?show=critical', undefined, { shallow: true });
     } else {
@@ -155,8 +155,6 @@ const ProductList = () => {
       <div className={styles.ambientLight2} style={{ background: 'radial-gradient(circle, #8b5cf6 0%, transparent 70%)' }}></div>
 
       <div className={styles.contentContainer}>
-        
-        {/* Header */}
         <header className={styles.glassHeader}>
           <div className={styles.headerLeft}>
             <div className={styles.iconBox}>

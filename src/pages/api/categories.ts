@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { name } = req.body;
         if (!name) {
-          return res.status(400).json({ error: 'Category name is required' });
+          return res.status(400).json({ error: 'Kategori adı zorunludur' });
         }
 
         const { data, error } = await supabaseAdmin
@@ -52,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { id, name } = req.body;
         if (!id || !name) {
-          return res.status(400).json({ error: 'Category ID and name are required' });
+          return res.status(400).json({ error: 'Kategori ID ve adı zorunludur' });
         }
 
         const { data, error } = await supabaseAdmin
@@ -63,7 +63,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .single();
 
         if (error) throw error;
-        if (!data) return res.status(404).json({ error: 'Category not found' });
+        if (!data) return res.status(404).json({ error: 'Kategori bulunamadı' });
 
         res.status(200).json(data);
       } catch (error: any) {
@@ -76,7 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             try {
               const { id } = req.body;
               if (!id) {
-                return res.status(400).json({ error: 'Category ID is required' });
+                return res.status(400).json({ error: 'Kategori ID zorunludur' });
               }
       
               const { error } = await supabaseAdmin
@@ -86,7 +86,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       
               if (error) throw error;
       
-              res.status(200).json({ message: 'Category deleted successfully' });
+              res.status(200).json({ message: 'Kategori başarıyla silindi' });
             } catch (error: any) {
               // Foreign key violation (ilişkili veri var)
               if (error.code === '23503') {

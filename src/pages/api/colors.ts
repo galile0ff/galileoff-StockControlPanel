@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { name, hex_code } = req.body;
         if (!name) {
-          return res.status(400).json({ error: 'Color name is required' });
+          return res.status(400).json({ error: 'Renk adı zorunludur' });
         }
 
         const { data, error } = await supabaseAdmin
@@ -50,7 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { id, name, hex_code } = req.body;
         if (!id || !name) {
-          return res.status(400).json({ error: 'Color ID and name are required' });
+          return res.status(400).json({ error: 'Renk ID ve adı zorunludur' });
         }
 
         const { data, error } = await supabaseAdmin
@@ -61,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .single();
 
         if (error) throw error;
-        if (!data) return res.status(404).json({ error: 'Color not found' });
+        if (!data) return res.status(404).json({ error: 'Renk bulunamadı' });
 
         res.status(200).json(data);
       } catch (error: any) {
@@ -74,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             try {
               const { id } = req.body;
               if (!id) {
-                return res.status(400).json({ error: 'Color ID is required' });
+                return res.status(400).json({ error: 'Renk ID zorunludur' });
               }
       
               const { error } = await supabaseAdmin
@@ -84,9 +84,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       
               if (error) throw error;
       
-              res.status(200).json({ message: 'Color deleted successfully' });
+              res.status(200).json({ message: 'Renk başarıyla silindi' });
             } catch (error: any) {
-              // Foreign key violation
+              // Yabancı anahtar kısıtlama ihlali
               if (error.code === '23503') {
                 return res.status(409).json({ 
                   error: 'Bu renk, bir veya daha fazla ürün tarafından kullanıldığı için silinemez.' 

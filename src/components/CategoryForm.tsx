@@ -15,7 +15,7 @@ const CategoryForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setApiError(null); // Clear previous errors
+    setApiError(null);
     const method = editingId ? 'PUT' : 'POST';
     const body = editingId ? { id: editingId, name } : { name };
 
@@ -72,7 +72,6 @@ const CategoryForm = () => {
               <p className={styles.pageSubtitle}>Ürün kategorilerini düzenle/ekle.</p>
             </div>
           </div>
-          {/* TOPLAM */}
           <div className={styles.statBadge}>
             <Sparkles size={14} style={{color:'#fbbf24'}} />
             <span>Toplam Kategori: <strong>{categories?.length || 0}</strong></span>

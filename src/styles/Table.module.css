@@ -1,8 +1,4 @@
-/* ========================================= */
-/* styles/Table.module.css - FINAL V4 (Dark Mode & Variant Clean) */
-/* ========================================= */
 
-/* --- SAYFA GENELİ --- */
 .pageWrapper {
   width: 100%; min-height: 100vh; color: var(--text-primary); font-family: 'Inter', sans-serif;
   padding-top: 20px; overflow-x: hidden;
@@ -10,20 +6,17 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Ambient Işıklar */
 .ambientLight1, .ambientLight2 {
   position: absolute; border-radius: 50%; filter: blur(120px); z-index: 0; opacity: 0.3; pointer-events: none;
 }
 .ambientLight1 { width: 400px; height: 400px; top: -100px; left: -100px; background: hsl(var(--accent-h), var(--accent-s), 60%); }
 .ambientLight2 { width: 300px; height: 300px; bottom: 0; right: -100px; background: hsl(var(--accent-h), var(--accent-s), 70%); }
 
-/* İçerik Kutusu */
 .contentContainer {
   position: relative; z-index: 10; width: 95%; max-width: 1400px; margin: 0 auto;
   display: flex; flex-direction: column; gap: 24px; padding-bottom: 50px;
 }
 
-/* --- HEADER --- */
 .glassHeader {
   display: flex; justify-content: space-between; align-items: center;
   background: var(--bg-glass);
@@ -51,14 +44,12 @@
   color: var(--text-primary);
 }
 
-/* YENİ ÜRÜN BUTONU */
 .addProductBtn {
   display: flex; align-items: center; gap: 8px; background: var(--accent); color: var(--text-inverted);
   padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 14px; text-decoration: none; transition: all 0.2s;
 }
 .addProductBtn:hover { background: hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) - 10%)); transform: translateY(-2px); color: var(--text-inverted); }
 
-/* --- FİLTRE VE ARAMA --- */
 .controlsBar { display: flex; gap: 16px; flex-wrap: wrap; }
 .searchWrapper { position: relative; display: flex; align-items: center; flex: 1; min-width: 250px; }
 .filterWrapper { position: relative; width: 220px; }
@@ -76,7 +67,6 @@
 
 .filtersContainer { display: flex; gap: 16px; width: 100%; }
 
-/* --- TABLO KARTI --- */
 .glassCard {
   background: var(--bg-glass-card);
   border: 1px solid var(--border);
@@ -105,7 +95,6 @@
   background: transparent; /* Arka plan şeffaf */
 }
 
-/* --- DASHBOARD MİNİ TABLOLARI --- */
 .miniTableRow td {
   padding: 16px 24px; /* unifiedRow ile aynı padding */
   border-bottom: 1px solid var(--border-light);
@@ -116,9 +105,6 @@
 .miniTableRow:last-child td { border-bottom: none; }
 .miniTableRow:hover td { background: var(--bg-hover); }
 
-/* ========================================= */
-/* --- ÜRÜN LİSTESİ VE VARYANTLAR (GÜNCELLENDİ) --- */
-/* ========================================= */
 .productRow td { padding: 16px 24px; background: transparent; border-bottom: 1px solid var(--border-light); }
 .productHeader { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
 .productThumb { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
@@ -127,7 +113,6 @@
 .productName { font-size: 18px; font-weight: 700; color: var(--text-primary); }
 .categoryBadge { font-size: 12px; background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px; color: var(--text-secondary); margin-left: 8px; }
 
-/* --- GÜNCELLENEN VARYANT SATIRLARI --- */
 .variantRow td {
   /* Arka plan tamamen kaldırıldı (şeffaf) */
   background-color: transparent !important;
@@ -164,7 +149,6 @@
   color: var(--text-secondary); opacity: 0.5; /* Ok işaretini biraz silik yap */
 }
 
-/* Varyant Bilgi Kutuları */
 .variantInfo { display: flex; align-items: center; gap: 12px; justify-content: flex-start; }
 
 .sizeBadge { 
@@ -194,7 +178,6 @@
   box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-/* Ortak Badgeler */
 .stockBadge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; }
 .stockNormal { background: hsla(var(--success-h), var(--success-s), var(--success-l), 0.1); color: var(--success); }
 .stockLow { background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.15); color: var(--error); }
@@ -210,7 +193,6 @@
 .actionBtnSold { background: hsla(var(--success-h), var(--success-s), var(--success-l), 0.1); color: var(--success); }
 .actionBtnDeleteVariant, .actionBtnDelete { background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.1); color: var(--error); }
 
-/* Edit Butonu Hover İyileştirmesi (Şeffaf arka planda daha belirgin olması için) */
 .actionBtnEdit:hover { background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.2); transform: scale(1.05); }
 
 .spacerRow td { height: 20px; border: none; }
@@ -218,9 +200,6 @@
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-/* ========================================= */
-/* --- SALES TABLE ÖZEL --- */
-/* ========================================= */
 .salesTable { width: 100%; }
 .salesTable th { padding: 16px 24px; }
 .salesTable th:nth-child(1) { text-align: left; width: 45%; } 
@@ -249,9 +228,6 @@
 .salesQuantityBadge { background: var(--bg-tertiary); padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 14px; color: var(--text-primary); border: 1px solid var(--border-light); }
 .dateWrapper { color: var(--text-secondary); font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
 
-/* ========================================= */
-/* MOBİL UYUMLULUK */
-/* ========================================= */
 @media (max-width: 768px) {
   .pageWrapper { padding-top: 80px; }
   .contentContainer { width: 95%; padding-bottom: 80px; }
@@ -262,11 +238,9 @@
   .filtersContainer { flex-direction: row; }
   .filterWrapper { flex: 1; width: auto; }
 
-  /* --- ORTAK TABLO -> KART DÖNÜŞÜMÜ --- */
   .glassTable, .glassTable tbody, .glassTable tr, .glassTable td { display: block; width: 100%; }
   .glassTable thead { display: none; }
 
-  /* --- ÜRÜN LİSTESİ MOBİL --- */
   .productRow td {
     background: transparent;
     border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; margin-top: 24px; padding: 20px;
@@ -295,7 +269,6 @@
   .actionsCell { width: 100%; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
   .actionBtnEdit, .actionBtnSold, .actionBtnDeleteVariant { flex: 1; justify-content: center; padding: 10px 4px; flex-direction: column; gap: 4px; font-size: 11px; }
 
-  /* --- SATIŞ LİSTESİ MOBİL --- */
   .salesTable tr {
     background: transparent;
     border: 1px solid var(--border);
@@ -321,7 +294,6 @@
   .salesTable td:nth-child(4)::before { content: "Tarih:"; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
   .spacerRow { display: none; }
 
-  /* --- DASHBOARD MİNİ TABLO MOBİL --- */
   .miniTableRow {
     display: flex !important; flex-direction: row !important;
     align-items: center; justify-content: space-between; width: 100%;
@@ -336,7 +308,6 @@
   .miniTableRow td:last-child { text-align: right; }
 }
 
-/* Stok Yok Uyarısı */
 .stockErrorMessage {
   order: -1; width: 100%; text-align: center; color: var(--error);
   background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.1);
@@ -351,7 +322,6 @@
   }
 }
 
-/* --- CUSTOM GLASSMORPHIC SWITCH --- */
 .switchContainer {
   display: flex; align-items: center; gap: 12px;
   background: var(--bg-glass); padding: 10px 16px; border-radius: 12px;

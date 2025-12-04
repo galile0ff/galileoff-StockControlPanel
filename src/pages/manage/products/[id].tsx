@@ -2,12 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
-// CSS Modülleri
-import styles from '../../../styles/Form.module.css'; // Form stilleri
-import tableStyles from '../../../styles/Table.module.css'; // Tablo stilleri
-
-// İkonlar
+import styles from '../../../styles/Form.module.css';
+import tableStyles from '../../../styles/Table.module.css';
 import { 
   ArrowLeft, 
   Save, 
@@ -26,7 +22,6 @@ import {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-// #region 1. Component: Ürün Detay Düzenleme Formu
 function EditProductDetails({ product, setNotification }: { product: any, setNotification: (notification: { message: string; type: 'success' | 'error' } | null) => void }) {
   const { data: categories } = useSWR('/api/categories', fetcher);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -147,7 +142,7 @@ function EditProductDetails({ product, setNotification }: { product: any, setNot
                     <div className={styles.previewContainer} style={{ height: '200px' }}>
                         <img src={imagePreview} alt="Preview" className={styles.previewImage} />
                         <button type="button" onClick={handleRemoveImage} className={styles.removeImageBtn}>
-                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                            <Trash2 size={20} />
                         </button>
                     </div>
                 )}
@@ -178,9 +173,7 @@ function EditProductDetails({ product, setNotification }: { product: any, setNot
     </div>
   );
 }
-// #endregion
 
-// #region 2. Component: Yeni Varyant Ekleme Formu
 function AddVariantForm({ productId, setNotification }: { productId: string, setNotification: (notification: { message: string; type: 'success' | 'error' } | null) => void }) {
     const { data: sizes } = useSWR('/api/sizes', fetcher);
     const { data: colors } = useSWR('/api/colors', fetcher);
@@ -276,9 +269,7 @@ function AddVariantForm({ productId, setNotification }: { productId: string, set
         </div>
     )
 }
-// #endregion
 
-// #region 3. Component: Varyant Satırı
 function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (id: string) => void, onUpdate: (id: string, stock: number, isDefective: boolean) => void }) {
     const [stock, setStock] = useState(String(variant.stock));
     const [isDefective, setIsDefective] = useState(variant.is_defective || false);
@@ -338,7 +329,6 @@ function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (
         </tr>
     )
 }
-// #endregion
 
 const ProductDetailPage = () => {
   const router = useRouter();
@@ -350,7 +340,7 @@ const ProductDetailPage = () => {
     if (notification) {
       const timer = setTimeout(() => {
         setNotification(null);
-      }, 4000); // 4 saniyeye çıkarıldı
+      }, 4000);
       return () => clearTimeout(timer);
     }
   }, [notification]);

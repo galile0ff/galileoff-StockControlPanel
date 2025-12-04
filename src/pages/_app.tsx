@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
-import { ThemeProvider } from '../context/ThemeContext'; // ThemeProvider'ı içe aktar
+import { ThemeProvider } from '../context/ThemeContext';
 import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {

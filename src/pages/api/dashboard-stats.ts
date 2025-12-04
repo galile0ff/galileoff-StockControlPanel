@@ -47,8 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (defectiveStockError) throw defectiveStockError;
     const total_defective_stock = defectiveStockData ? defectiveStockData.reduce((sum, variant) => sum + variant.stock, 0) : 0;
 
-    // Düşük stoklu ürünler ve En çok satan ürün varyantları kısmı (değişmeden kalacak)
-    // 2. Stoku azalan ürünler
+    // --- KRİTİK STOK VE ÇOK SATANLAR ---
     const { data: ignoredProducts, error: ignoredProductsError } = await supabaseAdmin
       .from('products')
       .select('id')
@@ -87,7 +86,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw lowStockError;
     }
 
-    // 3. En çok satan ürün varyantları
+    // En çok satan ürün varyantları
     const { data: best_selling_items_raw } = await supabaseAdmin
       .rpc('get_best_selling_variants', { limit_count: 5 });
 
@@ -114,7 +113,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
 
-    // 4. Son 30 gündeki günlük satış toplamları (Çizgi Grafik için)
+    // --- SON 30 GÜNLÜK SATIŞ VERİSİ (GRAFİK İÇİN) ---
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     const thirtyDaysAgoISO = thirtyDaysAgo.toISOString();

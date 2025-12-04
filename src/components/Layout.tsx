@@ -17,7 +17,7 @@ import {
   LogOut, 
   User as UserIcon
 } from 'lucide-react';
-import ThemeToggle from './ThemeToggle'; // ThemeToggle'ı içe aktar
+import ThemeToggle from './ThemeToggle';
 
 type LayoutProps = {
   children: React.ReactNode;

@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { product_id, size_id, color_id, stock, image_url, is_defective } = req.body;
         if (!product_id || !size_id || !color_id || stock === undefined) {
-          return res.status(400).json({ error: 'Product ID, size, color, and stock are required.' });
+          return res.status(400).json({ error: 'Ürün ID, beden, renk ve stok zorunludur.' });
         }
 
         const { data, error } = await supabaseAdmin
@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (error) {
           // '23505' unique constraint violation (aynı ürün, beden, renk kombinasyonu zaten var)
           if (error.code === '23505') {
-            return res.status(409).json({ error: 'Bu boyut ve renk zaten var, yeni bir şey sanma.' });
+            return res.status(409).json({ error: 'Bu ürün için aynı beden ve renk kombinasyonuna sahip bir varyant zaten mevcut.' });
           }
           throw error;
         }
@@ -40,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { id, stock, image_url, is_defective } = req.body;
         if (!id) {
-          return res.status(400).json({ error: 'Variant ID is required' });
+          return res.status(400).json({ error: 'Varyant ID zorunludur' });
         }
 
         const updateData: { stock?: number, image_url?: string, is_defective?: boolean } = {};
@@ -56,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .single();
 
         if (error) throw error;
-        if (!data) return res.status(404).json({ error: 'Variant not found' });
+        if (!data) return res.status(404).json({ error: 'Varyant bulunamadı' });
 
         res.status(200).json(data);
       } catch (error: any) {
@@ -69,7 +69,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { id } = req.body;
         if (!id) {
-          return res.status(400).json({ error: 'Variant ID is required' });
+          return res.status(400).json({ error: 'Varyant ID zorunludur' });
         }
 
         const { error, count } = await supabaseAdmin
@@ -78,9 +78,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .eq('id', id);
 
         if (error) throw error;
-        if (count === 0) return res.status(404).json({ error: 'Variant not found' });
+        if (count === 0) return res.status(404).json({ error: 'Varyant bulunamadı' });
 
-        res.status(200).json({ message: 'Variant deleted successfully' });
+        res.status(200).json({ message: 'Varyant başarıyla silindi' });
       } catch (error: any) {
         res.status(500).json({ error: error.message });
       }

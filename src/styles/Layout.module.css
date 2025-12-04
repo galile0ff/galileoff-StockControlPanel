@@ -2,7 +2,7 @@
 .layoutContainer {
   display: flex;
   min-height: 100vh;
-  background-color: var(--bg-primary); /* Global Tema */
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
@@ -30,10 +30,10 @@
   top: 0;
   bottom: 0;
   width: 260px;
-  background: var(--bg-sidebar); /* Tema değişkeni */
+  background: var(--bg-sidebar);
   backdrop-filter: var(--backdrop-filter-glass); /* Glass Efekti */
   -webkit-backdrop-filter: var(--backdrop-filter-glass);
-  border-right: 1px solid var(--border); /* Tema değişkeni */
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   z-index: 50;
@@ -58,7 +58,7 @@
 }
 
 .logoIcon {
-  color: var(--accent); /* Tema vurgu rengi */
+  color: var(--accent);
 }
 
 .logoText {
@@ -81,7 +81,7 @@
 .navLabel {
   font-size: 11px;
   font-weight: 600;
-  color: var(--text-secondary); /* Tema değişkeni */
+  color: var(--text-secondary);
   margin-bottom: 8px;
   padding-left: 12px;
   letter-spacing: 0.5px;
@@ -94,7 +94,7 @@
   padding: 10px 12px;
   margin-bottom: 4px;
   border-radius: 8px;
-  color: var(--text-secondary); /* Tema değişkeni */
+  color: var(--text-secondary);
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
@@ -102,24 +102,24 @@
 }
 
 .navItem:hover {
-  background-color: var(--bg-secondary); /* Tema değişkeni */
-  color: var(--text-primary); /* Tema değişkeni */
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .navItem.active {
   background: linear-gradient(90deg, hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15) 0%, transparent 100%);
-  color: var(--accent); /* Tema vurgu rengi */
-  border-left: 3px solid var(--accent); /* Tema vurgu rengi */
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 
 /* Sidebar Footer (User) */
 .sidebarFooter {
   padding: 16px;
-  border-top: 1px solid var(--border); /* Tema değişkeni */
+  border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bg-sidebar); /* Tema değişkeni */
+  background: var(--bg-sidebar);
   gap: 10px; /* Yeni eklenen ThemeToggle için boşluk */
 }
 
@@ -224,7 +224,7 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: var(--backdrop-filter-glass); /* Tema değişkeni */
+  backdrop-filter: var(--backdrop-filter-glass);
   z-index: 40;
   opacity: 0;
   transition: opacity 0.3s;

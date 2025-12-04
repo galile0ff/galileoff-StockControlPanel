@@ -44,7 +44,7 @@
   cursor: not-allowed;
 }
 
-/* Mobile responsive */
+/* Mobil uyumluluk */
 @media (max-width: 768px) {
   .pagination {
     flex-direction: column;
