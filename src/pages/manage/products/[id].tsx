@@ -108,7 +108,7 @@ function EditProductDetails({ product, setNotification }: { product: any, setNot
   return (
     <div className={styles.glassCard}>
       <div style={{ marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>
-         <h2 style={{ fontSize: '18px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
+         <h2 style={{ fontSize: '18px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-primary)' }}>
             <Package size={20} color="#6366f1" /> Temel Bilgiler
          </h2>
       </div>
@@ -155,7 +155,7 @@ function EditProductDetails({ product, setNotification }: { product: any, setNot
         </div>
 
         <div className={`${styles.formGroup} ${styles.switchContainer}`}>
-             <span className={styles.switchLabel} style={{ color: '#cbd5e1' }}>
+             <span className={styles.switchLabel} style={{ color: 'var(--text-secondary)' }}>
                 Düşük Stok Uyarısını Yoksay
              </span>
              <label className={styles.switch}>
@@ -224,7 +224,7 @@ function AddVariantForm({ productId, setNotification }: { productId: string, set
     return (
         <div className={styles.glassCard}>
             <div style={{ marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>
-                <h2 style={{ fontSize: '18px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
+                <h2 style={{ fontSize: '18px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-primary)' }}>
                     <Plus size={20} color="#6366f1" /> Yeni Varyant Ekle
                 </h2>
             </div>
@@ -252,7 +252,7 @@ function AddVariantForm({ productId, setNotification }: { productId: string, set
                 </div>
 
                 <div className={`${styles.formGroup} ${styles.switchContainer}`}>
-                    <span className={styles.switchLabel} style={{ color: '#fca5a5' }}>
+                    <span className={styles.switchLabel} style={{ color: 'var(--text-secondary)' }}>
                         <AlertTriangle size={16} /> 
                         Defolu Ürün Olarak İşaretle
                     </span>
@@ -310,7 +310,7 @@ function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (
                         type="text" 
                         value={stock} 
                         onChange={e => setStock(e.target.value.replace(/[^0-9]/g, ''))} 
-                        style={{ background:'#000', border:'1px solid #444', color:'#fff', padding:'4px', borderRadius:'6px', width:'60px', textAlign:'right' }}
+                        className={styles.glassInput} style={{width:'60px', textAlign:'right'}}
                     />
                 ) : (
                     <span className={tableStyles.stockBadge} style={{background: 'rgba(255,255,255,0.1)'}}>{stock}</span>
@@ -395,8 +395,8 @@ const ProductDetailPage = () => {
     }
   }
 
-  if (productError) return <div style={{color:'#fff', padding:'40px', textAlign:'center'}}>Veri yüklenemedi.</div>;
-  if (!product) return <div style={{color:'#fff', padding:'40px', textAlign:'center'}}>Yükleniyor...</div>;
+  if (productError) return <div style={{color:'var(--text-primary)', padding:'40px', textAlign:'center'}}>Veri yüklenemedi.</div>;
+  if (!product) return <div style={{color:'var(--text-primary)', padding:'40px', textAlign:'center'}}>Yükleniyor...</div>;
 
   return (
     <div className={styles.pageWrapper}>
@@ -448,7 +448,7 @@ const ProductDetailPage = () => {
 
           <div className={tableStyles.glassCard}>
               <div style={{ marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>
-                 <h2 style={{ fontSize: '18px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
+                 <h2 style={{ fontSize: '18px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-primary)' }}>
                     <Layers size={20} color="#6366f1" /> Mevcut Varyantlar
                  </h2>
               </div>

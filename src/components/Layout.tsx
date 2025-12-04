@@ -91,6 +91,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         >
           <Menu size={24} />
         </button>
+        <ThemeToggle /> {/* Mobil için tema geçişi */}
       </div>
 
       {/* Sidebar Overlay */}
@@ -153,10 +154,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
         </nav>
 
-        <div className={styles.themeToggleDesktop}>
-            <ThemeToggle /> {/* Masaüstü için tema geçişi */}
-        </div>
-
         {/* Sidebar Footer */}
         <div className={styles.sidebarFooter}>
           <div className={styles.userProfile}>
@@ -171,6 +168,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <button onClick={handleLogout} className={styles.logoutButton} title="Çıkış Yap">
             <LogOut size={20} />
           </button>
+        </div>
+        <div className={styles.themeToggleDesktop}>
+          <ThemeToggle />
         </div>
       </aside>
 

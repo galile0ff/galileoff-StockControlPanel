@@ -87,10 +87,22 @@
   border-radius: 20px; padding: 24px; overflow: hidden; min-height: 400px;
 }
 .tableResponsive { width: 100%; overflow-x: auto; }
-.glassTable { width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed; }
+.glassTable { 
+  width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed;
+  background: var(--bg-glass); /* Daha şeffaf bir arka plan */
+  backdrop-filter: var(--backdrop-filter-glass); /* Glass efekti */
+  -webkit-backdrop-filter: var(--backdrop-filter-glass);
+}
 .glassTable th {
   padding: 16px 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary);
-  border-bottom: 1px solid var(--border); white-space: nowrap;
+  border-bottom: 1px solid var(--border-glass); white-space: nowrap;
+}
+.glassTable tr {
+  background: transparent; /* Satırların şeffaf olmasını sağla */
+}
+.glassTable td {
+  padding: 12px 20px; border-bottom: 1px solid var(--border-glass); /* Hücre alt kenarlıklarını glass renk yap */
+  color: var(--text-primary); /* Hücre metin rengini ayarla */
 }
 
 /* --- DASHBOARD MİNİ TABLOLARI (ÖZEL DESKTOP STİLİ) --- */

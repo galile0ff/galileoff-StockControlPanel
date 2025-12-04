@@ -78,9 +78,18 @@
 .label { font-size: 13px; color: var(--text-secondary); font-weight: 500; display: flex; align-items: center; gap: 6px; }
 
 .glassInput, .glassSelect, .glassTextarea {
-  width: 100%; background-color: var(--bg-secondary); border: 1px solid var(--border);
-  color: var(--text-primary); caret-color: var(--text-primary); padding: 14px 16px;
-  border-radius: 12px; font-size: 14px; outline: none; transition: border-color 0.2s;
+  width: 100%;
+  background: var(--bg-glass); /* Daha şeffaf bir arka plan */
+  border: 1px solid var(--border-glass); /* Daha şeffaf bir kenarlık */
+  backdrop-filter: var(--backdrop-filter-glass); /* Glass efekti */
+  -webkit-backdrop-filter: var(--backdrop-filter-glass);
+  color: var(--text-primary);
+  caret-color: var(--text-primary);
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
 }
 .glassInput:focus, .glassSelect:focus, .glassTextarea:focus { border-color: var(--accent); }
 
@@ -199,7 +208,7 @@
   backdrop-filter: var(--backdrop-filter-glass);
   -webkit-backdrop-filter: var(--backdrop-filter-glass);
   border: 1px solid hsla(var(--error-h), var(--error-s), var(--error-l), 0.3); /* Tema değişkeni */
-  color: var(--text-inverted); /* Tema değişkeni */
+  color: var(--error); /* Tema değişkeni */
   font-size: 14px;
   font-weight: 500;
   text-shadow: 0 1px 3px rgba(0,0,0,0.3);
@@ -373,7 +382,7 @@
 }
 
 .switch input:checked + .slider {
-  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.5); /* Main color, more transparent glass look */
+  background-color: var(--accent); /* Ana renk */
   border-color: var(--accent);
   box-shadow: 0 0 15px hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.6), inset 0 1px 1px var(--shadow-glass-inset);
 }
@@ -391,7 +400,7 @@
 
 /* Defective/Critical variant switch color */
 .switch input:checked + .defectiveSlider {
-    background-color: hsla(var(--error-h), var(--error-s), var(--error-l), 0.5);
+    background-color: var(--error);
     border-color: var(--error);
     box-shadow: 0 0 15px hsla(var(--error-h), var(--error-s), var(--error-l), 0.6), inset 0 1px 1px var(--shadow-glass-inset);
 }
