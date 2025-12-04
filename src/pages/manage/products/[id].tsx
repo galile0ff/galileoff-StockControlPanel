@@ -27,7 +27,7 @@ import {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 // #region 1. Component: Ürün Detay Düzenleme Formu
-function EditProductDetails({ product }: { product: any }) {
+function EditProductDetails({ product, setNotification }: { product: any, setNotification: (notification: { message: string; type: 'success' | 'error' } | null) => void }) {
   const { data: categories } = useSWR('/api/categories', fetcher);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -64,37 +64,44 @@ function EditProductDetails({ product }: { product: any }) {
     e.preventDefault();
     setIsLoading(true);
 
-    let res;
-    if (imageFile) {
-      const formData = new FormData();
-      formData.append('id', product.id);
-      formData.append('name', name);
-      formData.append('description', description);
-      formData.append('category_id', categoryId || '');
-      formData.append('ignore_low_stock', String(ignoreLowStock));
-      formData.append('image', imageFile);
+    try {
+        let res;
+        if (imageFile) {
+          const formData = new FormData();
+          formData.append('id', product.id);
+          formData.append('name', name);
+          formData.append('description', description);
+          formData.append('category_id', categoryId || '');
+          formData.append('ignore_low_stock', String(ignoreLowStock));
+          formData.append('image', imageFile);
 
-      res = await fetch('/api/products', { method: 'PUT', body: formData });
-    } else {
-      res = await fetch('/api/products', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: product.id,
-          name,
-          description,
-          category_id: categoryId,
-          ignore_low_stock: ignoreLowStock,
-        }),
-      });
-    }
+          res = await fetch('/api/products', { method: 'PUT', body: formData });
+        } else {
+          res = await fetch('/api/products', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: product.id,
+              name,
+              description,
+              category_id: categoryId,
+              ignore_low_stock: ignoreLowStock,
+              image_url: imagePreview === null ? null : undefined,
+            }),
+          });
+        }
 
-    if (res.ok) {
-      mutate(`/api/products?id=${product.id}`);
-      alert('Ürün güncellendi.');
-    } else {
-      alert('Hata oluştu.');
+        if (res.ok) {
+          mutate(`/api/products?id=${product.id}`);
+          setNotification({ message: 'Ürün güncellendi.', type: 'success' });
+        } else {
+          const errorData = await res.json();
+          setNotification({ message: `Hata: ${errorData.error}`, type: 'error' });
+        }
+    } catch (error) {
+        setNotification({ message: 'Bir ağ hatası oluştu.', type: 'error' });
     }
+    
     setIsLoading(false);
   };
 
@@ -172,7 +179,7 @@ function EditProductDetails({ product }: { product: any }) {
 // #endregion
 
 // #region 2. Component: Yeni Varyant Ekleme Formu
-function AddVariantForm({ productId }: { productId: string }) {
+function AddVariantForm({ productId, setNotification }: { productId: string, setNotification: (notification: { message: string; type: 'success' | 'error' } | null) => void }) {
     const { data: sizes } = useSWR('/api/sizes', fetcher);
     const { data: colors } = useSWR('/api/colors', fetcher);
     const [sizeId, setSizeId] = useState('');
@@ -185,23 +192,29 @@ function AddVariantForm({ productId }: { productId: string }) {
       e.preventDefault();
       setIsSubmitting(true);
   
-      const res = await fetch('/api/product-variants', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            product_id: productId,
-            size_id: sizeId,
-            color_id: colorId,
-            stock: parseInt(stock, 10) || 0,
-            is_defective: isDefective,
-        }),
-      });
-  
-      if (res.ok) {
-        setSizeId(''); setColorId(''); setStock(''); setIsDefective(false);
-        mutate(`/api/products?id=${productId}`);
-      } else {
-        alert('Varyant eklenemedi.');
+      try {
+        const res = await fetch('/api/product-variants', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+              product_id: productId,
+              size_id: sizeId,
+              color_id: colorId,
+              stock: parseInt(stock, 10) || 0,
+              is_defective: isDefective,
+          }),
+        });
+    
+        if (res.ok) {
+          setSizeId(''); setColorId(''); setStock(''); setIsDefective(false);
+          mutate(`/api/products?id=${productId}`);
+          setNotification({ message: 'Yeni varyant eklendi.', type: 'success' });
+        } else {
+          const errorData = await res.json();
+          setNotification({ message: `Hata: ${errorData.error}`, type: 'error' });
+        }
+      } catch (error) {
+        setNotification({ message: 'Bir ağ hatası oluştu.', type: 'error' });
       }
       setIsSubmitting(false);
     };
@@ -209,7 +222,6 @@ function AddVariantForm({ productId }: { productId: string }) {
     return (
         <div className={styles.glassCard}>
             <div style={{ marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>
-                {/* BAŞLIK RENGİ DÜZELTİLDİ: color: '#fff' eklendi */}
                 <h2 style={{ fontSize: '18px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
                     <Plus size={20} color="#6366f1" /> Yeni Varyant Ekle
                 </h2>
@@ -323,42 +335,98 @@ function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (
 }
 // #endregion
 
-// #region ANA SAYFA
 const ProductDetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data: product, error } = useSWR(id ? `/api/products?id=${id}` : null, fetcher);
+  const { data: product, error: productError } = useSWR(id ? `/api/products?id=${id}` : null, fetcher);
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null);
+      }, 4000); // 4 saniyeye çıkarıldı
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
 
   const handleDeleteVariant = async (variantId: string) => {
+    if (!confirm('Bu varyantı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) return;
     
-    const res = await fetch('/api/product-variants', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: variantId }),
-    });
-    if (res.ok) mutate(`/api/products?id=${id}`);
+    try {
+        const res = await fetch('/api/product-variants', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: variantId }),
+        });
+        if (res.ok) {
+            mutate(`/api/products?id=${id}`);
+            setNotification({ message: 'Varyant silindi.', type: 'success' });
+        } else {
+            const errorData = await res.json();
+            setNotification({ message: `Hata: ${errorData.error}`, type: 'error' });
+        }
+    } catch (error) {
+        setNotification({ message: 'Bir ağ hatası oluştu.', type: 'error' });
+    }
   }
 
   const handleUpdateVariant = async (variantId: string, stock: number, isDefective: boolean) => {
-    const res = await fetch('/api/product-variants', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: variantId, stock, is_defective: isDefective }),
-    });
-    if (res.ok) mutate(`/api/products?id=${id}`);
+    try {
+        const res = await fetch('/api/product-variants', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: variantId, stock, is_defective: isDefective }),
+        });
+        if (res.ok) {
+            mutate(`/api/products?id=${id}`);
+            setNotification({ message: 'Varyant güncellendi.', type: 'success' });
+        } else {
+            const errorData = await res.json();
+            setNotification({ message: `Hata: ${errorData.error}`, type: 'error' });
+        }
+    } catch (error) {
+        setNotification({ message: 'Bir ağ hatası oluştu.', type: 'error' });
+    }
   }
 
-  if (error) return <div style={{color:'#fff', padding:'40px', textAlign:'center'}}>Veri yüklenemedi.</div>;
+  if (productError) return <div style={{color:'#fff', padding:'40px', textAlign:'center'}}>Veri yüklenemedi.</div>;
   if (!product) return <div style={{color:'#fff', padding:'40px', textAlign:'center'}}>Yükleniyor...</div>;
 
   return (
     <div className={styles.pageWrapper}>
+        {/* === BİLDİRİM ALANI === */}
+        {notification && (
+            <div style={{
+                position: 'fixed',
+                top: '80px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                padding: '12px 24px',
+                borderRadius: '8px',
+                color: '#fff',
+                backgroundColor: notification.type === 'success' ? 'rgba(34, 197, 94, 0.9)' : 'rgba(239, 68, 68, 0.9)',
+                backdropFilter: 'blur(10px)',
+                border: `1px solid ${notification.type === 'success' ? 'rgba(34, 197, 94, 0.95)' : 'rgba(239, 68, 68, 0.95)'}`,
+                boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                zIndex: 1000,
+                textAlign: 'center',
+                minWidth: '250px',
+                maxWidth: '90%',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px'
+            }}>
+                {notification.type === 'success' ? <Check size={20} /> : <AlertTriangle size={20} />}
+                {notification.message}
+            </div>
+      )}
+
       <div className={styles.ambientLight1}></div>
       <div className={styles.ambientLight2}></div>
 
       <div className={styles.contentContainer}>
           
-          {/* HEADER */}
           <header className={styles.glassHeader}>
             <div className={styles.headerLeft}>
                 <Link href="/manage/products" legacyBehavior>
@@ -371,13 +439,10 @@ const ProductDetailPage = () => {
             </div>
           </header>
 
-          {/* 1. KISIM: ÜRÜN BİLGİLERİ */}
-          <EditProductDetails product={product} />
+          <EditProductDetails product={product} setNotification={setNotification} />
 
-          {/* 2. KISIM: VARYANT TABLOSU */}
           <div className={tableStyles.glassCard}>
               <div style={{ marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>
-                 {/* BAŞLIK RENGİ DÜZELTİLDİ: color: '#fff' eklendi */}
                  <h2 style={{ fontSize: '18px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
                     <Layers size={20} color="#6366f1" /> Mevcut Varyantlar
                  </h2>
@@ -386,10 +451,6 @@ const ProductDetailPage = () => {
               <div className={tableStyles.tableResponsive}>
                   <table className={tableStyles.glassTable}>
                       <thead>
-                          {/* HİZALAMA DÜZELTMESİ:
-                             Buradaki 'th' lere style={{textAlign: 'right'}} vererek, 
-                             içeriği sağa yaslı olan hücrelerle başlıkların aynı hizada olmasını sağladık.
-                          */}
                           <tr>
                               <th style={{textAlign:'left'}}>Beden</th>
                               <th style={{textAlign:'right'}}>Renk</th>
@@ -420,8 +481,7 @@ const ProductDetailPage = () => {
               </div>
           </div>
           
-          {/* 3. KISIM: YENİ VARYANT EKLE */}
-          <AddVariantForm productId={product.id} />
+          <AddVariantForm productId={product.id} setNotification={setNotification} />
 
       </div>
     </div>
