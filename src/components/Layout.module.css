@@ -2,10 +2,11 @@
 .layoutContainer {
   display: flex;
   min-height: 100vh;
-  background-color: #09090b; /* Global Koyu Tema */
-  color: #fff;
+  background-color: var(--bg-primary); /* Global Tema */
+  color: var(--text-primary);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .layoutContainer * {
@@ -18,8 +19,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #09090b;
-  color: #fff;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 /* --- SIDEBAR --- */
@@ -29,10 +30,10 @@
   top: 0;
   bottom: 0;
   width: 260px;
-  background: rgba(18, 18, 23, 0.9); /* Yarı saydam koyu */
-  backdrop-filter: blur(12px); /* Glass Efekti */
-  -webkit-backdrop-filter: blur(12px);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-sidebar); /* Tema değişkeni */
+  backdrop-filter: var(--backdrop-filter-glass); /* Glass Efekti */
+  -webkit-backdrop-filter: var(--backdrop-filter-glass);
+  border-right: 1px solid var(--border); /* Tema değişkeni */
   display: flex;
   flex-direction: column;
   z-index: 50;
@@ -46,18 +47,18 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border);
 }
 
 .logoWrapper {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #fff;
+  color: var(--text-sidebar);
 }
 
 .logoIcon {
-  color: #6366f1; /* İndigo */
+  color: var(--accent); /* Tema vurgu rengi */
 }
 
 .logoText {
@@ -80,7 +81,7 @@
 .navLabel {
   font-size: 11px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-secondary); /* Tema değişkeni */
   margin-bottom: 8px;
   padding-left: 12px;
   letter-spacing: 0.5px;
@@ -93,7 +94,7 @@
   padding: 10px 12px;
   margin-bottom: 4px;
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary); /* Tema değişkeni */
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
@@ -101,24 +102,25 @@
 }
 
 .navItem:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #fff;
+  background-color: var(--bg-secondary); /* Tema değişkeni */
+  color: var(--text-primary); /* Tema değişkeni */
 }
 
 .navItem.active {
-  background: linear-gradient(90deg, rgba(99, 102, 241, 0.15) 0%, transparent 100%);
-  color: #818cf8; /* Açık İndigo */
-  border-left: 3px solid #6366f1;
+  background: linear-gradient(90deg, hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15) 0%, transparent 100%);
+  color: var(--accent); /* Tema vurgu rengi */
+  border-left: 3px solid var(--accent); /* Tema vurgu rengi */
 }
 
 /* Sidebar Footer (User) */
 .sidebarFooter {
   padding: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border); /* Tema değişkeni */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--bg-sidebar); /* Tema değişkeni */
+  gap: 10px; /* Yeni eklenen ThemeToggle için boşluk */
 }
 
 .userProfile {
@@ -132,11 +134,11 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #27272a;
+  background-color: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a1a1aa;
+  color: var(--text-secondary);
 }
 
 .userInfo {
@@ -146,7 +148,7 @@
 
 .userEmail {
   font-size: 13px;
-  color: #fff;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -155,14 +157,14 @@
 
 .userRole {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-secondary);
 }
 
 .logoutButton {
   background: none;
   border: none;
-  background-color: rgba(239, 68, 68, 0.1); 
-  color: #ef4444;
+  background-color: hsla(0, 70%, 60%, 0.1); /* Error renginden türetilmiş */
+  color: var(--error);
   cursor: pointer;
   padding: 8px;
   border-radius: 6px;
@@ -184,14 +186,13 @@
 
 /* --- MOBİL İÇİN ÖZEL BUTONLAR --- */
 .menuButton {
-  display: none; /* Desktop'ta gizli */
-  position: fixed;
-  top: 16px;
-  left: 16px;
+  display: flex; /* MobileHeaderControls tarafından yönetilecek */
+  align-items: center;
+  justify-content: center;
   z-index: 60;
-  background-color: #18181b;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
@@ -209,7 +210,7 @@
   display: none; /* Desktop'ta gizli */
   background: none;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   cursor: pointer;
   padding: 4px;
 }
@@ -223,7 +224,7 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  backdrop-filter: var(--backdrop-filter-glass); /* Tema değişkeni */
   z-index: 40;
   opacity: 0;
   transition: opacity 0.3s;
@@ -263,5 +264,23 @@
   .showOverlay {
     opacity: 1;
     pointer-events: auto;
+  }
+}
+
+.mobileHeaderControls {
+  display: none; /* Masaüstünde gizli */
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 60;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px; /* Tema geçiş butonu ve menü butonu arası boşluk */
+}
+
+@media (max-width: 768px) {
+  .mobileHeaderControls {
+    display: flex;
   }
 }

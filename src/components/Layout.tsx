@@ -17,6 +17,7 @@ import {
   User as UserIcon,
   Command
 } from 'lucide-react';
+import ThemeToggle from './ThemeToggle'; // ThemeToggle'ı içe aktar
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -82,14 +83,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className={styles.layoutContainer}>
       
-      {/* Mobil Menü Butonu 
-          Eğer sidebar açıksa 'menuButtonHidden' classını ekle */}
-      <button 
-        className={`${styles.menuButton} ${sidebarOpen ? styles.menuButtonHidden : ''}`} 
-        onClick={toggleSidebar}
-      >
-        <Menu size={24} />
-      </button>
+      {/* Mobil Menü Butonu ve Tema Geçişi */}
+      <div className={styles.mobileHeaderControls}>
+        <button 
+          className={`${styles.menuButton} ${sidebarOpen ? styles.menuButtonHidden : ''}`} 
+          onClick={toggleSidebar}
+        >
+          <Menu size={24} />
+        </button>
+        <ThemeToggle /> {/* Mobil için tema geçişi */}
+      </div>
 
       {/* Sidebar Overlay */}
       <div 
@@ -162,6 +165,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <span className={styles.userRole}>Admin</span>
             </div>
           </div>
+          <ThemeToggle /> {/* Masaüstü için tema geçişi */}
           <button onClick={handleLogout} className={styles.logoutButton} title="Çıkış Yap">
             <LogOut size={20} />
           </button>

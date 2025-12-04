@@ -1,0 +1,34 @@
+.themeToggleButton {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: var(--backdrop-filter-glass);
+  -webkit-backdrop-filter: var(--backdrop-filter-glass);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: var(--shadow-glass);
+  color: var(--text-primary);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.themeToggleButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.themeToggleButton:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-light);
+}
+
+/* Responsive ayarlar */
+@media (max-width: 768px) {
+  .themeToggleButton {
+    padding: var(--spacing-xs);
+    font-size: 0.9rem;
+  }
+}
