@@ -29,6 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [scrollVisible, setScrollVisible] = useState(true);
 
   useEffect(() => {
     const getInitialSession = async () => {
@@ -66,6 +67,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     setSidebarOpen(false);
   }, [router.pathname]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setScrollVisible(false);
+      } else {
+        setScrollVisible(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   if (loading) {
     return <div className={styles.loadingScreen}>Yükleniyor...</div>;
   }
@@ -84,7 +100,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className={styles.layoutContainer}>
       
       {/* Mobil Menü Butonu ve Tema Geçişi */}
-      <div className={styles.mobileHeaderControls}>
+      <div className={`${styles.mobileHeaderControls} ${!scrollVisible ? styles.hiddenOnScroll : ''}`}>
         <button 
           className={`${styles.menuButton} ${sidebarOpen ? styles.menuButtonHidden : ''}`} 
           onClick={toggleSidebar}

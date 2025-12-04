@@ -297,4 +297,11 @@
   .mobileHeaderControls {
     display: flex;
   }
+
+  .hiddenOnScroll {
+    opacity: 0;
+    pointer-events: none; /* Etkileşimi kapat */
+    transform: translateY(-20px); /* Hafif yukarı kaydırarak gizle */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
 }
