@@ -144,7 +144,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
           <div className={styles.navSection}>
             <p className={styles.navLabel}>SATIŞ & FİNANS</p>
-            <Link href="/sales" className={`${styles.navItem} ${isActive('/sales') ? styles.active : ''}`}>
+            <Link href="/manage/sales" className={`${styles.navItem} ${isActive('/manage/sales') ? styles.active : ''}`}>
               <ShoppingCart size={20} />
               <span>Satışlar</span>
             </Link>

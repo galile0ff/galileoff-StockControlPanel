@@ -1,5 +1,5 @@
 /* ========================================= */
-/* styles/Form.module.css - SCROLLSUZ & DÜZGÜN BUTONLAR */
+/* styles/Form.module.css - UNIVERSAL HYBRID */
 /* ========================================= */
 
 /* --- SAYFA GENELİ --- */
@@ -8,12 +8,14 @@
   padding-top: 20px; overflow-x: hidden;
 }
 
+/* Ambient Işıklar */
 .ambientLight1, .ambientLight2 {
   position: absolute; border-radius: 50%; filter: blur(120px); z-index: 0; opacity: 0.3; pointer-events: none;
 }
 .ambientLight1 { width: 400px; height: 400px; top: -100px; left: -100px; background: #6366f1; }
 .ambientLight2 { width: 300px; height: 300px; bottom: 0; right: -100px; background: #a855f7; }
 
+/* İçerik Kutusu */
 .contentContainer {
   position: relative; z-index: 10; width: 95%; max-width: 1200px;
   margin: 0 auto; display: flex; flex-direction: column; gap: 24px; padding-bottom: 50px;
@@ -35,14 +37,22 @@
 .pageTitle { font-size: 20px; font-weight: 700; margin: 0; color: #fff; }
 .pageSubtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
 
-/* TOPLAM SAYISI ROZETİ (Header için) */
+/* Toplam Sayısı Rozeti */
 .statBadge {
   background: rgba(0,0,0,0.4); padding: 8px 16px; border-radius: 50px;
   font-size: 13px; border: 1px solid rgba(255,255,255,0.1);
   display: flex; align-items: center; gap: 8px; color: #e2e8f0; white-space: nowrap;
 }
 
-/* --- GRID YAPISI --- */
+/* --- KART VE GRID YAPILARI --- */
+
+/* 1. Tekli Kart (Ürün Ekleme/Düzenleme Formları İçin) */
+.glassCard {
+  background: rgba(20, 20, 25, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px; padding: 32px;
+}
+
+/* 2. İkili Grid (Kategori/Renk/Beden Sayfaları İçin) */
 .splitGrid {
   display: grid; grid-template-columns: 350px 1fr; gap: 24px; align-items: start;
 }
@@ -53,32 +63,76 @@
 
 /* --- FORM ELEMANLARI --- */
 .formContent { display: flex; flex-direction: column; gap: 20px; }
-.formGroup { display: flex; flex-direction: column; gap: 8px; }
+.row { display: flex; gap: 20px; }
+.formGroup { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
 .label { font-size: 13px; color: #94a3b8; font-weight: 500; display: flex; align-items: center; gap: 6px; }
 
-.glassInput, .glassSelect {
+.glassInput, .glassSelect, .glassTextarea {
   width: 100%; background-color: #000000 !important; border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #fff !important; padding: 14px 16px; border-radius: 12px; font-size: 14px; outline: none; transition: border-color 0.2s;
+  color: #fff !important; caret-color: #fff; padding: 14px 16px;
+  border-radius: 12px; font-size: 14px; outline: none; transition: border-color 0.2s;
 }
-.glassInput:focus { border-color: #6366f1; }
+.glassInput:focus, .glassSelect:focus, .glassTextarea:focus { border-color: #6366f1; }
 
-/* Renk Seçimi (Eski Usül + Modern Dokunuş) */
-.colorInputGroup {
-  display: flex; gap: 10px; align-items: center;
+.glassSelect {
+  appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; background-size: 16px;
 }
-.colorPickerInput {
-  width: 50px; height: 50px; padding: 0; border: none; background: none; cursor: pointer;
-}
-.colorTextInput {
-  flex: 1; /* Geri kalanı kapla */
+.glassSelect option { background: #000; color: #fff; }
+.glassTextarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+
+/* Renk Seçimi (Manuel Hex + Picker) */
+.colorInputGroup { display: flex; gap: 10px; align-items: center; }
+.colorPickerInput { width: 50px; height: 50px; padding: 0; border: none; background: none; cursor: pointer; }
+.colorTextInput { flex: 1; }
+
+/* Autofill Fix */
+.glassInput:-webkit-autofill, .glassInput:-webkit-autofill:hover, .glassInput:-webkit-autofill:focus, .glassInput:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #000000 inset !important; -webkit-text-fill-color: #ffffff !important;
 }
 
-/* --- LİSTE ELEMANLARI (Scroll Kaldırıldı) --- */
+/* --- GÖRSEL YÜKLEME ALANI (ProductForm İçin) --- */
+.hiddenFileInput { display: none; }
+.imageUploadWrapper { width: 100%; }
+
+.uploadBox {
+  border: 2px dashed rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 40px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.02);
+}
+.uploadBox:hover { border-color: #6366f1; background: rgba(99, 102, 241, 0.05); }
+.uploadIconCircle { width: 50px; height: 50px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6366f1; }
+.uploadText { font-weight: 600; color: #fff; }
+.uploadSubText { font-size: 12px; color: #64748b; }
+
+.previewContainer {
+  position: relative; width: 100%; height: 300px; /* Görsel önizleme yüksekliği */
+  border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000;
+}
+.previewImage { width: 100%; height: 100%; object-fit: contain; }
+
+.removeImageBtn {
+  position: absolute; top: 12px; right: 12px; z-index: 50; width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%; color: #fff; cursor: pointer; transition: all 0.2s ease; backdrop-filter: blur(4px); padding: 0;
+}
+.removeImageBtn svg { display: block; width: 20px; height: 20px; }
+.removeImageBtn:hover { background-color: #ef4444; border-color: #ef4444; transform: scale(1.1); }
+
+.previewOverlay {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  padding: 20px; color: #fff; font-size: 13px; font-weight: 500; pointer-events: none;
+}
+
+/* --- LİSTE ELEMANLARI (Scrollsuz) --- */
 .listHeader { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.listTitle { font-size: 16px; font-weight: 600; color: #fff; margin: 0; }
+.listTitle { font-size: 16px; font-weight: 600; color: #fff; margin: 0; display: flex; align-items: center; gap: 8px; }
 
-/* SCROLL KALDIRILDI: max-height silindi, overflow visible yapıldı */
-.listContent { display: flex; flex-direction: column; gap: 10px; }
+.listContent { display: flex; flex-direction: column; gap: 10px; /* Scroll yok, sonsuz uzar */ }
 
 .listItem {
   display: flex; justify-content: space-between; align-items: center;
@@ -91,8 +145,9 @@
 .itemActions { display: flex; gap: 8px; }
 .colorDot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); }
 
-/* --- BUTONLAR (Yazı Eklendiği İçin Genişletildi) --- */
-.buttonGroup { display: flex; gap: 10px; margin-top: 20px; }
+/* --- BUTONLAR & FOOTER --- */
+.formFooter { display: flex; justify-content: flex-end; margin-top: 20px; }
+.buttonGroup { display: flex; gap: 10px; margin-top: 20px; } /* Kategori form butonları */
 
 .submitBtn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -101,13 +156,16 @@
   cursor: pointer; transition: all 0.2s; width: 100%;
 }
 .submitBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); }
+.submitBtn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
 .btnCancel {
   display: flex; align-items: center; justify-content: center; gap: 6px;
   background: rgba(255,255,255,0.05); color: #fca5a5; border: 1px solid rgba(239,68,68,0.2);
   padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: 600; font-size: 14px;
 }
+.btnCancel:hover { background: rgba(239, 68, 68, 0.1); }
 
-/* Liste İçi Aksiyon Butonları (Yazılı) */
+/* Liste Aksiyon Butonları (Yazılı) */
 .actionBtnEdit, .actionBtnDelete {
   display: flex; align-items: center; gap: 6px;
   padding: 8px 12px; border-radius: 8px; border: none;
@@ -118,6 +176,7 @@
 .actionBtnDelete { background: rgba(239, 68, 68, 0.1); color: #f87171; }
 .actionBtnDelete:hover { background: rgba(239, 68, 68, 0.2); color: #fff; }
 
+.errorBanner { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; padding: 12px; border-radius: 12px; text-align: center; font-size: 14px; margin-top: 10px; }
 .loadingState { padding: 40px; text-align: center; color: #94a3b8; }
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -127,8 +186,16 @@
   .pageWrapper { padding-top: 80px; }
   .contentContainer { width: 92%; }
   .glassHeader { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .splitGrid { grid-template-columns: 1fr; } /* Mobilde alt alta */
   
-  /* Mobilde stat badge tam genişlik */
+  /* Form Gridi Tek Sütun */
+  .row { flex-direction: column; gap: 20px; }
+  
+  /* Liste Gridi Tek Sütun */
+  .splitGrid { grid-template-columns: 1fr; }
+  
+  /* Header Stat Rozeti */
   .statBadge { width: 100%; justify-content: center; margin-top: 10px; }
+  
+  .submitBtn { width: 100%; justify-content: center; }
+  .previewContainer { height: 200px; }
 }

@@ -7,7 +7,6 @@ import {
   Save, 
   Image as ImageIcon, 
   UploadCloud, 
-  // Trash2 sildik, manuel ekleyeceğiz
   Loader2, 
   Layers, 
   FileText 
