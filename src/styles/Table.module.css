@@ -78,7 +78,7 @@
   border-radius: 20px; padding: 24px; overflow: hidden; min-height: 400px;
 }
 .tableResponsive { width: 100%; overflow-x: auto; }
-.glassTable { width: 100%; border-collapse: collapse; text-align: left; }
+.glassTable { width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed; }
 .glassTable th {
   padding: 16px 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; color: #94a3b8;
   border-bottom: 1px solid rgba(255,255,255,0.1); white-space: nowrap;
@@ -321,17 +321,16 @@
 
 @media (min-width: 769px) {
   .stockErrorMessage {
-    order: -1; /* Butonlardan önce gelmesi için */
-    position: relative; /* Absolute'tan değiştirildi */
-    top: auto; /* Sıfırlandı */
-    left: auto; /* Sıfırlandı */
-    transform: none; /* Sıfırlandı */
-    width: auto;
+    position: absolute;
+    right: calc(100% + 12px); /* Butonların solunda boşluk bırak */
+    top: 50%;
+    transform: translateY(-50%);
+    width: max-content; /* İçeriğe göre genişle */
     white-space: nowrap;
     padding: 6px 12px;
+    z-index: 10;
     margin-bottom: 0;
-    margin-right: 12px; /* Butonlarla arasına boşluk koy */
-    box-shadow: none; /* Kaldırıldı */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     border: 1px solid rgba(239, 68, 68, 0.2);
   }
 }
