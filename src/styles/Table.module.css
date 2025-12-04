@@ -110,11 +110,14 @@
 
 /* Varyant Satırları (ProductList) */
 .variantRow td { padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.03); color: #e2e8f0; font-size: 14px; vertical-align: middle; }
-.variantRow td:nth-child(2) { text-align: right; } 
-.variantRow td:nth-child(3), .variantRow td:nth-child(4), .variantRow td:nth-child(5) { text-align: right; }
+.variantRow td:nth-child(2),
+.variantRow td:nth-child(3),
+.variantRow td:nth-child(4) {
+  text-align: center;
+}
 
 .indentCell { width: 50px; text-align: right !important; padding-right: 15px; color: #52525b; }
-.variantInfo { display: flex; align-items: center; gap: 10px; justify-content: flex-end; }
+.variantInfo { display: flex; align-items: center; gap: 10px; justify-content: center; }
 .sizeBadge { background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-weight: 600; min-width: 30px; text-align: center; }
 .colorInfo { display: flex; align-items: center; gap: 6px; }
 .colorDot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); }
@@ -318,16 +321,17 @@
 
 @media (min-width: 769px) {
   .stockErrorMessage {
-    order: 0; /* Normal akışa döner */
-    position: absolute;
-    top: -42px; /* Butonların biraz üzerine */
-    left: 50%;
-    transform: translateX(-50%);
+    order: -1; /* Butonlardan önce gelmesi için */
+    position: relative; /* Absolute'tan değiştirildi */
+    top: auto; /* Sıfırlandı */
+    left: auto; /* Sıfırlandı */
+    transform: none; /* Sıfırlandı */
     width: auto;
     white-space: nowrap;
     padding: 6px 12px;
     margin-bottom: 0;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    margin-right: 12px; /* Butonlarla arasına boşluk koy */
+    box-shadow: none; /* Kaldırıldı */
     border: 1px solid rgba(239, 68, 68, 0.2);
   }
 }

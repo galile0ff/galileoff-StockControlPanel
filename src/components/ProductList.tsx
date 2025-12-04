@@ -243,9 +243,9 @@ const ProductList = () => {
                 <thead>
                   <tr>
                     <th>Ürün Detayı</th>
-                    <th>Varyant</th>
-                    <th>Stok</th>
-                    <th>Durum</th>
+                    <th style={{ textAlign: 'center' }}>Varyant</th>
+                    <th style={{ textAlign: 'center' }}>Stok</th>
+                    <th style={{ textAlign: 'center' }}>Durum</th>
                     <th style={{ textAlign: 'right' }}>İşlemler</th>
                   </tr>
                 </thead>
