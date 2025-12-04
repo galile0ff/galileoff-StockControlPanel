@@ -19,6 +19,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const SalesList = () => {
   const [selectedFilter, setSelectedFilter] = useState('hepsi');
+  const [defectFilter, setDefectFilter] = useState('all');
   const [calculatedStartDate, setCalculatedStartDate] = useState('');
   const [calculatedEndDate, setCalculatedEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,9 +56,17 @@ const SalesList = () => {
     setCalculatedStartDate(start);
     setCalculatedEndDate(end);
     setCurrentPage(1); // Filtre değiştiğinde sayfayı başa al
-  }, [selectedFilter]);
+  }, [selectedFilter, defectFilter]);
 
-  const swrKey = `/api/sales?page=${currentPage}&limit=${itemsPerPage}&${calculatedStartDate ? `startDate=${calculatedStartDate}&` : ''}${calculatedEndDate ? `endDate=${calculatedEndDate}` : ''}`;
+  const queryParams = new URLSearchParams({
+    page: currentPage.toString(),
+    limit: itemsPerPage.toString(),
+    defectStatus: defectFilter,
+  });
+  if (calculatedStartDate) queryParams.set('startDate', calculatedStartDate);
+  if (calculatedEndDate) queryParams.set('endDate', calculatedEndDate);
+
+  const swrKey = `/api/sales?${queryParams.toString()}`;
   const { data, error } = useSWR(swrKey, fetcher);
   const sales = data?.sales;
   const totalSalesCount = data?.totalCount;
@@ -114,19 +123,34 @@ const SalesList = () => {
         </header>
 
         <div className={styles.controlsBar}>
-          <div className={styles.filterWrapper}>
-            <Filter size={18} className={styles.filterIcon} />
-            <select
-              id="dateFilter"
-              value={selectedFilter}
-              onChange={(e) => setSelectedFilter(e.target.value)}
-              className={styles.glassSelect}
-            >
-              <option value="hepsi">Tüm Zamanlar</option>
-              <option value="son_3_gun">Son 3 Gün</option>
-              <option value="son_1_hafta">Son 1 Hafta</option>
-              <option value="son_1_ay">Son 1 Ay</option>
-            </select>
+          <div className={styles.filtersContainer}>
+            <div className={styles.filterWrapper}>
+              <Filter size={18} className={styles.filterIcon} />
+              <select
+                id="dateFilter"
+                value={selectedFilter}
+                onChange={(e) => setSelectedFilter(e.target.value)}
+                className={styles.glassSelect}
+              >
+                <option value="hepsi">Tüm Zamanlar</option>
+                <option value="son_3_gun">Son 3 Gün</option>
+                <option value="son_1_hafta">Son 1 Hafta</option>
+                <option value="son_1_ay">Son 1 Ay</option>
+              </select>
+            </div>
+            <div className={styles.filterWrapper}>
+              <Filter size={18} className={styles.filterIcon} />
+              <select
+                id="defectFilter"
+                value={defectFilter}
+                onChange={(e) => setDefectFilter(e.target.value)}
+                className={styles.glassSelect}
+              >
+                <option value="all">Tüm Durumlar</option>
+                <option value="defective">Sadece Defolular</option>
+                <option value="normal">Sadece Sağlamlar</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -166,12 +190,12 @@ const SalesList = () => {
                           <div className={styles.salesProductInfo}>
                             <div className={styles.productNameWrapper}>
                               <Package size={16} className={styles.productNameIcon} />
-                              <span className={styles.salesProductName}>{sale.variant.product.name}</span>
+                              <span className={styles.salesProductName}>{sale.variant?.product?.name || 'Ürün Bulunamadı'}</span>
                             </div>
                             <div className={styles.variantBadgeWrapper}>
-                              <Tag size={12} style={{ marginRight: 4, opacity: 0.7 }} />
+                              <Tag size={16} style={{ marginRight: 6, opacity: 0.7 }} />
                               <span className={styles.salesVariantBadge}>
-                                  {sale.variant.size.name} • {sale.variant.color.name}
+                                  {sale.variant?.size?.name || '-'} • {sale.variant?.color?.name || '-'}
                               </span>
                             </div>
                           </div>
@@ -180,7 +204,7 @@ const SalesList = () => {
                           <span className={styles.salesQuantityBadge}>{sale.quantity} Adet</span>
                         </td>
                         <td>
-                          {sale.variant.is_defective ? (
+                          {sale.variant?.is_defective ? (
                             <div className={`${styles.statusBadge} ${styles.defective}`}>
                               <AlertTriangle size={14} /> Defolu
                             </div>

@@ -75,7 +75,7 @@ const Dashboard = () => {
                 </div>
                 <h3>Kritik Stok</h3>
               </div>
-              <Link href="/manage/products" className={styles.viewAllLink}>
+              <Link href="/manage/products?show=critical" className={styles.viewAllLink}>
                 Tümünü Gör <ArrowRight size={14} />
               </Link>
             </div>
@@ -162,7 +162,7 @@ const Dashboard = () => {
         <div className={styles.statsGrid}>
           <div className={styles.statCard}>
             <div className={styles.statContent}>
-              <span className={styles.statLabel}>Toplam Çeşit</span>
+              <span className={styles.statLabel}>Toplam Ürün</span>
               <span className={styles.statValue}>{data.total_unique_products ?? 0}</span>
             </div>
             <div className={styles.statIconBox} style={{ background: 'rgba(59, 130, 246, 0.2)', color: '#60a5fa' }}>

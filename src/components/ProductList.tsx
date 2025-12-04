@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useSWR, { mutate } from 'swr';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styles from '../styles/Table.module.css';
 import { 
   Package, 
@@ -10,7 +11,6 @@ import {
   Trash2, 
   Edit, 
   ShoppingCart, 
-  AlertCircle, 
   Image as ImageIcon,
   Loader2,
   Sparkles,
@@ -45,9 +45,28 @@ interface Product {
 }
 
 const ProductList = () => {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [defectFilter, setDefectFilter] = useState<'all' | 'defective' | 'non-defective'>('all');
-  const { data: products, error } = useSWR<Product[]>('/api/products', fetcher);
+  const [showCritical, setShowCritical] = useState(router.query.show === 'critical');
+
+  useEffect(() => {
+    setShowCritical(router.query.show === 'critical');
+  }, [router.query.show]);
+
+  const swrKey = showCritical ? '/api/products?show=critical' : '/api/products';
+  const { data: products, error } = useSWR<Product[]>(swrKey, fetcher);
+
+  const handleCriticalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    setShowCritical(isChecked);
+    // Update URL without reloading the page
+    if (isChecked) {
+      router.push('/manage/products?show=critical', undefined, { shallow: true });
+    } else {
+      router.push('/manage/products', undefined, { shallow: true });
+    }
+  };
 
   const handleDelete = async (variantId: string) => {
     if (!confirm('Bu varyantı silmek istediğinize emin misiniz?')) return;
@@ -56,7 +75,7 @@ const ProductList = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: variantId }),
     });
-    if (res.ok) mutate('/api/products');
+    if (res.ok) mutate(swrKey);
     else alert('Hata oluştu.');
   };
 
@@ -67,7 +86,7 @@ const ProductList = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: productId }),
     });
-    if (res.ok) mutate('/api/products');
+    if (res.ok) mutate(swrKey);
     else {
       const errorData = await res.json();
       alert(`Hata: ${errorData.error || 'Bilinmeyen hata.'}`);
@@ -87,7 +106,7 @@ const ProductList = () => {
       body: JSON.stringify({ variant_id: variantId, quantity: 1 }),
     });
 
-    if (salesRes.ok) mutate('/api/products');
+    if (salesRes.ok) mutate(swrKey);
     else {
       const salesError = await salesRes.json();
       alert(`Hata: ${salesError.error}`);
@@ -95,29 +114,24 @@ const ProductList = () => {
   };
 
   // --- Filtreleme ---
-  let currentProducts = products ? [...products] : [];
-
-  if (searchTerm) {
-    currentProducts = currentProducts.filter((product) =>
+  const filteredProducts = (products || [])
+    .filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }
+    )
+    .map((product) => {
+      let variants = product.product_variants;
 
-  const filteredProducts = currentProducts.filter((product) => {
-    if (product.product_variants.length === 0) return true;
-    return product.product_variants.some((variant) => {
-      if (defectFilter === 'defective') return variant.is_defective;
-      if (defectFilter === 'non-defective') return !variant.is_defective;
-      return true;
-    });
-  }).map((product) => {
-      const filteredProductVariants = product.product_variants.filter((variant) => {
-        if (defectFilter === 'defective') return variant.is_defective;
-        if (defectFilter === 'non-defective') return !variant.is_defective;
-        return true;
-      });
-      return { ...product, product_variants: filteredProductVariants };
-  });
+      if (defectFilter !== 'all') {
+        variants = variants.filter(v => defectFilter === 'defective' ? v.is_defective : !v.is_defective);
+      }
+
+      if (showCritical) {
+        variants = variants.filter(v => v.stock <= 1);
+      }
+
+      return { ...product, product_variants: variants };
+    })
+    .filter((product) => product.product_variants.length > 0);
 
   return (
     <div className={styles.pageWrapper}>
@@ -178,6 +192,20 @@ const ProductList = () => {
               <option value="non-defective">Sadece Sağlamlar</option>
             </select>
           </div>
+
+          <div className={styles.checkboxFilter}>
+            <input
+              type="checkbox"
+              id="critical-stock-filter"
+              checked={showCritical}
+              onChange={handleCriticalFilterChange}
+            />
+            <label htmlFor="critical-stock-filter">
+              <AlertTriangle size={14} />
+              Kritik Stok
+            </label>
+          </div>
+
         </div>
 
         {/* Tablo Kartı */}

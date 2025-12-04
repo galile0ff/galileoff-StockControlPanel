@@ -11,26 +11,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'GET':
       // Tüm satışları listele (varyant ve ürün bilgileriyle birlikte)
       try {
-        const { startDate, endDate, page = '1', limit = '10' } = req.query;
+        const { startDate, endDate, page = '1', limit = '10', defectStatus = 'all' } = req.query;
 
         const pageNum = parseInt(page as string, 10);
         const limitNum = parseInt(limit as string, 10);
         const offset = (pageNum - 1) * limitNum;
 
-        let query = supabaseAdmin
-          .from('sales')
-          .select(`
-            id,
-            quantity,
-            sale_date,
-            variant:product_variants (
+        let query;
+
+        if (defectStatus !== 'all') {
+          query = supabaseAdmin
+            .from('sales')
+            .select(`
               id,
-              is_defective,
-              product:products(name),
-              size:sizes(name),
-              color:colors(name)
-            )
-          `, { count: 'exact' });
+              quantity,
+              sale_date,
+              variant:product_variants!inner (
+                id,
+                is_defective,
+                product:products(name),
+                size:sizes(name),
+                color:colors(name)
+              )
+            `, { count: 'exact' })
+            .eq('variant.is_defective', defectStatus === 'defective');
+        } else {
+          query = supabaseAdmin
+            .from('sales')
+            .select(`
+              id,
+              quantity,
+              sale_date,
+              variant:product_variants (
+                id,
+                is_defective,
+                product:products(name),
+                size:sizes(name),
+                color:colors(name)
+              )
+            `, { count: 'exact' });
+        }
 
         if (startDate) {
           query = query.gte('sale_date', `${startDate}T00:00:00Z`);
@@ -44,6 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .range(offset, offset + limitNum - 1);
 
         if (error) throw error;
+        
         res.status(200).json({ sales: data, totalCount: count });
       } catch (error: any) {
         res.status(500).json({ error: error.message });

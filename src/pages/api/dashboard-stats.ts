@@ -70,7 +70,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         size:sizes(name),
         color:colors(name)
       `)
-      .lt('stock', LOW_STOCK_THRESHOLD);
+      .lte('stock', LOW_STOCK_THRESHOLD);
 
     if (ignoredProductIds.length > 0) {
       for (const productId of ignoredProductIds) {

@@ -194,7 +194,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
 
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { id } = req.query;
+    const { id, show } = req.query;
 
           if (id) {
             // Belirli bir ürünü ve tüm varyantlarını getir
@@ -224,7 +224,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
             
             let isLowStock = false;
             if (!product.ignore_low_stock) {
-                isLowStock = product.product_variants.some(variant => variant.stock <= 10);
+                isLowStock = product.product_variants.some(variant => variant.stock <= 1);
             }
             
             return res.status(200).json({ ...product, is_low_stock: isLowStock });
@@ -254,13 +254,17 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
     
             if (error) throw error;
     
-            const productsWithLowStockStatus = data.map(product => {
+            let productsWithLowStockStatus = data.map(product => {
                 let isLowStock = false;
                 if (!product.ignore_low_stock) {
-                    isLowStock = product.product_variants.some(variant => variant.stock <= 10);
+                    isLowStock = product.product_variants.some(variant => variant.stock <= 1);
                 }
                 return { ...product, is_low_stock: isLowStock };
             });
+
+            if (show === 'critical') {
+              productsWithLowStockStatus = productsWithLowStockStatus.filter(p => p.is_low_stock);
+            }
     
             return res.status(200).json(productsWithLowStockStatus);
           }  } catch (error: any) {

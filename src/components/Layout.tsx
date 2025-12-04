@@ -163,7 +163,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
           </div>
           <button onClick={handleLogout} className={styles.logoutButton} title="Çıkış Yap">
-            <LogOut size={18} />
+            <LogOut size={20} />
           </button>
         </div>
       </aside>
