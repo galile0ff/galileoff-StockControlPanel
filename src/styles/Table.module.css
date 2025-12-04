@@ -216,7 +216,7 @@
     justify-content: center; padding: 16px; background: rgba(0,0,0,0.2);
     flex-wrap: wrap; /* Hata mesajı için */
   }
-  .variantRow:last-of-type td:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); border-radius: 0 0 16px 16px; }
+  .variantRow:last-of_type td:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); border-radius: 0 0 16px 16px; }
 
   .btnText { display: inline-block; font-size: 12px; }
   .actionsCell { width: 100%; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
@@ -283,26 +283,6 @@
   .miniTableRow td:first-child { text-align: left; flex: 1; }
   .miniTableRow td:last-child { text-align: right; }
 }
-.checkboxFilter {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.checkboxFilter input[type="checkbox"] {
-  accent-color: #f59e0b;
-  width: 16px;
-  height: 16px;
-}
-
-.checkboxFilter label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #d1d5db;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
 
 /* Stok Yok Uyarısı */
 .stockErrorMessage {
@@ -332,5 +312,138 @@
     margin-bottom: 0;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+}
+
+/* --- CUSTOM GLASSMORPHIC SWITCH --- */
+.switchContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Added gap here */
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all .3s ease; /* Smoother transition for container */
+}
+
+.switchContainer:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.switchLabel {
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+  color: #d1d5db; /* Default label color for Table.module.css */
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 54px; /* Slightly wider */
+  height: 32px; /* Slightly taller */
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.05); /* Lighter, more transparent base for glass effect */
+  backdrop-filter: blur(8px); /* Add blur for glassmorphism */
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); /* Inner shadow for depth */
+  transition: all .4s cubic-bezier(.25,.8,.25,1);
+  border-radius: 32px; /* Match height for perfect capsule */
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 24px; /* Larger knob */
+  width: 24px; /* Larger knob */
+  left: 3px; /* Adjust position */
+  bottom: 3px;
+  background: linear-gradient(180deg, #e0e0e0, #c8c8c8); /* Brighter gradient */
+  transition: all .4s cubic-bezier(.25,.8,.25,1);
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3), inset 0 0 2px rgba(255,255,255,0.6); /* More refined shadow */
+}
+
+.switch input:checked + .slider {
+  background-color: rgba(239, 68, 68, 0.5); /* Main color for critical stock, slightly transparent */
+  border-color: #ef4444;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6), inset 0 1px 1px rgba(0,0,0,0.4); /* Stronger glow */
+}
+
+.switch input:focus-visible + .slider {
+  outline: 2px solid #f87171;
+  outline-offset: 3px; /* Increased offset for better visibility */
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px); /* Adjusted for new width */
+  background: white; /* White knob when checked */
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3), inset 0 0 2px rgba(255,255,255,0.6);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .switchContainer {
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+  .switchLabel {
+    font-size: 13px;
+  }
+  .switch {
+    width: 48px;
+    height: 28px;
+  }
+  .slider:before {
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+  }
+  .switch input:checked + .slider:before {
+    transform: translateX(18px);
+  }
+}
+
+/* New grouping for filters */
+.filterGroup {
+  display: flex; /* Default to flex for desktop, as controlsBar has flex-wrap */
+  gap: 16px; /* Gap between filter and switch */
+}
+
+@media (max-width: 768px) {
+  .filterGroup {
+    flex-direction: row; /* Make them side-by-side */
+    gap: 16px;
+    width: 100%; /* Take full width on mobile */
+    justify-content: stretch; /* Stretch items */
+  }
+
+  /* Make filterWrapper and switchContainer grow within filterGroup */
+  .filterGroup > .filterWrapper,
+  .filterGroup > .switchContainer {
+    flex-grow: 1;
+    flex-basis: 0; /* Distribute space evenly */
   }
 }

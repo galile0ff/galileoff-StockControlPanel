@@ -194,30 +194,35 @@ const ProductList = () => {
             />
           </div>
 
-          <div className={styles.filterWrapper}>
-            <Filter size={18} className={styles.filterIcon} />
-            <select
-              value={defectFilter}
-              onChange={(e) => setDefectFilter(e.target.value as any)}
-              className={styles.glassSelect}
-            >
-              <option value="all">Tüm Durumlar</option>
-              <option value="defective">Sadece Defolular</option>
-              <option value="non-defective">Sadece Sağlamlar</option>
-            </select>
-          </div>
+          <div className={styles.filterGroup}>
+            <div className={styles.filterWrapper}>
+              <Filter size={18} className={styles.filterIcon} />
+              <select
+                value={defectFilter}
+                onChange={(e) => setDefectFilter(e.target.value as any)}
+                className={styles.glassSelect}
+              >
+                <option value="all">Tüm Durumlar</option>
+                <option value="defective">Sadece Defolular</option>
+                <option value="non-defective">Sadece Sağlamlar</option>
+              </select>
+            </div>
 
-          <div className={styles.checkboxFilter}>
-            <input
-              type="checkbox"
-              id="critical-stock-filter"
-              checked={showCritical}
-              onChange={handleCriticalFilterChange}
-            />
-            <label htmlFor="critical-stock-filter">
-              <AlertTriangle size={14} />
-              Kritik Stok
-            </label>
+            <div className={styles.switchContainer}>
+              <span className={styles.switchLabel} style={{ color: '#fca5a5' }}>
+                  <AlertTriangle size={14} />
+                  Kritik Stok
+              </span>
+              <label className={styles.switch}>
+                  <input 
+                      type="checkbox" 
+                      checked={showCritical} 
+                      onChange={handleCriticalFilterChange}
+                      id="critical-stock-filter"
+                  />
+                  <span className={styles.slider}></span>
+              </label>
+            </div>
           </div>
 
         </div>

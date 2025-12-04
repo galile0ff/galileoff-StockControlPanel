@@ -154,16 +154,18 @@ function EditProductDetails({ product, setNotification }: { product: any, setNot
             </div>
         </div>
 
-        <div className={styles.formGroup}>
-             <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', color: '#cbd5e1', fontSize: '14px' }}>
+        <div className={`${styles.formGroup} ${styles.switchContainer}`}>
+             <span className={styles.switchLabel} style={{ color: '#cbd5e1' }}>
+                Düşük Stok Uyarısını Yoksay
+             </span>
+             <label className={styles.switch}>
                 <input 
                     type="checkbox" 
                     checked={ignoreLowStock} 
                     onChange={(e) => setIgnoreLowStock(e.target.checked)} 
-                    style={{ width: '18px', height: '18px', accentColor: '#6366f1' }}
                 />
-                Düşük Stok Uyarısını Yoksay
-             </label>
+                <span className={styles.slider}></span>
+            </label>
         </div>
 
         <div className={styles.formFooter}>
@@ -249,15 +251,18 @@ function AddVariantForm({ productId, setNotification }: { productId: string, set
                     </div>
                 </div>
 
-                <div className={styles.formGroup}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', color: '#fca5a5', fontSize: '14px' }}>
+                <div className={`${styles.formGroup} ${styles.switchContainer}`}>
+                    <span className={styles.switchLabel} style={{ color: '#fca5a5' }}>
+                        <AlertTriangle size={16} /> 
+                        Defolu Ürün Olarak İşaretle
+                    </span>
+                    <label className={styles.switch}>
                         <input 
                             type="checkbox" 
                             checked={isDefective} 
                             onChange={(e) => setIsDefective(e.target.checked)} 
-                            style={{ width: '18px', height: '18px', accentColor: '#ef4444' }}
                         />
-                        <AlertTriangle size={16} /> Defolu Ürün Olarak İşaretle
+                        <span className={`${styles.slider} ${styles.defectiveSlider}`}></span>
                     </label>
                 </div>
 

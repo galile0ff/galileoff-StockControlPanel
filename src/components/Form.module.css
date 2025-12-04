@@ -290,3 +290,121 @@
     margin-left: auto; /* Sağa yasla */
   }
 }
+
+/* --- CUSTOM GLASSMORPHIC SWITCH V3 --- */
+.switchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all .3s ease; /* Smoother transition for container */
+}
+
+.switchContainer:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.switchLabel {
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+  color: #cbd5e1; /* Default label color */
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 54px; /* Slightly wider */
+  height: 32px; /* Slightly taller */
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.05); /* Lighter, more transparent base for glass effect */
+  backdrop-filter: blur(8px); /* Add blur for glassmorphism */
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); /* Inner shadow for depth */
+  transition: all .4s cubic-bezier(.25,.8,.25,1);
+  border-radius: 32px; /* Match height for perfect capsule */
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 24px; /* Larger knob */
+  width: 24px; /* Larger knob */
+  left: 3px; /* Adjust position */
+  bottom: 3px;
+  background: linear-gradient(180deg, #e0e0e0, #c8c8c8); /* Brighter gradient */
+  transition: all .4s cubic-bezier(.25,.8,.25,1);
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3), inset 0 0 2px rgba(255,255,255,0.6); /* More refined shadow */
+}
+
+.switch input:checked + .slider {
+  background-color: rgba(99, 102, 241, 0.5); /* Main color, more transparent glass look */
+  border-color: #6366f1;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.6), inset 0 1px 1px rgba(0,0,0,0.4); /* Stronger glow */
+}
+
+.switch input:focus-visible + .slider {
+  outline: 2px solid #818cf8;
+  outline-offset: 3px; /* Increased offset for better visibility */
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px); /* Adjusted for new width */
+  background: white; /* White knob when checked */
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3), inset 0 0 2px rgba(255,255,255,0.6);
+}
+
+/* Defective/Critical variant switch color */
+.switch input:checked + .defectiveSlider {
+    background-color: rgba(239, 68, 68, 0.5);
+    border-color: #ef4444;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.6), inset 0 1px 1px rgba(0,0,0,0.4);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .switchContainer {
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+  .switchLabel {
+    font-size: 13px;
+  }
+  .switch {
+    width: 48px;
+    height: 28px;
+  }
+  .slider:before {
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+  }
+  .switch input:checked + .slider:before {
+    transform: translateX(18px);
+  }
+}
