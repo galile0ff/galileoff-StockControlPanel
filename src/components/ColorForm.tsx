@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useSWR, { mutate } from 'swr';
-import styles from './Form.module.css';
+import styles from '../styles/Form.module.css';
 import colornames from 'colornames';
 import { 
   Plus, 

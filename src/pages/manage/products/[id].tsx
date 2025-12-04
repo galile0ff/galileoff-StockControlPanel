@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 // CSS Modülleri
-import styles from '../../../components/Form.module.css'; // Form stilleri
+import styles from '../../../styles/Form.module.css'; // Form stilleri
 import tableStyles from '../../../styles/Table.module.css'; // Tablo stilleri
 
 // İkonlar

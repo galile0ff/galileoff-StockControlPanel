@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useSWR from 'swr';
-import formStyles from '../components/Form.module.css';
+import formStyles from '../styles/Form.module.css';
 import tableStyles from '../styles/Table.module.css';
-import paginationStyles from './Pagination.module.css';
+import paginationStyles from '../styles/Pagination.module.css';
 import { 
   ShoppingCart, 
   Filter, 

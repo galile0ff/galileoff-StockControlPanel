@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useSWR, { mutate } from 'swr';
-import styles from './Form.module.css';
+import styles from '../styles/Form.module.css';
 import { Layers, Edit2, Trash2, Plus, Loader2, Save, X, Sparkles } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());

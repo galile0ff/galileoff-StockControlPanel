@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import styles from './Layout.module.css';
+import styles from '../styles/Layout.module.css';
 import { createSupabaseBrowserClient } from '../lib/supabaseClient';
 import { User } from '@supabase/supabase-js';
 import Image from 'next/image';

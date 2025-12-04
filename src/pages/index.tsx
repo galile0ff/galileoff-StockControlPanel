@@ -5,7 +5,7 @@ import {
   AreaChart, Area, Bar, BarChart, CartesianGrid, Legend,
   ResponsiveContainer, Tooltip, XAxis, YAxis
 } from 'recharts';
-import formStyles from '../components/Form.module.css';
+import formStyles from '../styles/Form.module.css';
 import styles from '../styles/Dashboard.module.css';
 import tableStyles from '../styles/Table.module.css';
 import {

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
-import styles from './Form.module.css';
+import styles from '../styles/Form.module.css';
 import { 
   PackagePlus, 
   Save, 
