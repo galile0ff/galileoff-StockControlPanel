@@ -66,7 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .select(`
         id,
         stock,
-        product:products(id, name),
+        product:products(id, name, image_url),
         size:sizes(name),
         color:colors(name)
       `)
@@ -88,8 +88,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // 3. En çok satan ürün varyantları
-    const { data: best_selling_items } = await supabaseAdmin
+    const { data: best_selling_items_raw } = await supabaseAdmin
       .rpc('get_best_selling_variants', { limit_count: 5 });
+
+    let best_selling_items = best_selling_items_raw || [];
+
+    // Eğer RPC'den gelen veride product_image yoksa veya eksikse, buradan tamamla
+    if (best_selling_items.length > 0 && best_selling_items.some(item => !item.product_image)) {
+      const productIds = best_selling_items.map(item => item.product_id).filter(id => id);
+
+      if (productIds.length > 0) {
+        const { data: products, error: productsError } = await supabaseAdmin
+          .from('products')
+          .select('id, image_url')
+          .in('id', productIds);
+
+        if (productsError) throw productsError;
+
+        const productImages = new Map(products.map(p => [p.id, p.image_url]));
+        
+        best_selling_items = best_selling_items.map(item => ({
+          ...item,
+          product_image: item.product_image || productImages.get(item.product_id)
+        }));
+      }
+    }
 
     // 4. Son 30 gündeki günlük satış toplamları (Çizgi Grafik için)
     const thirtyDaysAgo = new Date();

@@ -87,10 +87,9 @@ const Dashboard = () => {
                   <div key={item.id} className={styles.unifiedRow}>
                     <div className={styles.rowLeft}>
                       <img 
-                        src={item.product?.image || 'https://via.placeholder.com/100/18181b/ffffff?text=IMG'} 
+                        src={item.product?.image_url || ''} 
                         alt={item.product?.name} 
                         className={styles.productImage}
-                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/100/18181b/ffffff?text=ERR'; }}
                       />
                       <div className={styles.rowTextGroup}>
                         <span className={styles.rowTitle}>{item.product?.name}</span>
@@ -134,10 +133,9 @@ const Dashboard = () => {
                   <div key={item.variant_id} className={styles.unifiedRow}>
                     <div className={styles.rowLeft}>
                       <img 
-                        src={item.product_image || 'https://via.placeholder.com/100/18181b/ffffff?text=IMG'} 
+                        src={item.product_image || ''} 
                         alt={item.product_name} 
                         className={styles.productImage}
-                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/100/18181b/ffffff?text=ERR'; }}
                       />
                       <div className={styles.rowTextGroup}>
                         <span className={styles.rowTitle}>{item.product_name}</span>

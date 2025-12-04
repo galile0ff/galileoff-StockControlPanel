@@ -167,7 +167,9 @@ $$;
 CREATE OR REPLACE FUNCTION get_best_selling_variants(limit_count INTEGER)
 RETURNS TABLE (
   variant_id UUID,
+  product_id UUID, -- Ana ürünün ID'sini ekledik
   product_name TEXT,
+  product_image TEXT, -- Ürünün ana resmini ekledik
   size_name TEXT,
   color_name TEXT,
   total_quantity_sold BIGINT
@@ -176,7 +178,9 @@ LANGUAGE sql
 AS $$
   SELECT
     pv.id AS variant_id,
+    p.id as product_id, -- Ana ürün ID'sini sorguya ekledik
     p.name AS product_name,
+    p.image_url as product_image, -- Resim alanını sorguya ekledik
     s.name AS size_name,
     c.name AS color_name,
     SUM(sa.quantity) AS total_quantity_sold
@@ -185,7 +189,7 @@ AS $$
   JOIN products p ON pv.product_id = p.id
   JOIN sizes s ON pv.size_id = s.id
   JOIN colors c ON pv.color_id = c.id
-  GROUP BY pv.id, p.name, s.name, c.name
+  GROUP BY pv.id, p.id, p.name, p.image_url, s.name, c.name -- p.id'yi gruplamaya ekledik
   ORDER BY total_quantity_sold DESC
   LIMIT limit_count;
 $$;
