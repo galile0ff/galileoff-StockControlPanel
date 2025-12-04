@@ -34,7 +34,7 @@ const Dashboard = () => {
     <div className={formStyles.pageWrapper}>
       <div className={tableStyles.loadingState}>
         <Loader2 className={tableStyles.spin} size={48} />
-        <p style={{ marginTop: 10, color: '#fff' }}>Analizler hazırlanıyor...</p>
+        <p style={{ marginTop: 10 }}>Analizler hazırlanıyor...</p>
       </div>
     </div>
   );
