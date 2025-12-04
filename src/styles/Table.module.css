@@ -78,7 +78,7 @@
 
 /* --- TABLO KARTI --- */
 .glassCard {
-  background: var(--bg-secondary);
+  background: var(--bg-glass-card);
   border: 1px solid var(--border);
   border-radius: 20px; padding: 24px; overflow: hidden; min-height: 400px;
 }
@@ -90,18 +90,25 @@
   -webkit-backdrop-filter: var(--backdrop-filter-glass);
 }
 .glassTable th {
-  padding: 16px 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-glass); white-space: nowrap;
+  padding: 16px 24px; /* unifiedRow ile aynı dikey padding */
+  font-size: 13px; /* Daha küçük ve modern */
+  font-weight: 700; /* Daha belirgin */
+  text-transform: uppercase;
+  color: var(--text-secondary); /* unifiedHeader h3 ile uyumlu */
+  border-bottom: 1px solid var(--border-light); /* unifiedHeader border ile uyumlu */
+  white-space: nowrap;
 }
 .glassTable tr { background: transparent; }
 .glassTable td {
-  padding: 12px 20px; border-bottom: 1px solid var(--border-glass);
-  color: var(--text-primary);
+  padding: 16px 24px; /* unifiedRow ile aynı padding */
+  border-bottom: 1px solid var(--border-light); /* unifiedRow border ile uyumlu */
+  color: var(--text-primary); /* unifiedRow rowTitle ile uyumlu */
+  background: transparent; /* Arka plan şeffaf */
 }
 
 /* --- DASHBOARD MİNİ TABLOLARI --- */
 .miniTableRow td {
-  padding: 16px 12px;
+  padding: 16px 24px; /* unifiedRow ile aynı padding */
   border-bottom: 1px solid var(--border-light);
   vertical-align: middle;
   background: transparent;
@@ -109,13 +116,11 @@
 }
 .miniTableRow:last-child td { border-bottom: none; }
 .miniTableRow:hover td { background: var(--bg-hover); }
-.miniTableRow td:first-child { padding-left: 24px; }
-.miniTableRow td:last-child { padding-right: 24px; }
 
 /* ========================================= */
 /* --- ÜRÜN LİSTESİ VE VARYANTLAR (GÜNCELLENDİ) --- */
 /* ========================================= */
-.productRow td { padding: 24px 16px 12px 16px; background: transparent; border-bottom: none; }
+.productRow td { padding: 16px 24px; background: transparent; border-bottom: 1px solid var(--border-light); }
 .productHeader { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
 .productThumb { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
 .productThumbPlaceholder { width: 64px; height: 64px; background: var(--bg-secondary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
@@ -130,9 +135,9 @@
   background: transparent !important;
   
   /* Kenarlıklar ve boşluklar */
-  padding: 14px 20px; 
-  border-bottom: 1px dashed var(--border-light); /* Hafif ayırıcı çizgi */
-  color: var(--text-secondary); 
+  padding: 16px 24px; /* unifiedRow ile aynı padding */
+  border-bottom: 1px solid var(--border-light); /* Düz çizgi */
+  color: var(--text-primary); /* unifiedRow rowTitle ile uyumlu */
   font-size: 14px; 
   vertical-align: middle;
   transition: background-color 0.2s ease;
@@ -149,11 +154,11 @@
   color: var(--text-primary);
 }
 
-.variantRow td:nth-child(2),
-.variantRow td:nth-child(3),
-.variantRow td:nth-child(4) {
-  text-align: center;
-}
+.variantRow td:nth-child(1) { text-align: left; }
+.variantRow td:nth-child(2) { text-align: right; }
+.variantRow td:nth-child(3) { text-align: right; }
+.variantRow td:nth-child(4) { text-align: right; }
+.variantRow td:nth-child(5) { text-align: right; }
 
 .indentCell { 
   width: 50px; text-align: right !important; padding-right: 15px; 
@@ -218,13 +223,13 @@
 /* --- SALES TABLE ÖZEL --- */
 /* ========================================= */
 .salesTable { width: 100%; }
-.salesTable th { padding: 18px 24px; }
+.salesTable th { padding: 16px 24px; }
 .salesTable th:nth-child(1) { text-align: left; width: 45%; } 
 .salesTable th:nth-child(2) { text-align: center; } 
 .salesTable th:nth-child(3) { text-align: center; } 
 .salesTable th:nth-child(4) { text-align: right; } 
 
-.salesTable td { padding: 20px 24px; vertical-align: middle; border-bottom: none; }
+.salesTable td { padding: 16px 24px; vertical-align: middle; border-bottom: 1px solid var(--border-light); }
 .salesTable td:nth-child(1) { text-align: left; }
 .salesTable td:nth-child(2) { text-align: center; }
 .salesTable td:nth-child(3) { text-align: center; }

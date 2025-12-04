@@ -313,7 +313,7 @@ function VariantRow({ variant, onDelete, onUpdate }: { variant: any, onDelete: (
                         className={styles.glassInput} style={{width:'60px', textAlign:'right'}}
                     />
                 ) : (
-                    <span className={tableStyles.stockBadge} style={{background: 'rgba(255,255,255,0.1)'}}>{stock}</span>
+                    <span className={tableStyles.stockBadge}>{stock}</span>
                 )}
             </td>
             <td>
