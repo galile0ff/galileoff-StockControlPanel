@@ -331,7 +331,7 @@ const ProductDetailPage = () => {
   const { data: product, error } = useSWR(id ? `/api/products?id=${id}` : null, fetcher);
 
   const handleDeleteVariant = async (variantId: string) => {
-    if (!confirm('Bu varyantı silmek istediğinize emin misiniz?')) return;
+    
     const res = await fetch('/api/product-variants', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },

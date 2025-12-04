@@ -71,27 +71,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break;
 
-    case 'DELETE':
-      // Bir kategoriyi sil
-      try {
-        const { id } = req.body;
-        if (!id) {
-          return res.status(400).json({ error: 'Category ID is required' });
-        }
-
-        const { error } = await supabaseAdmin
-          .from('categories')
-          .delete()
-          .eq('id', id);
-
-        if (error) throw error;
-
-        res.status(200).json({ message: 'Category deleted successfully' });
-      } catch (error: any) {
-        res.status(500).json({ error: error.message });
-      }
-      break;
-
+          case 'DELETE':
+            // Bir kategoriyi sil
+            try {
+              const { id } = req.body;
+              if (!id) {
+                return res.status(400).json({ error: 'Category ID is required' });
+              }
+      
+              const { error } = await supabaseAdmin
+                .from('categories')
+                .delete()
+                .eq('id', id);
+      
+              if (error) throw error;
+      
+              res.status(200).json({ message: 'Category deleted successfully' });
+            } catch (error: any) {
+              // Foreign key violation (ilişkili veri var)
+              if (error.code === '23503') {
+                return res.status(409).json({ 
+                  error: 'Bu kategori, bir veya daha fazla ürün tarafından kullanıldığı için silinemez.' 
+                });
+              }
+              res.status(500).json({ error: error.message || 'Bir sunucu hatası oluştu.' });
+            }
+            break;
     default:
       res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
       res.status(405).end(`Method ${req.method} Not Allowed`);

@@ -127,7 +127,7 @@
 .normal { background: rgba(16, 185, 129, 0.1); color: #6ee7b7; }
 .defective { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
 
-.actionsCell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.actionsCell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; position: relative; }
 .actionBtnEdit, .actionBtnSold, .actionBtnDeleteVariant, .actionBtnDelete {
   display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s;
 }
@@ -209,11 +209,14 @@
   .variantRow td:nth-child(3)::before { content: "Stok:"; color: #94a3b8; font-size: 13px; margin-right: 8px; }
   .variantRow td:nth-child(4) { display: flex; }
   .variantRow td:nth-child(4)::before { content: "Durum:"; color: #94a3b8; font-size: 13px; margin-right: 8px; }
-  .variantRow td:nth-child(5) { justify-content: center; padding: 16px; background: rgba(0,0,0,0.2); }
+  .variantRow td:nth-child(5) { 
+    justify-content: center; padding: 16px; background: rgba(0,0,0,0.2);
+    flex-wrap: wrap; /* Hata mesajı için */
+  }
   .variantRow:last-of-type td:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); border-radius: 0 0 16px 16px; }
 
   .btnText { display: inline-block; font-size: 12px; }
-  .actionsCell { width: 100%; justify-content: space-between; gap: 8px; }
+  .actionsCell { width: 100%; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
   .actionBtnEdit, .actionBtnSold, .actionBtnDeleteVariant { flex: 1; justify-content: center; padding: 10px 4px; flex-direction: column; gap: 4px; font-size: 11px; }
 
   /* --- SATIŞ LİSTESİ (SalesList) MOBİL ÖZEL --- */
@@ -296,4 +299,35 @@
   color: #d1d5db;
   cursor: pointer;
   font-size: 0.9rem;
+}
+
+/* Stok Yok Uyarısı */
+.stockErrorMessage {
+  order: -1; /* Butonlardan önce gelmesi için */
+  width: 100%;
+  text-align: center;
+  color: #f87171; /* Silme butonu rengiyle uyumlu */
+  background: rgba(239, 68, 68, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: block;
+}
+
+@media (min-width: 769px) {
+  .stockErrorMessage {
+    order: 0; /* Normal akışa döner */
+    position: absolute;
+    top: -42px; /* Butonların biraz üzerine */
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    white-space: nowrap;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
 }

@@ -34,6 +34,7 @@ const ColorForm = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   // Renk ismi yazıldığında Hex kodunu otomatik bulma
   useEffect(() => {
@@ -72,6 +73,7 @@ const ColorForm = () => {
   }, [name, editingId, colors]);
 
   const handleEdit = (c: any) => {
+    setApiError(null);
     setEditingId(c.id);
     setName(c.name);
     setHexCode(c.hex_code);
@@ -83,12 +85,14 @@ const ColorForm = () => {
     setName('');
     setHexCode('');
     setFormError(null);
+    setApiError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setFormError(null);
+    setApiError(null);
 
     // Kaydetmeden önce validasyon
     if (!hexCode) {
@@ -111,25 +115,23 @@ const ColorForm = () => {
       mutate('/api/colors');
     } else {
       const err = await res.json();
-      setFormError(err.error || 'Bir hata oluştu.');
+      setApiError(err.error || 'Bir hata oluştu.');
     }
     setIsLoading(false);
   };
 
   const handleDelete = async (id: string) => {
-    if (editingId === id) handleCancelEdit();
-    if (!confirm('Bu rengi silmek istediğinize emin misiniz?')) return;
-
+    setApiError(null);
     const res = await fetch('/api/colors', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
     });
-
     if (res.ok) {
-      mutate('/api/colors');
+        mutate('/api/colors');
     } else {
-      alert('Hata oluştu.');
+        const err = await res.json();
+        setApiError(err.error || 'Bir hata oluştu: Renk silinemedi.');
     }
   };
 
@@ -158,6 +160,15 @@ const ColorForm = () => {
           </div>
         </header>
 
+        {apiError && (
+          <div className={styles.errorBanner}>
+            <span>{apiError}</span>
+            <button onClick={() => setApiError(null)} className={styles.closeBtn}>
+              <X size={18} />
+            </button>
+          </div>
+        )}
+
         {/* Ana Grid */}
         <div className={styles.splitGrid}>
           
@@ -179,7 +190,11 @@ const ColorForm = () => {
                       className={styles.glassInput}
                       placeholder="Örn: Kırmızı, Lacivert..."
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        setApiError(null);
+                        setFormError(null);
+                      }}
                       required
                       style={{ paddingRight: '50px' }} // Sağdan ikon için boşluk bırak
                     />

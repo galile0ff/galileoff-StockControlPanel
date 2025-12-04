@@ -69,27 +69,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break;
 
-    case 'DELETE':
-      // Bir rengi sil
-      try {
-        const { id } = req.body;
-        if (!id) {
-          return res.status(400).json({ error: 'Color ID is required' });
-        }
-
-        const { error } = await supabaseAdmin
-          .from('colors')
-          .delete()
-          .eq('id', id);
-
-        if (error) throw error;
-
-        res.status(200).json({ message: 'Color deleted successfully' });
-      } catch (error: any) {
-        res.status(500).json({ error: error.message });
-      }
-      break;
-
+          case 'DELETE':
+            // Bir rengi sil
+            try {
+              const { id } = req.body;
+              if (!id) {
+                return res.status(400).json({ error: 'Color ID is required' });
+              }
+      
+              const { error } = await supabaseAdmin
+                .from('colors')
+                .delete()
+                .eq('id', id);
+      
+              if (error) throw error;
+      
+              res.status(200).json({ message: 'Color deleted successfully' });
+            } catch (error: any) {
+              // Foreign key violation
+              if (error.code === '23503') {
+                return res.status(409).json({ 
+                  error: 'Bu renk, bir veya daha fazla ürün tarafından kullanıldığı için silinemez.' 
+                });
+              }
+              res.status(500).json({ error: error.message || 'Bir sunucu hatası oluştu.' });
+            }
+            break;
     default:
       res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
       res.status(405).end(`Method ${req.method} Not Allowed`);

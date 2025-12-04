@@ -34,7 +34,7 @@ CREATE TABLE products (
   name TEXT NOT NULL,
   description TEXT,
   image_url TEXT, -- Added this line
-  category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
+  category_id UUID REFERENCES categories(id) ON DELETE RESTRICT,
   ignore_low_stock BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT now()
 );
@@ -44,8 +44,8 @@ CREATE TABLE products (
 CREATE TABLE product_variants (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
-  size_id UUID REFERENCES sizes(id) ON DELETE SET NULL,
-  color_id UUID REFERENCES colors(id) ON DELETE SET NULL,
+  size_id UUID REFERENCES sizes(id) ON DELETE RESTRICT,
+  color_id UUID REFERENCES colors(id) ON DELETE RESTRICT,
   stock INTEGER NOT NULL DEFAULT 0,
   image_url TEXT, -- Varyanta özel resim
   is_defective BOOLEAN DEFAULT FALSE,

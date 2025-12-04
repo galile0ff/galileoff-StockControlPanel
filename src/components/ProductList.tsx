@@ -48,6 +48,8 @@ const ProductList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [defectFilter, setDefectFilter] = useState<'all' | 'defective' | 'non-defective'>('all');
   const [showCritical, setShowCritical] = useState(router.query.show === 'critical');
+  const [sellError, setSellError] = useState<Record<string, string>>({});
+
 
   useEffect(() => {
     setShowCritical(router.query.show === 'critical');
@@ -68,7 +70,7 @@ const ProductList = () => {
   };
 
   const handleDelete = async (variantId: string) => {
-    if (!confirm('Bu varyantı silmek istediğinize emin misiniz?')) return;
+    
     const res = await fetch('/api/product-variants', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -79,7 +81,7 @@ const ProductList = () => {
   };
 
   const handleDeleteProduct = async (productId: string) => {
-    if (!confirm('Bu ürünü ve TÜM varyantlarını silmek istediğinize emin misiniz?')) return;
+    
     const res = await fetch('/api/products', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -94,10 +96,17 @@ const ProductList = () => {
 
   const handleSold = async (variantId: string, currentStock: number) => {
     if (currentStock <= 0) {
-      alert('Stok yok!');
+      setSellError(prev => ({ ...prev, [variantId]: 'Stok yok!' }));
+      setTimeout(() => {
+        setSellError(prev => {
+          const newState = { ...prev };
+          delete newState[variantId];
+          return newState;
+        });
+      }, 3000);
       return;
     }
-    if (!confirm('1 adet satış yapmak üzeresiniz. Onaylıyor musunuz?')) return;
+    
 
     const salesRes = await fetch('/api/sales', {
       method: 'POST',
@@ -108,7 +117,14 @@ const ProductList = () => {
     if (salesRes.ok) mutate(swrKey);
     else {
       const salesError = await salesRes.json();
-      alert(`Hata: ${salesError.error}`);
+      setSellError(prev => ({ ...prev, [variantId]: `Hata: ${salesError.error}` }));
+       setTimeout(() => {
+        setSellError(prev => {
+          const newState = { ...prev };
+          delete newState[variantId];
+          return newState;
+        });
+      }, 3000);
     }
   };
 
@@ -129,8 +145,7 @@ const ProductList = () => {
       }
 
       return { ...product, product_variants: variants };
-    })
-    .filter((product) => product.product_variants.length > 0);
+    });
 
   return (
     <div className={styles.pageWrapper}>
@@ -308,6 +323,7 @@ const ProductList = () => {
                           </td>
                           <td>
                             <div className={styles.actionsCell}>
+                               {sellError[variant.id] && <div className={styles.stockErrorMessage}>{sellError[variant.id]}</div>}
                               <Link href={`/manage/products/${product.id}`} legacyBehavior>
                                 <a className={styles.actionBtnEdit} title="Düzenle">
                                   <Edit size={16} /> 

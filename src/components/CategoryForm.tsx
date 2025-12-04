@@ -10,30 +10,52 @@ const CategoryForm = () => {
   const [name, setName] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setApiError(null); // Clear previous errors
     const method = editingId ? 'PUT' : 'POST';
     const body = editingId ? { id: editingId, name } : { name };
 
-    await fetch('/api/categories', {
+    const res = await fetch('/api/categories', {
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
 
-    mutate('/api/categories');
-    setName('');
-    setEditingId(null);
+    if (res.ok) {
+      mutate('/api/categories');
+      setName('');
+      setEditingId(null);
+    } else {
+      const errorData = await res.json();
+      setApiError(errorData.error || 'Bir hata oluştu.');
+    }
     setIsLoading(false);
   };
 
-  const handleEdit = (cat: any) => { setName(cat.name); setEditingId(cat.id); };
+  const handleEdit = (cat: any) => { 
+    setApiError(null);
+    setName(cat.name); 
+    setEditingId(cat.id); 
+  };
+  
   const handleDelete = async (id: string) => {
-    if (!confirm('Silmek istediğine emin misin?')) return;
-    await fetch('/api/categories', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
-    mutate('/api/categories');
+    setApiError(null);
+    const res = await fetch('/api/categories', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    });
+    
+    if (res.ok) {
+      mutate('/api/categories');
+    } else {
+      const errorData = await res.json();
+      setApiError(errorData.error || 'Bir hata oluştu.');
+    }
   };
 
   return (
@@ -57,6 +79,15 @@ const CategoryForm = () => {
           </div>
         </header>
 
+        {apiError && (
+          <div className={styles.errorBanner}>
+            <span>{apiError}</span>
+            <button onClick={() => setApiError(null)} className={styles.closeBtn}>
+              <X size={18} />
+            </button>
+          </div>
+        )}
+
         <div className={styles.splitGrid}>
           <div className={styles.formCard}>
             <h3 className={styles.listTitle} style={{marginBottom:'20px'}}>
@@ -65,10 +96,19 @@ const CategoryForm = () => {
             <form onSubmit={handleSubmit} className={styles.formContent}>
               <div className={styles.formGroup}>
                 <label className={styles.label}>Kategori Adı</label>
-                <input className={styles.glassInput} value={name} onChange={(e) => setName(e.target.value)} placeholder="Örn: T-Shirt" required />
+                <input 
+                  className={styles.glassInput} 
+                  value={name} 
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    setApiError(null);
+                  }} 
+                  placeholder="Örn: T-Shirt" 
+                  required 
+                />
               </div>
               <div className={styles.buttonGroup}>
-                {editingId && <button type="button" onClick={() => { setEditingId(null); setName(''); }} className={styles.btnCancel}><X size={18} /> İptal</button>}
+                {editingId && <button type="button" onClick={() => { setEditingId(null); setName(''); setApiError(null); }} className={styles.btnCancel}><X size={18} /> İptal</button>}
                 <button type="submit" className={styles.submitBtn} disabled={isLoading}>
                   {isLoading ? <Loader2 className={styles.spin} size={18} /> : <Save size={18} />}
                   {editingId ? 'Güncelle' : 'Kaydet'}

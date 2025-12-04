@@ -10,30 +10,52 @@ const SizeForm = () => {
   const [name, setName] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setApiError(null);
     const method = editingId ? 'PUT' : 'POST';
     const body = editingId ? { id: editingId, name } : { name };
 
-    await fetch('/api/sizes', {
+    const res = await fetch('/api/sizes', {
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
 
-    mutate('/api/sizes');
-    setName('');
-    setEditingId(null);
+    if (res.ok) {
+      mutate('/api/sizes');
+      setName('');
+      setEditingId(null);
+    } else {
+      const errorData = await res.json();
+      setApiError(errorData.error || 'Bir hata oluştu.');
+    }
     setIsLoading(false);
   };
 
-  const handleEdit = (s: any) => { setName(s.name); setEditingId(s.id); };
+  const handleEdit = (s: any) => { 
+    setApiError(null);
+    setName(s.name); 
+    setEditingId(s.id); 
+  };
+
   const handleDelete = async (id: string) => {
-    if (!confirm('Silmek istediğine emin misin?')) return;
-    await fetch('/api/sizes', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
-    mutate('/api/sizes');
+    setApiError(null);
+    const res = await fetch('/api/sizes', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    });
+    
+    if (res.ok) {
+      mutate('/api/sizes');
+    } else {
+      const errorData = await res.json();
+      setApiError(errorData.error || 'Bir hata oluştu.');
+    }
   };
 
   return (
@@ -57,6 +79,15 @@ const SizeForm = () => {
           </div>
         </header>
 
+        {apiError && (
+          <div className={styles.errorBanner}>
+            <span>{apiError}</span>
+            <button onClick={() => setApiError(null)} className={styles.closeBtn}>
+              <X size={18} />
+            </button>
+          </div>
+        )}
+
         <div className={styles.splitGrid}>
           <div className={styles.formCard}>
             <h3 className={styles.listTitle} style={{marginBottom:'20px'}}>
@@ -65,10 +96,19 @@ const SizeForm = () => {
             <form onSubmit={handleSubmit} className={styles.formContent}>
               <div className={styles.formGroup}>
                 <label className={styles.label}>Beden Adı</label>
-                <input className={styles.glassInput} value={name} onChange={(e) => setName(e.target.value)} placeholder="Örn: XL, 42, Standart" required />
+                <input 
+                  className={styles.glassInput} 
+                  value={name} 
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    setApiError(null);
+                  }} 
+                  placeholder="Örn: XL, 42, Standart" 
+                  required 
+                />
               </div>
               <div className={styles.buttonGroup}>
-                {editingId && <button type="button" onClick={() => { setEditingId(null); setName(''); }} className={styles.btnCancel}><X size={18} /> İptal</button>}
+                {editingId && <button type="button" onClick={() => { setEditingId(null); setName(''); setApiError(null); }} className={styles.btnCancel}><X size={18} /> İptal</button>}
                 <button type="submit" className={styles.submitBtn} disabled={isLoading}>
                   {isLoading ? <Loader2 className={styles.spin} size={18} /> : <Save size={18} />}
                   {editingId ? 'Güncelle' : 'Kaydet'}
