@@ -81,15 +81,14 @@
   background: var(--bg-glass-card);
   border: 1px solid var(--border);
   border-radius: 20px; padding: 24px; overflow: hidden; min-height: 400px;
-}
-.tableResponsive { width: 100%; overflow-x: auto; }
-.glassTable { 
-  width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed;
-  background: transparent;
   backdrop-filter: var(--backdrop-filter-glass);
   -webkit-backdrop-filter: var(--backdrop-filter-glass);
 }
-.glassTable th {
+.tableResponsive { width: 100%; overflow-x: auto; }
+.glassTable {
+  width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed;
+  background: transparent;
+}.glassTable th {
   padding: 16px 24px; /* unifiedRow ile aynı dikey padding */
   font-size: 13px; /* Daha küçük ve modern */
   font-weight: 700; /* Daha belirgin */
