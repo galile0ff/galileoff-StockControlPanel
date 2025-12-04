@@ -1,83 +1,163 @@
-/* src/styles/Dashboard.module.css */
+/* ========================================= */
+/*      src/styles/Dashboard.module.css    */
+/* ========================================= */
 
-.container {
-  padding: var(--spacing-md); /* Genel konteyner paddingi */
+/* --- TEMEL KART STİLİ (GLASSMORPHISM) --- */
+.glassCard {
+  background: rgba(28, 28, 32, 0.5); /* Daha koyu ve yarı saydam arka plan */
+  backdrop-filter: blur(12px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* İstatistik Kartları */
+.glassCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+
+/* --- 1. BÖLÜM: İSTATİSTİK KARTLARI --- */
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
 }
 
 .statCard {
-  background-color: var(--color-bg-secondary);
-  padding: var(--spacing-lg);
-  border-radius: 0.75rem;
-  box-shadow: var(--shadow-md); /* Glassmorphism'e yakın hafif gölge */
-  text-align: center;
-  transition: all 0.2s ease-in-out;
-  border: 1px solid var(--color-border); /* Hafif kenarlık */
+  composes: glassCard; /* Temel stili miras al */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.statCard:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg);
+.statContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.statCard h2 {
-  font-size: calc(var(--font-size-base) * 2);
-  color: var(--color-accent); /* Vurgu rengi */
-  margin-bottom: var(--spacing-sm);
+.statLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #adb5bd; /* İkincil metin rengi */
+  margin-bottom: 8px;
 }
 
-.statCard p {
-  font-size: var(--font-size-base);
-  color: var(--color-text-secondary);
+.statValue {
+  font-size: 32px;
+  font-weight: 700;
+  color: #f8f9fa; /* Ana metin rengi */
+  line-height: 1;
 }
 
-/* Grafik Konteynerleri */
-.chartContainer {
-  background-color: var(--color-bg-secondary);
-  padding: var(--spacing-lg);
-  border-radius: 0.75rem;
-  box-shadow: var(--shadow-md);
-  margin-bottom: var(--spacing-xl);
-  border: 1px solid var(--color-border);
-  position: relative; /* Tooltip için */
+.statIconBox {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.chartContainer h2 {
-  text-align: center;
-  margin-bottom: var(--spacing-lg);
-  color: var(--color-text-primary);
-}
-
-/* Listeler (Stoku Azalanlar, En Çok Satanlar) */
+/* --- 2. BÖLÜM: LİSTE KARTLARI (KRİTİK STOK & ÇOK SATANLAR) --- */
 .listsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  align-items: start;
 }
 
-.listHeader {
-  font-size: calc(var(--font-size-base) * 1.25);
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-md);
-  text-align: center;
+.listCardWrapper {
+  composes: glassCard; /* Temel stili miras al */
+  padding: 0; /* İçerideki header ve tabloya tam yayılma için padding'i sıfırla */
+  overflow: hidden; /* Kenarlık yuvarlaklığını koru */
 }
 
-/* Küçük ekranlar için düzenlemeler */
+/* Kart Başlığı (Tüm kartlar için ortak) */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.headerTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f8f9fa;
+}
+
+.headerIconSm {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewAllLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #adb5bd;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.viewAllLink:hover {
+  color: #fff;
+}
+
+.miniTableRow td {
+  padding: 14px 24px;
+  font-size: 14px;
+  color: #e9ecef;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.miniTableRow:last-child td {
+  border-bottom: none;
+}
+
+/* --- 3. BÖLÜM: GRAFİK KARTLARI --- */
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.chartCard {
+  composes: glassCard; /* Temel stili miras al */
+}
+
+/* --- MOBİL UYUMLULUK --- */
 @media (max-width: 768px) {
-  .container {
-    padding: var(--spacing-sm);
+  .statsGrid {
+    grid-template-columns: 1fr 1fr; /* 2x2 grid */
   }
-  .statCard h2 {
-    font-size: calc(var(--font-size-base) * 1.5);
+
+  .statCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
   }
-  .chartContainer h2, .listsGrid .listHeader {
-    font-size: calc(var(--font-size-base) * 1.1);
+  
+  .statValue {
+    font-size: 28px;
+  }
+
+  .listsGrid, .chartsGrid {
+    grid-template-columns: 1fr; /* Tek sütun */
   }
 }
