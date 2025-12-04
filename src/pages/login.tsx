@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/Login.module.css';
 import { createSupabaseBrowserClient } from '../lib/supabaseClient';
-import { Mail, Lock, Eye, EyeOff, Loader2, Command } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
+import Image from 'next/image';
 
 const LoginPage = () => {
   const supabase = createSupabaseBrowserClient();
@@ -39,7 +40,7 @@ const LoginPage = () => {
 
       <div className={styles.glassCard}>
         <div className={styles.header}>
-          <Command size={40} className={styles.logoIcon} strokeWidth={1.5} />
+          <Image src="/assets/logo.svg" alt="Logo" width={160} height={160} className={styles.logoIcon} />
           <h1 className={styles.title}>INCEWEAR</h1>
           <p className={styles.subtitle}>Yönetim Paneli</p>
         </div>

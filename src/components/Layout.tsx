@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import styles from './Layout.module.css';
 import { createSupabaseBrowserClient } from '../lib/supabaseClient';
 import { User } from '@supabase/supabase-js';
+import Image from 'next/image';
 import { 
   LayoutDashboard, 
   Package, 
@@ -14,8 +15,7 @@ import {
   Menu, 
   X, 
   LogOut, 
-  User as UserIcon,
-  Command
+  User as UserIcon
 } from 'lucide-react';
 import ThemeToggle from './ThemeToggle'; // ThemeToggle'ı içe aktar
 
@@ -122,7 +122,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {/* Logo Alanı */}
         <div className={styles.sidebarHeader}>
           <div className={styles.logoWrapper}>
-            <Command size={24} className={styles.logoIcon} />
+            <Image src="/assets/logo.svg" alt="Logo" width={40} height={40} className={styles.logoIcon} />
             <span className={styles.logoText}>INCEWEAR</span>
           </div>
           {/* Mobilde sidebar içinden kapatma butonu */}
