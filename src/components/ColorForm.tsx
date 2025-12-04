@@ -154,7 +154,7 @@ const ColorForm = () => {
           
           <div className={styles.statBadge}>
             <Sparkles size={14} style={{ color:'#fbbf24' }} />
-            <span>Toplam: <strong>{colors?.length || 0}</strong></span>
+            <span>Toplam Renk: <strong>{colors?.length || 0}</strong></span>
           </div>
         </header>
 

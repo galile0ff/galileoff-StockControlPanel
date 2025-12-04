@@ -18,7 +18,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const Dashboard = () => {
   const { data, error } = useSWR('/api/dashboard-stats', fetcher);
 
-  // Grafik Renkleri (Recharts için gerekli)
+  // Renkler
   const colorPrimary = '#8b5cf6';
   const colorSuccess = '#10b981';
   const colorDanger = '#ef4444';
@@ -39,6 +39,7 @@ const Dashboard = () => {
     </div>
   );
 
+  // Stok Dağılım Hesabı
   const nonDefectiveStock = (data.total_product_stock || 0) - (data.total_defective_stock || 0);
   const stockComparisonData = [
     { name: 'Stok Dağılımı', 'Sağlam': nonDefectiveStock, 'Defolu': data.total_defective_stock || 0 },
@@ -52,7 +53,7 @@ const Dashboard = () => {
       <div className={formStyles.contentContainer}>
         <header className={formStyles.glassHeader}>
           <div className={formStyles.headerLeft}>
-            <div className={formStyles.iconBox} style={{ background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)' }}>
+            <div className={formStyles.iconBox}>
               <LayoutDashboard size={24} color="#fff" />
             </div>
             <div>
@@ -62,7 +63,104 @@ const Dashboard = () => {
           </div>
         </header>
 
-        {/* 1. BÖLÜM: İSTATİSTİK KARTLARI */}
+        {/* 1. BÖLÜM: KRİTİK LİSTELER (Sadece ilk 5) */}
+        <div className={styles.listsGrid}>
+          
+          {/* --- KRİTİK STOK --- */}
+          <div className={styles.unifiedCard}>
+            <div className={styles.unifiedHeader}>
+              <div className={styles.headerTitleGroup}>
+                <div className={styles.headerIconSm} style={{ background: '#f59e0b' }}>
+                  <TrendingDown size={18} color="#fff" />
+                </div>
+                <h3>Kritik Stok</h3>
+              </div>
+              <Link href="/manage/products" className={styles.viewAllLink}>
+                Tümünü Gör <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            <div className={styles.unifiedList}>
+              {data.low_stock_items?.length > 0 ? (
+                // SADECE İLK 5 KAYIT
+                data.low_stock_items.slice(0, 5).map((item: any) => (
+                  <div key={item.id} className={styles.unifiedRow}>
+                    <div className={styles.rowLeft}>
+                      <img 
+                        src={item.product?.image || 'https://via.placeholder.com/100/18181b/ffffff?text=IMG'} 
+                        alt={item.product?.name} 
+                        className={styles.productImage}
+                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/100/18181b/ffffff?text=ERR'; }}
+                      />
+                      <div className={styles.rowTextGroup}>
+                        <span className={styles.rowTitle}>{item.product?.name}</span>
+                        <span className={styles.rowSubtitle}>{item.size?.name} • {item.color?.name}</span>
+                      </div>
+                    </div>
+                    <div className={styles.rowRight}>
+                      <div className={`${styles.unifiedBadge} ${styles.badgeWarning}`}>
+                        {item.stock}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className={tableStyles.emptyState} style={{ padding: '40px' }}>
+                  <Check size={32} color="#10b981" style={{ marginBottom: 10, display: 'block', margin: '0 auto 10px auto' }} />
+                  <p style={{ textAlign: 'center' }}>Harika! Stok sorunu yok.</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* --- ÇOK SATANLAR --- */}
+          <div className={styles.unifiedCard}>
+            <div className={styles.unifiedHeader}>
+              <div className={styles.headerTitleGroup}>
+                <div className={styles.headerIconSm} style={{ background: '#8b5cf6' }}>
+                  <Zap size={18} color="#fff" />
+                </div>
+                <h3>Çok Satanlar</h3>
+              </div>
+              <Link href="/manage/sales" className={styles.viewAllLink}>
+                Detaylar <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            <div className={styles.unifiedList}>
+              {data.best_selling_items?.length > 0 ? (
+                // SADECE İLK 5 KAYIT
+                data.best_selling_items.slice(0, 5).map((item: any) => (
+                  <div key={item.variant_id} className={styles.unifiedRow}>
+                    <div className={styles.rowLeft}>
+                      <img 
+                        src={item.product_image || 'https://via.placeholder.com/100/18181b/ffffff?text=IMG'} 
+                        alt={item.product_name} 
+                        className={styles.productImage}
+                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/100/18181b/ffffff?text=ERR'; }}
+                      />
+                      <div className={styles.rowTextGroup}>
+                        <span className={styles.rowTitle}>{item.product_name}</span>
+                        <span className={styles.rowSubtitle}>{item.size_name} • {item.color_name}</span>
+                      </div>
+                    </div>
+                    <div className={styles.rowRight}>
+                      <div className={`${styles.unifiedBadge} ${styles.badgePurple}`}>
+                        {item.total_quantity_sold}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className={tableStyles.emptyState} style={{ padding: '40px', textAlign: 'center' }}>
+                  Henüz satış verisi yok.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* 2. BÖLÜM: İSTATİSTİK KARTLARI */}
         <div className={styles.statsGrid}>
           <div className={styles.statCard}>
             <div className={styles.statContent}>
@@ -105,100 +203,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* 2. BÖLÜM: KRİTİK LİSTELER */}
-        <div className={styles.listsGrid}>
-          <div className={styles.listCardWrapper}>
-            <div className={styles.cardHeader}>
-              <div className={styles.headerTitleGroup}>
-                <div className={styles.headerIconSm} style={{ background: '#f59e0b' }}>
-                  <TrendingDown size={16} color="#fff" />
-                </div>
-                <h3>Kritik Stok <span style={{ opacity: 0.5, fontWeight: 400, fontSize: 13 }}></span></h3>
-              </div>
-              <Link href="/manage/products" className={styles.viewAllLink}>Tümünü Gör <ArrowRight size={14} /></Link>
-            </div>
-            <div className={tableStyles.tableResponsive}>
-              <table className={tableStyles.glassTable} style={{background: 'transparent' }}>
-                <thead>
-                  <tr>
-                    <th style={{ textAlign: 'left', paddingLeft: 24 }}>Ürün Detayı</th>
-                    <th style={{ textAlign: 'center', paddingRight: 24 }}>Kalan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.low_stock_items?.length > 0 ? (
-                    data.low_stock_items.map((item: any) => (
-                      <tr key={item.id} className={styles.miniTableRow}>
-                        <td>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                            <span style={{ fontSize: 14, fontWeight: 600 }}>{item.product?.name}</span>
-                            <span className={tableStyles.salesVariantBadge}>{item.size?.name} • {item.color?.name}</span>
-                          </div>
-                        </td>
-                        <td style={{ textAlign: 'center' }}>
-                          <span className={`${tableStyles.stockBadge} ${tableStyles.stockLow}`}>{item.stock}</span>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={2} className={tableStyles.emptyState} style={{ padding: '30px' }}>
-                        <Check size={32} color="#10b981" style={{ marginBottom: 10 }} />
-                        <p>Harika! Stok sorunu yok.</p>
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className={styles.listCardWrapper}>
-            <div className={styles.cardHeader}>
-              <div className={styles.headerTitleGroup}>
-                <div className={styles.headerIconSm} style={{ background: '#8b5cf6' }}>
-                  <Zap size={16} color="#fff" />
-                </div>
-                <h3>Çok Satanlar</h3>
-              </div>
-              <Link href="/manage/sales" className={styles.viewAllLink}>Detaylar <ArrowRight size={14} /></Link>
-            </div>
-            <div className={tableStyles.tableResponsive}>
-              <table className={tableStyles.glassTable} style={{background: 'transparent' }}>
-                <thead>
-                  <tr>
-                    <th style={{ textAlign: 'left', paddingLeft: 24 }}>Ürün Detayı</th>
-                    <th style={{ textAlign: 'center', paddingRight: 24 }}>Satış</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.best_selling_items?.length > 0 ? (
-                    data.best_selling_items.map((item: any) => (
-                      <tr key={item.variant_id} className={styles.miniTableRow}>
-                        <td>
-                           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                              <span style={{ fontSize: 14, fontWeight: 600 }}>{item.product_name}</span>
-                              <span className={tableStyles.salesVariantBadge}>{item.size_name} • {item.color_name}</span>
-                           </div>
-                        </td>
-                        <td style={{ textAlign: 'center' }}>
-                          <span className={tableStyles.salesQuantityBadge}>{item.total_quantity_sold}</span>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={2} className={tableStyles.emptyState} style={{ padding: '30px' }}>
-                        Henüz satış verisi yok.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
         {/* 3. BÖLÜM: GRAFİKLER */}
         <div className={styles.chartsGrid}>
           <div className={styles.chartCard}>
@@ -208,9 +212,9 @@ const Dashboard = () => {
                 <h3>30 Günlük Satış Trendi</h3>
               </div>
             </div>
-            <div style={{ width: '100%', height: 320, paddingTop: '10px' }}>
-              <ResponsiveContainer>
-                <AreaChart data={data.daily_sales_data} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
+            <div className={styles.chartContainer}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={data.daily_sales_data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor={colorPrimary} stopOpacity={0.4} />
@@ -218,13 +222,12 @@ const Dashboard = () => {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke={colorGrid} vertical={false} />
-                  <XAxis dataKey="date" stroke={colorText} fontSize={12} tickFormatter={(tick) => tick.substring(5).replace('-', '/')} tickMargin={10} />
-                  <YAxis stroke={colorText} fontSize={12} tickMargin={10} />
+                  <XAxis dataKey="date" stroke={colorText} fontSize={10} tickFormatter={(tick) => tick.substring(5).replace('-', '/')} tickMargin={10} />
+                  <YAxis stroke={colorText} fontSize={10} tickMargin={10} />
                   <Tooltip
                     contentStyle={{ backgroundColor: 'rgba(20, 20, 25, 0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', backdropFilter: 'blur(10px)' }}
                     labelStyle={{ color: '#fff', fontWeight: 600 }}
                     itemStyle={{ color: colorPrimary, fontWeight: 500 }}
-                    formatter={(value: number) => [`${value} Adet`, 'Satış']}
                   />
                   <Area type="monotone" dataKey="sales" stroke={colorPrimary} fillOpacity={1} fill="url(#colorSales)" strokeWidth={2.5} />
                 </AreaChart>
@@ -239,20 +242,20 @@ const Dashboard = () => {
                 <h3>Stok Dağılımı</h3>
               </div>
             </div>
-            <div style={{ width: '100%', height: 320, paddingTop: '10px' }}>
-              <ResponsiveContainer>
-                <BarChart data={stockComparisonData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
+            <div className={styles.chartContainer}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={stockComparisonData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={colorGrid} vertical={false} />
-                  <XAxis dataKey="name" stroke={colorText} fontSize={12} tickMargin={10} />
-                  <YAxis stroke={colorText} fontSize={12} tickMargin={10} />
+                  <XAxis dataKey="name" stroke={colorText} fontSize={10} tickMargin={10} />
+                  <YAxis stroke={colorText} fontSize={10} tickMargin={10} />
                   <Tooltip
                      contentStyle={{ backgroundColor: 'rgba(20, 20, 25, 0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', backdropFilter: 'blur(10px)' }}
                      labelStyle={{ color: '#fff', fontWeight: 600 }}
                      cursor={{ fill: 'rgba(255,255,255,0.05)' }}
                   />
-                  <Legend wrapperStyle={{ paddingTop: '20px', color: '#fff' }} />
-                  <Bar dataKey="Sağlam" fill={colorSuccess} radius={[6, 6, 0, 0]} barSize={40} name="Sağlam Ürün" />
-                  <Bar dataKey="Defolu" fill={colorDanger} radius={[6, 6, 0, 0]} barSize={40} name="Defolu Ürün" />
+                  <Legend wrapperStyle={{ paddingTop: '10px', color: '#fff', fontSize: '12px' }} />
+                  <Bar dataKey="Sağlam" fill={colorSuccess} radius={[6, 6, 0, 0]} barSize={40} name="Sağlam" />
+                  <Bar dataKey="Defolu" fill={colorDanger} radius={[6, 6, 0, 0]} barSize={40} name="Defolu" />
                 </BarChart>
               </ResponsiveContainer>
             </div>

@@ -1,5 +1,5 @@
 /* ========================================= */
-/* styles/Table.module.css - FİNAL V2 */
+/* styles/Table.module.css - FINAL V3 (Dashboard Fix) */
 /* ========================================= */
 
 /* --- SAYFA GENELİ --- */
@@ -78,6 +78,19 @@
   border-bottom: 1px solid rgba(255,255,255,0.1); white-space: nowrap;
 }
 
+/* --- DASHBOARD MİNİ TABLOLARI (ÖZEL DESKTOP STİLİ) --- */
+.miniTableRow td {
+  padding: 16px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+  background: transparent !important;
+  transition: background 0.2s;
+}
+.miniTableRow:last-child td { border-bottom: none; }
+.miniTableRow:hover td { background: rgba(255, 255, 255, 0.02) !important; }
+.miniTableRow td:first-child { padding-left: 24px; }
+.miniTableRow td:last-child { padding-right: 24px; }
+
 /* ========================================= */
 /* --- ÜRÜN LİSTESİ ÖZEL (ProductList) --- */
 /* ========================================= */
@@ -120,14 +133,11 @@
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-
 /* ========================================= */
 /* --- SALES TABLE ÖZEL (SATIŞ SAYFASI) --- */
 /* ========================================= */
 .salesTable { width: 100%; }
 .salesTable th { padding: 18px 24px; }
-
-/* Masaüstü Hizalama */
 .salesTable th:nth-child(1) { text-align: left; width: 45%; } 
 .salesTable th:nth-child(2) { text-align: center; } 
 .salesTable th:nth-child(3) { text-align: center; } 
@@ -139,19 +149,16 @@
 .salesTable td:nth-child(3) { text-align: center; }
 .salesTable td:nth-child(4) { text-align: right; }
 
-/* Gelişmiş Ürün Görünümü (Sales) */
 .salesProductInfo { display: flex; flex-direction: column; gap: 8px; }
 .productNameWrapper { display: flex; align-items: center; gap: 10px; }
 .productNameIcon { color: #6366f1; min-width: 16px; }
 .salesProductName { font-weight: 700; color: #fff; font-size: 16px; letter-spacing: -0.3px; line-height: 1.2; }
-
-.variantBadgeWrapper { display: flex; align-items: center; color: #94a3b8; font-size: 13px; margin-left: 26px; /* Masaüstünde ikon altı boş */ }
+.variantBadgeWrapper { display: flex; align-items: center; color: #94a3b8; font-size: 13px; margin-left: 26px; }
 .salesVariantBadge { 
   font-size: 13px; color: #cbd5e1; background: rgba(255,255,255,0.06); 
   border: 1px solid rgba(255,255,255,0.05); padding: 4px 10px; 
   border-radius: 6px; display: inline-block; font-weight: 500;
 }
-
 .salesQuantityBadge { background: rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 14px; color: #fff; border: 1px solid rgba(255,255,255,0.1); }
 .dateWrapper { color: #e2e8f0; font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
 
@@ -208,20 +215,51 @@
     padding: 8px 0; border: none; text-align: right;
   }
 
-  /* Satış Listesi - İlk Hücre (Ürün/Varyant) */
   .salesTable td:nth-child(1) {
     flex-direction: column; align-items: flex-start; gap: 8px;
     border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 4px; text-align: left;
   }
   .salesProductInfo { width: 100%; gap: 6px; }
-  
-  /* Mobilde marjinleri sıfırla ki sola dayalı olsun */
   .variantBadgeWrapper { margin-left: 0; } 
   .productNameWrapper { gap: 8px; }
 
   .salesTable td:nth-child(2)::before { content: "Adet:"; color: #94a3b8; font-size: 13px; font-weight: 500; }
   .salesTable td:nth-child(3)::before { content: "Durum:"; color: #94a3b8; font-size: 13px; font-weight: 500; }
   .salesTable td:nth-child(4)::before { content: "Tarih:"; color: #94a3b8; font-size: 13px; font-weight: 500; }
-
   .spacerRow { display: none; }
+
+  /* ========================================= */
+  /* --- DASHBOARD MİNİ TABLO MOBİL FİX --- */
+  /* ========================================= */
+  /* Dashboard'daki minik tablolar kart olmasın, liste gibi kalsın */
+  .miniTableRow {
+    display: flex !important;
+    flex-direction: row !important; /* Yan yana diz */
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 0 !important;
+    margin: 0 !important;
+    background: transparent !important; /* Kart arka planını sil */
+    border: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    border-radius: 0 !important;
+  }
+
+  .miniTableRow:last-child { border-bottom: none !important; }
+
+  .miniTableRow td {
+    display: block; 
+    width: auto !important; 
+    padding: 0 12px !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  /* Dashboard tabloları için 'Stok:', 'Adet:' yazılarını gizle */
+  .miniTableRow td::before { content: none !important; }
+  
+  .miniTableRow td:first-child { text-align: left; flex: 1; }
+  .miniTableRow td:last-child { text-align: right; }
 }

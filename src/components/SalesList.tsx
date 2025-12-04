@@ -85,7 +85,7 @@ const SalesList = () => {
           
           <div className={styles.statBadge}>
             <Sparkles size={14} className={styles.statIcon} />
-            <span>Toplam: <strong>{totalSalesCount ?? 0}</strong></span>
+            <span>Toplam Satış: <strong>{totalSalesCount ?? 0}</strong></span>
           </div>
         </header>
 
