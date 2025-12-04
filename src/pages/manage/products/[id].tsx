@@ -446,7 +446,7 @@ const ProductDetailPage = () => {
 
           <EditProductDetails product={product} setNotification={setNotification} />
 
-          <div className={tableStyles.glassCard}>
+          <div className={styles.glassCard}>
               <div style={{ marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>
                  <h2 style={{ fontSize: '18px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-primary)' }}>
                     <Layers size={20} color="#6366f1" /> Mevcut Varyantlar

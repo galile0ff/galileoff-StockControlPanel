@@ -1,12 +1,12 @@
 /* ========================================= */
-/* styles/Table.module.css - FINAL V3 (Dashboard Fix) */
+/* styles/Table.module.css - FINAL V4 (Dark Mode & Variant Clean) */
 /* ========================================= */
 
 /* --- SAYFA GENELİ --- */
 .pageWrapper {
   width: 100%; min-height: 100vh; color: var(--text-primary); font-family: 'Inter', sans-serif;
   padding-top: 20px; overflow-x: hidden;
-  background-color: var(--bg-primary); /* Tema değişkeni kullanıldı */
+  background-color: var(--bg-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -14,8 +14,8 @@
 .ambientLight1, .ambientLight2 {
   position: absolute; border-radius: 50%; filter: blur(120px); z-index: 0; opacity: 0.3; pointer-events: none;
 }
-.ambientLight1 { width: 400px; height: 400px; top: -100px; left: -100px; background: hsl(var(--accent-h), var(--accent-s), 60%); } /* Accent rengiyle uyumlu */
-.ambientLight2 { width: 300px; height: 300px; bottom: 0; right: -100px; background: hsl(var(--accent-h), var(--accent-s), 70%); } /* Accent rengiyle uyumlu */
+.ambientLight1 { width: 400px; height: 400px; top: -100px; left: -100px; background: hsl(var(--accent-h), var(--accent-s), 60%); }
+.ambientLight2 { width: 300px; height: 300px; bottom: 0; right: -100px; background: hsl(var(--accent-h), var(--accent-s), 70%); }
 
 /* İçerik Kutusu */
 .contentContainer {
@@ -26,8 +26,8 @@
 /* --- HEADER --- */
 .glassHeader {
   display: flex; justify-content: space-between; align-items: center;
-  background: var(--bg-glass); /* Tema değişkeni kullanıldı */
-  border: 1px solid var(--border-glass); /* Tema değişkeni kullanıldı */
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
   padding: 24px; border-radius: 20px;
   backdrop-filter: var(--backdrop-filter-glass);
   -webkit-backdrop-filter: var(--backdrop-filter-glass);
@@ -36,19 +36,19 @@
 .headerActions { display: flex; align-items: center; gap: 16px; }
 
 .iconBox {
-  width: 48px; height: 48px; background: var(--bg-secondary); /* Tema değişkeni kullanıldı */
-  border: 1px solid var(--border); /* Tema değişkeni kullanıldı */
+  width: 48px; height: 48px; background: var(--bg-secondary);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; color: var(--text-primary); /* Tema değişkeni kullanıldı */
+  display: flex; align-items: center; justify-content: center; color: var(--text-primary);
 }
-.pageTitle { font-size: 20px; font-weight: 700; margin: 0; color: var(--text-primary); } /* Tema değişkeni kullanıldı */
-.pageSubtitle { font-size: 13px; color: var(--text-secondary); margin-top: 4px; } /* Tema değişkeni kullanıldı */
+.pageTitle { font-size: 20px; font-weight: 700; margin: 0; color: var(--text-primary); }
+.pageSubtitle { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
 .statBadge {
-  background: var(--bg-secondary); /* Tema değişkeni kullanıldı */
+  background: var(--bg-secondary);
   padding: 8px 16px; border-radius: 50px;
-  font-size: 13px; border: 1px solid var(--border); /* Tema değişkeni kullanıldı */
+  font-size: 13px; border: 1px solid var(--border);
   display: flex; align-items: center; gap: 8px;
-  color: var(--text-primary); /* Tema değişkeni kullanıldı */
+  color: var(--text-primary);
 }
 
 /* YENİ ÜRÜN BUTONU */
@@ -74,11 +74,7 @@
 .glassSelect { padding-left: 50px; appearance: none; cursor: pointer; background-image: var(--select-arrow-svg); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; }
 .glassSelect option { background: var(--bg-primary); color: var(--text-primary); }
 
-.filtersContainer {
-  display: flex;
-  gap: 16px;
-  width: 100%;
-}
+.filtersContainer { display: flex; gap: 16px; width: 100%; }
 
 /* --- TABLO KARTI --- */
 .glassCard {
@@ -89,23 +85,21 @@
 .tableResponsive { width: 100%; overflow-x: auto; }
 .glassTable { 
   width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed;
-  background: var(--bg-glass); /* Daha şeffaf bir arka plan */
-  backdrop-filter: var(--backdrop-filter-glass); /* Glass efekti */
+  background: transparent;
+  backdrop-filter: var(--backdrop-filter-glass);
   -webkit-backdrop-filter: var(--backdrop-filter-glass);
 }
 .glassTable th {
   padding: 16px 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary);
   border-bottom: 1px solid var(--border-glass); white-space: nowrap;
 }
-.glassTable tr {
-  background: transparent; /* Satırların şeffaf olmasını sağla */
-}
+.glassTable tr { background: transparent; }
 .glassTable td {
-  padding: 12px 20px; border-bottom: 1px solid var(--border-glass); /* Hücre alt kenarlıklarını glass renk yap */
-  color: var(--text-primary); /* Hücre metin rengini ayarla */
+  padding: 12px 20px; border-bottom: 1px solid var(--border-glass);
+  color: var(--text-primary);
 }
 
-/* --- DASHBOARD MİNİ TABLOLARI (ÖZEL DESKTOP STİLİ) --- */
+/* --- DASHBOARD MİNİ TABLOLARI --- */
 .miniTableRow td {
   padding: 16px 12px;
   border-bottom: 1px solid var(--border-light);
@@ -119,7 +113,7 @@
 .miniTableRow td:last-child { padding-right: 24px; }
 
 /* ========================================= */
-/* --- ÜRÜN LİSTESİ ÖZEL (ProductList) --- */
+/* --- ÜRÜN LİSTESİ VE VARYANTLAR (GÜNCELLENDİ) --- */
 /* ========================================= */
 .productRow td { padding: 24px 16px 12px 16px; background: transparent; border-bottom: none; }
 .productHeader { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
@@ -129,19 +123,72 @@
 .productName { font-size: 18px; font-weight: 700; color: var(--text-primary); }
 .categoryBadge { font-size: 12px; background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px; color: var(--text-secondary); margin-left: 8px; }
 
-/* Varyant Satırları (ProductList) */
-.variantRow td { padding: 12px 20px; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); font-size: 14px; vertical-align: middle; }
+/* --- GÜNCELLENEN VARYANT SATIRLARI --- */
+.variantRow td {
+  /* Arka plan tamamen kaldırıldı (şeffaf) */
+  background-color: transparent !important;
+  background: transparent !important;
+  
+  /* Kenarlıklar ve boşluklar */
+  padding: 14px 20px; 
+  border-bottom: 1px dashed var(--border-light); /* Hafif ayırıcı çizgi */
+  color: var(--text-secondary); 
+  font-size: 14px; 
+  vertical-align: middle;
+  transition: background-color 0.2s ease;
+}
+
+/* Son varyantın alt çizgisini kaldır */
+.variantRow:last-child td {
+  border-bottom: none;
+}
+
+/* Hover durumunda çok hafif bir aydınlanma */
+.variantRow:hover td {
+  background-color: var(--bg-hover) !important;
+  color: var(--text-primary);
+}
+
 .variantRow td:nth-child(2),
 .variantRow td:nth-child(3),
 .variantRow td:nth-child(4) {
   text-align: center;
 }
 
-.indentCell { width: 50px; text-align: right !important; padding-right: 15px; color: var(--text-secondary); }
-.variantInfo { display: flex; align-items: center; gap: 10px; justify-content: center; }
-.sizeBadge { background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px; font-weight: 600; min-width: 30px; text-align: center; color: var(--text-primary); }
-.colorInfo { display: flex; align-items: center; gap: 6px; }
-.colorDot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--border-light); }
+.indentCell { 
+  width: 50px; text-align: right !important; padding-right: 15px; 
+  color: var(--text-secondary); opacity: 0.5; /* Ok işaretini biraz silik yap */
+}
+
+/* Varyant Bilgi Kutuları */
+.variantInfo { display: flex; align-items: center; gap: 12px; justify-content: flex-start; }
+
+.sizeBadge { 
+  background: transparent; /* Arka planı kaldır */
+  border: 1px solid var(--border); /* İnce çerçeve */
+  padding: 4px 10px; 
+  border-radius: 6px; 
+  font-weight: 600; 
+  min-width: 36px; 
+  text-align: center; 
+  color: var(--text-primary);
+  font-family: monospace; /* Daha teknik görünüm */
+}
+
+.colorInfo { 
+  display: flex; align-items: center; gap: 8px; 
+  background: var(--bg-tertiary); /* Çok hafif arka plan */
+  padding: 4px 10px 4px 6px;
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+}
+
+.colorDot { 
+  width: 14px; height: 14px; 
+  border-radius: 50%; 
+  border: 1px solid rgba(0,0,0,0.1); 
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
 
 /* Ortak Badgeler */
 .stockBadge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; }
@@ -158,13 +205,17 @@
 .actionBtnEdit { background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.1); color: var(--accent); }
 .actionBtnSold { background: hsla(var(--success-h), var(--success-s), var(--success-l), 0.1); color: var(--success); }
 .actionBtnDeleteVariant, .actionBtnDelete { background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.1); color: var(--error); }
+
+/* Edit Butonu Hover İyileştirmesi (Şeffaf arka planda daha belirgin olması için) */
+.actionBtnEdit:hover { background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.2); transform: scale(1.05); }
+
 .spacerRow td { height: 20px; border: none; }
 .loadingState, .emptyState { padding: 50px; text-align: center; color: var(--text-secondary); }
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 /* ========================================= */
-/* --- SALES TABLE ÖZEL (SATIŞ SAYFASI) --- */
+/* --- SALES TABLE ÖZEL --- */
 /* ========================================= */
 .salesTable { width: 100%; }
 .salesTable th { padding: 18px 24px; }
@@ -173,7 +224,7 @@
 .salesTable th:nth-child(3) { text-align: center; } 
 .salesTable th:nth-child(4) { text-align: right; } 
 
-.salesTable td { padding: 20px 24px; vertical-align: middle; border-bottom: 1px solid var(--border-light); }
+.salesTable td { padding: 20px 24px; vertical-align: middle; border-bottom: none; }
 .salesTable td:nth-child(1) { text-align: left; }
 .salesTable td:nth-child(2) { text-align: center; }
 .salesTable td:nth-child(3) { text-align: center; }
@@ -185,8 +236,10 @@
 .salesProductName { font-weight: 700; color: var(--text-primary); font-size: 16px; letter-spacing: -0.3px; line-height: 1.2; }
 .variantBadgeWrapper { display: flex; align-items: center; color: var(--text-secondary); font-size: 13px; margin-left: 26px; }
 .salesVariantBadge { 
-  font-size: 13px; color: var(--text-secondary); background: var(--bg-tertiary); 
-  border: 1px solid var(--border-light); padding: 4px 10px; 
+  font-size: 13px; color: var(--text-secondary); 
+  background: transparent; /* Badge arka planı kaldırıldı */
+  border: 1px solid var(--border-light); 
+  padding: 4px 10px; 
   border-radius: 6px; display: inline-block; font-weight: 500;
 }
 .salesQuantityBadge { background: var(--bg-tertiary); padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 14px; color: var(--text-primary); border: 1px solid var(--border-light); }
@@ -202,15 +255,8 @@
   .glassHeader { flex-direction: column; align-items: flex-start; gap: 16px; }
   .headerActions { width: 100%; justify-content: space-between; }
   .controlsBar { flex-direction: column; align-items: stretch; }
-  
-  .filtersContainer {
-    flex-direction: row;
-  }
-
-  .filterWrapper {
-    flex: 1;
-    width: auto;
-  }
+  .filtersContainer { flex-direction: row; }
+  .filterWrapper { flex: 1; width: auto; }
 
   /* --- ORTAK TABLO -> KART DÖNÜŞÜMÜ --- */
   .glassTable, .glassTable tbody, .glassTable tr, .glassTable td { display: block; width: 100%; }
@@ -218,7 +264,7 @@
 
   /* --- ÜRÜN LİSTESİ MOBİL --- */
   .productRow td {
-    background: var(--bg-card-mobile);
+    background: transparent;
     border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; margin-top: 24px; padding: 20px;
   }
   .productThumb, .productThumbPlaceholder { width: 50px; height: 50px; }
@@ -226,26 +272,28 @@
 
   .variantRow td {
     display: flex; justify-content: space-between; align-items: center;
-    background: var(--bg-secondary); border-left: 1px solid var(--border); border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border-light); padding: 12px 20px; text-align: left;
+    background: transparent !important; border: none; /* Mobilde de transparan */
+    border-bottom: 1px solid var(--border-light);
+    padding: 12px 20px; text-align: left;
   }
   .indentCell { display: none; }
   .variantRow td:nth-child(3)::before { content: "Stok:"; color: var(--text-secondary); font-size: 13px; margin-right: 8px; }
   .variantRow td:nth-child(4) { display: flex; }
   .variantRow td:nth-child(4)::before { content: "Durum:"; color: var(--text-secondary); font-size: 13px; margin-right: 8px; }
   .variantRow td:nth-child(5) { 
-    justify-content: center; padding: 16px; background: var(--bg-tertiary);
+    justify-content: center; padding: 16px; background: transparent !important;
     flex-wrap: wrap;
+    border-bottom: 1px solid var(--border-light); /* Ayırıcı çizgi */
   }
-  .variantRow:last-of_type td:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 16px 16px; }
+  .variantRow:last-of_type td:last-child { border-bottom: none; border-radius: 0 0 16px 16px; }
 
   .btnText { display: inline-block; font-size: 12px; }
   .actionsCell { width: 100%; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
   .actionBtnEdit, .actionBtnSold, .actionBtnDeleteVariant { flex: 1; justify-content: center; padding: 10px 4px; flex-direction: column; gap: 4px; font-size: 11px; }
 
-  /* --- SATIŞ LİSTESİ (SalesList) MOBİL ÖZEL --- */
+  /* --- SATIŞ LİSTESİ MOBİL --- */
   .salesTable tr {
-    background: var(--bg-card-mobile);
+    background: transparent;
     border: 1px solid var(--border);
     border-radius: 16px; margin-bottom: 16px; padding: 16px;
     display: flex; flex-direction: column; gap: 8px;
@@ -269,202 +317,74 @@
   .salesTable td:nth-child(4)::before { content: "Tarih:"; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
   .spacerRow { display: none; }
 
-  /* ========================================= */
-  /* --- DASHBOARD MİNİ TABLO MOBİL FİX --- */
-  /* ========================================= */
-  /* Dashboard'daki minik tablolar kart olmasın, liste gibi kalsın */
+  /* --- DASHBOARD MİNİ TABLO MOBİL --- */
   .miniTableRow {
-    display: flex !important;
-    flex-direction: row !important; /* Yan yana diz */
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 12px 0 !important;
-    margin: 0 !important;
-    background: transparent !important; /* Kart arka planını sil */
-    border: none !important;
-    border-bottom: 1px solid var(--border-light) !important;
-    border-radius: 0 !important;
+    display: flex !important; flex-direction: row !important;
+    align-items: center; justify-content: space-between; width: 100%;
+    padding: 12px 0 !important; margin: 0 !important;
+    background: transparent !important; border: none !important;
+    border-bottom: 1px solid var(--border-light) !important; border-radius: 0 !important;
   }
-
   .miniTableRow:last-child { border-bottom: none !important; }
-
-  .miniTableRow td {
-    display: block; 
-    width: auto !important; 
-    padding: 0 12px !important;
-    margin: 0 !important;
-    border: none !important;
-    background: transparent !important;
-  }
-
-  /* Dashboard tabloları için 'Stok:', 'Adet:' yazılarını gizle */
+  .miniTableRow td { display: block; width: auto !important; padding: 0 12px !important; margin: 0 !important; border: none !important; background: transparent !important; }
   .miniTableRow td::before { content: none !important; }
-  
   .miniTableRow td:first-child { text-align: left; flex: 1; }
   .miniTableRow td:last-child { text-align: right; }
 }
 
 /* Stok Yok Uyarısı */
 .stockErrorMessage {
-  order: -1; /* Butonlardan önce gelmesi için */
-  width: 100%;
-  text-align: center;
-  color: var(--error);
+  order: -1; width: 100%; text-align: center; color: var(--error);
   background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.1);
-  padding: 8px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 10px;
-  display: block;
+  padding: 8px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 10px; display: block;
 }
 
 @media (min-width: 769px) {
   .stockErrorMessage {
-    position: absolute;
-    right: calc(100% + 12px); /* Butonların solunda boşluk bırak */
-    top: 50%;
-    transform: translateY(-50%);
-    width: max-content; /* İçeriğe göre genişle */
-    white-space: nowrap;
-    padding: 6px 12px;
-    z-index: 10;
-    margin-bottom: 0;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid hsla(var(--error-h), var(--error-s), var(--error-l), 0.2);
+    position: absolute; right: calc(100% + 12px); top: 50%; transform: translateY(-50%);
+    width: max-content; white-space: nowrap; padding: 6px 12px; z-index: 10; margin-bottom: 0;
+    box-shadow: var(--shadow-lg); border: 1px solid hsla(var(--error-h), var(--error-s), var(--error-l), 0.2);
   }
 }
 
 /* --- CUSTOM GLASSMORPHIC SWITCH --- */
 .switchContainer {
-  display: flex;
-  align-items: center;
-  gap: 12px; /* Added gap here */
-  background: var(--bg-glass);
-  padding: 10px 16px;
-  border-radius: 12px;
-  border: 1px solid var(--border-glass);
-  transition: all .3s ease; /* Smoother transition for container */
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg-glass); padding: 10px 16px; border-radius: 12px;
+  border: 1px solid var(--border-glass); transition: all .3s ease;
 }
-
-.switchContainer:hover {
-  background: var(--bg-glass-hover);
-  border-color: var(--border-glass-hover);
-}
-
-.switchLabel {
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  user-select: none;
-  color: var(--text-secondary);
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 54px; /* Slightly wider */
-  height: 32px; /* Slightly taller */
-  flex-shrink: 0;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
+.switchContainer:hover { background: var(--bg-glass-hover); border-color: var(--border-glass-hover); }
+.switchLabel { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; user-select: none; color: var(--text-secondary); }
+.switch { position: relative; display: inline-block; width: 54px; height: 32px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--bg-tertiary);
-  backdrop-filter: var(--backdrop-filter-glass);
-  -webkit-backdrop-filter: var(--backdrop-filter-glass);
-  border: 1px solid var(--border-light);
-  box-shadow: inset 0 1px 3px var(--shadow-glass-inset);
-  transition: all .4s cubic-bezier(.25,.8,.25,1);
-  border-radius: 32px; /* Match height for perfect capsule */
+  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--bg-tertiary); backdrop-filter: var(--backdrop-filter-glass);
+  -webkit-backdrop-filter: var(--backdrop-filter-glass); border: 1px solid var(--border-light);
+  box-shadow: inset 0 1px 3px var(--shadow-glass-inset); transition: all .4s cubic-bezier(.25,.8,.25,1); border-radius: 32px;
 }
-
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 24px; /* Larger knob */
-  width: 24px; /* Larger knob */
-  left: 3px; /* Adjust position */
-  bottom: 3px;
-  background: var(--bg-switch-knob);
-  transition: all .4s cubic-bezier(.25,.8,.25,1);
-  border-radius: 50%;
-  box-shadow: var(--shadow-md), inset 0 0 2px var(--shadow-switch-knob-inset);
+  position: absolute; content: ""; height: 24px; width: 24px; left: 3px; bottom: 3px;
+  background: var(--bg-switch-knob); transition: all .4s cubic-bezier(.25,.8,.25,1);
+  border-radius: 50%; box-shadow: var(--shadow-md), inset 0 0 2px var(--shadow-switch-knob-inset);
 }
-
 .switch input:checked + .slider {
-  background-color: hsla(var(--error-h), var(--error-s), var(--error-l), 0.5);
-  border-color: var(--error);
+  background-color: hsla(var(--error-h), var(--error-s), var(--error-l), 0.5); border-color: var(--error);
   box-shadow: 0 0 15px hsla(var(--error-h), var(--error-s), var(--error-l), 0.6), inset 0 1px 1px var(--shadow-glass-inset);
 }
-
-.switch input:focus-visible + .slider {
-  outline: 2px solid var(--error);
-  outline-offset: 3px; /* Increased offset for better visibility */
-}
-
-.switch input:checked + .slider:before {
-  transform: translateX(22px); /* Adjusted for new width */
-  background: var(--bg-switch-knob-checked);
-  box-shadow: var(--shadow-md), inset 0 0 2px var(--shadow-switch-knob-inset);
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .switchContainer {
-    padding: 8px 12px;
-    border-radius: 10px;
-  }
-  .switchLabel {
-    font-size: 13px;
-  }
-  .switch {
-    width: 48px;
-    height: 28px;
-  }
-  .slider:before {
-    height: 20px;
-    width: 20px;
-    left: 3px;
-    bottom: 3px;
-  }
-  .switch input:checked + .slider:before {
-    transform: translateX(18px);
-  }
-}
-
-/* New grouping for filters */
-.filterGroup {
-  display: flex; /* Default to flex for desktop, as controlsBar has flex-wrap */
-  gap: 16px; /* Gap between filter and switch */
-}
+.switch input:focus-visible + .slider { outline: 2px solid var(--error); outline-offset: 3px; }
+.switch input:checked + .slider:before { transform: translateX(22px); background: var(--bg-switch-knob-checked); box-shadow: var(--shadow-md), inset 0 0 2px var(--shadow-switch-knob-inset); }
 
 @media (max-width: 768px) {
-  .filterGroup {
-    flex-direction: row; /* Make them side-by-side */
-    gap: 16px;
-    width: 100%; /* Take full width on mobile */
-    justify-content: stretch; /* Stretch items */
-  }
+  .switchContainer { padding: 8px 12px; border-radius: 10px; }
+  .switchLabel { font-size: 13px; }
+  .switch { width: 48px; height: 28px; }
+  .slider:before { height: 20px; width: 20px; left: 3px; bottom: 3px; }
+  .switch input:checked + .slider:before { transform: translateX(18px); }
+}
 
-  /* Make filterWrapper and switchContainer grow within filterGroup */
-  .filterGroup > .filterWrapper,
-  .filterGroup > .switchContainer {
-    flex-grow: 1;
-    flex-basis: 0; /* Distribute space evenly */
-  }
+.filterGroup { display: flex; gap: 16px; }
+@media (max-width: 768px) {
+  .filterGroup { flex-direction: row; gap: 16px; width: 100%; justify-content: stretch; }
+  .filterGroup > .filterWrapper, .filterGroup > .switchContainer { flex-grow: 1; flex-basis: 0; }
 }
