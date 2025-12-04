@@ -90,10 +90,10 @@
 
 /* Dark Tema */
 .dark-theme {
-  --bg-primary: hsl(0, 0%, 8%); /* Nötr çok koyu gri */
+  --bg-primary: hsl(0, 0%, 0%); /* Saf siyah */
   --bg-primary-h: 0;
   --bg-primary-s: 0%;
-  --bg-primary-l: 8%;
+  --bg-primary-l: 0%;
   --bg-secondary: hsl(220, 20%, 18%); /* Biraz daha açık koyu (relative olarak) */
   --bg-sidebar: hsl(220, 20%, 8%); /* Daha da koyu sidebar (kontrast için) */
   --accent: hsl(200, 80%, 65%); /* Parlak mavi vurgu (daha parlak ve doygun) */
