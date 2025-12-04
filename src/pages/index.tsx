@@ -113,7 +113,7 @@ const Dashboard = () => {
                 <div className={styles.headerIconSm} style={{ background: '#f59e0b' }}>
                   <TrendingDown size={16} color="#fff" />
                 </div>
-                <h3>Kritik Stok <span style={{ opacity: 0.5, fontWeight: 400, fontSize: 13 }}>(10'dan az)</span></h3>
+                <h3>Kritik Stok <span style={{ opacity: 0.5, fontWeight: 400, fontSize: 13 }}></span></h3>
               </div>
               <Link href="/manage/products" className={styles.viewAllLink}>Tümünü Gör <ArrowRight size={14} /></Link>
             </div>
@@ -161,7 +161,7 @@ const Dashboard = () => {
                 </div>
                 <h3>Çok Satanlar</h3>
               </div>
-              <Link href="/sales" className={styles.viewAllLink}>Detaylar <ArrowRight size={14} /></Link>
+              <Link href="/manage/sales" className={styles.viewAllLink}>Detaylar <ArrowRight size={14} /></Link>
             </div>
             <div className={tableStyles.tableResponsive}>
               <table className={tableStyles.glassTable} style={{background: 'transparent' }}>
