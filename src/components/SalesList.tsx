@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useSWR from 'swr';
-import styles from '../styles/Table.module.css'; 
+import styles from '../styles/Table.module.css';
+import paginationStyles from './Pagination.module.css';
 import { 
   ShoppingCart, 
   Filter, 
@@ -9,7 +10,9 @@ import {
   Package, 
   Loader2, 
   Sparkles,
-  Tag
+  Tag,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -18,6 +21,9 @@ const SalesList = () => {
   const [selectedFilter, setSelectedFilter] = useState('hepsi');
   const [calculatedStartDate, setCalculatedStartDate] = useState('');
   const [calculatedEndDate, setCalculatedEndDate] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const today = new Date();
@@ -48,12 +54,14 @@ const SalesList = () => {
     }
     setCalculatedStartDate(start);
     setCalculatedEndDate(end);
+    setCurrentPage(1); // Filtre değiştiğinde sayfayı başa al
   }, [selectedFilter]);
 
-  const swrKey = `/api/sales?${calculatedStartDate ? `startDate=${calculatedStartDate}&` : ''}${calculatedEndDate ? `endDate=${calculatedEndDate}` : ''}`;
+  const swrKey = `/api/sales?page=${currentPage}&limit=${itemsPerPage}&${calculatedStartDate ? `startDate=${calculatedStartDate}&` : ''}${calculatedEndDate ? `endDate=${calculatedEndDate}` : ''}`;
   const { data, error } = useSWR(swrKey, fetcher);
   const sales = data?.sales;
   const totalSalesCount = data?.totalCount;
+  const totalPages = totalSalesCount ? Math.ceil(totalSalesCount / itemsPerPage) : 0;
 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -63,6 +71,22 @@ const SalesList = () => {
       minute: '2-digit',
     };
     return new Date(dateString).toLocaleDateString('tr-TR', options);
+  };
+
+  const handleScrollToTable = () => {
+    if (window.innerWidth <= 768 && tableRef.current) {
+      tableRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    handleScrollToTable();
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    handleScrollToTable();
   };
 
   return (
@@ -106,7 +130,7 @@ const SalesList = () => {
           </div>
         </div>
 
-        <div className={styles.glassCard}>
+        <div className={styles.glassCard} ref={tableRef}>
           {!sales && !error && (
             <div className={styles.loadingState}>
               <Loader2 className={styles.spin} size={32} />
@@ -124,21 +148,20 @@ const SalesList = () => {
           )}
 
           {sales && sales.length > 0 && (
-            <div className={styles.tableResponsive}>
-              {/* BURAYA DİKKAT: salesTable sınıfı eklendi */}
-              <table className={`${styles.glassTable} ${styles.salesTable}`}>
-                <thead>
-                  <tr>
-                    <th>Ürün / Varyant</th>
-                    <th>Adet</th>
-                    <th>Durum</th>
-                    <th>Tarih</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sales.map((sale: any) => (
-                    <tr key={sale.id}>
-                      {/* Ürün Bilgisi */}
+            <>
+              <div className={styles.tableResponsive}>
+                <table className={`${styles.glassTable} ${styles.salesTable}`}>
+                  <thead>
+                    <tr>
+                      <th>Ürün / Varyant</th>
+                      <th>Adet</th>
+                      <th>Durum</th>
+                      <th>Tarih</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sales.map((sale: any) => (
+                      <tr key={sale.id}>
                         <td>
                           <div className={styles.salesProductInfo}>
                             <div className={styles.productNameWrapper}>
@@ -153,36 +176,56 @@ const SalesList = () => {
                             </div>
                           </div>
                         </td>
-
-                      {/* Adet */}
-                      <td>
-                        <span className={styles.salesQuantityBadge}>{sale.quantity} Adet</span>
-                      </td>
-
-                      {/* Durum */}
-                      <td>
-                        {sale.variant.is_defective ? (
-                          <div className={`${styles.statusBadge} ${styles.defective}`}>
-                            <AlertTriangle size={14} /> Defolu
+                        <td>
+                          <span className={styles.salesQuantityBadge}>{sale.quantity} Adet</span>
+                        </td>
+                        <td>
+                          {sale.variant.is_defective ? (
+                            <div className={`${styles.statusBadge} ${styles.defective}`}>
+                              <AlertTriangle size={14} /> Defolu
+                            </div>
+                          ) : (
+                            <div className={`${styles.statusBadge} ${styles.normal}`}>
+                              <CheckCircle2 size={14} /> Normal
+                            </div>
+                          )}
+                        </td>
+                        <td>
+                          <div className={styles.dateWrapper}>
+                             {formatDate(sale.sale_date)}
                           </div>
-                        ) : (
-                          <div className={`${styles.statusBadge} ${styles.normal}`}>
-                            <CheckCircle2 size={14} /> Normal
-                          </div>
-                        )}
-                      </td>
-
-                      {/* Tarih */}
-                      <td>
-                        <div className={styles.dateWrapper}>
-                           {formatDate(sale.sale_date)}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {totalPages > 1 && (
+                <div className={paginationStyles.pagination}>
+                  <div className={paginationStyles.pageInfo}>
+                    Sayfa <strong>{currentPage}</strong> / <strong>{totalPages}</strong>
+                  </div>
+                  <div className={paginationStyles.buttons}>
+                    <button
+                      onClick={handlePrevPage}
+                      disabled={currentPage === 1}
+                      className={paginationStyles.button}
+                    >
+                      <ChevronLeft size={16} />
+                      Önceki
+                    </button>
+                    <button
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages}
+                      className={paginationStyles.button}
+                    >
+                      Sonraki
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
