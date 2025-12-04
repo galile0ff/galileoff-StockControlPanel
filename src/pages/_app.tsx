@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import { ThemeProvider } from '../context/ThemeContext'; // ThemeProvider'ı içe aktar
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -11,6 +12,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   if (router.pathname === '/login') {
     return (
       <ThemeProvider>
+        <Head>
+          <link rel="icon" href="/assets/logo.svg" />
+        </Head>
         <Component {...pageProps} />
       </ThemeProvider>
     );
@@ -18,6 +22,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ThemeProvider>
+      <Head>
+        <link rel="icon" href="/assets/logo.svg" />
+      </Head>
       <Layout>
         <Component {...pageProps} />
       </Layout>
