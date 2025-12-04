@@ -10,8 +10,7 @@ import {
   Filter, 
   Trash2, 
   Edit, 
-  ShoppingCart, 
-  Image as ImageIcon,
+  ShoppingCart,
   Loader2,
   Sparkles,
   ChevronRight,
@@ -243,11 +242,12 @@ const ProductList = () => {
                         <td colSpan={5}>
                           <div className={styles.productHeader}>
                             <div className={styles.productTitleGroup}>
-                              {product.image_url ? (
-                                <img src={product.image_url} alt={product.name} className={styles.productThumb} />
-                              ) : (
-                                <div className={styles.productThumbPlaceholder}><ImageIcon size={16}/></div>
-                              )}
+                              <img 
+                                src={(product.image_url && product.image_url.trim()) ? product.image_url : '/assets/placeholder.svg'}
+                                alt={product.name} 
+                                className={styles.productThumb} 
+                                style={{ objectFit: (product.image_url && product.image_url.trim()) ? 'cover' : 'contain' }}
+                              />
                               <div>
                                 <span className={styles.productName}>{product.name}</span>
                                 <span className={styles.categoryBadge}>{product.category?.name || 'Genel'}</span>

@@ -87,9 +87,10 @@ const Dashboard = () => {
                   <div key={item.id} className={styles.unifiedRow}>
                     <div className={styles.rowLeft}>
                       <img 
-                        src={item.product?.image_url || ''} 
+                        src={(item.product?.image_url && item.product.image_url.trim()) ? item.product.image_url : '/assets/placeholder.svg'}
                         alt={item.product?.name} 
                         className={styles.productImage}
+                        style={{ objectFit: (item.product?.image_url && item.product.image_url.trim()) ? 'cover' : 'contain' }}
                       />
                       <div className={styles.rowTextGroup}>
                         <span className={styles.rowTitle}>{item.product?.name}</span>
@@ -133,9 +134,10 @@ const Dashboard = () => {
                   <div key={item.variant_id} className={styles.unifiedRow}>
                     <div className={styles.rowLeft}>
                       <img 
-                        src={item.product_image || ''} 
+                        src={(item.product_image && item.product_image.trim()) ? item.product_image : '/assets/placeholder.svg'}
                         alt={item.product_name} 
                         className={styles.productImage}
+                        style={{ objectFit: (item.product_image && item.product_image.trim()) ? 'cover' : 'contain' }}
                       />
                       <div className={styles.rowTextGroup}>
                         <span className={styles.rowTitle}>{item.product_name}</span>
