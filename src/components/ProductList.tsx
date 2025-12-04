@@ -209,7 +209,7 @@ const ProductList = () => {
             </div>
 
             <div className={styles.switchContainer}>
-              <span className={styles.switchLabel} style={{ color: '#fca5a5' }}>
+              <span className={styles.switchLabel}>
                   <AlertTriangle size={14} />
                   Kritik Stok
               </span>
