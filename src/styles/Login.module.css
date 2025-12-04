@@ -6,15 +6,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: hsl(220, 25%, 5%); /* Sadece dark mode */
+  background-color: hsl(220, 25%, 5%);
   overflow: hidden;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: hsl(220, 20%, 90%); /* Sadece dark mode */
-  padding: 16px; /* Mobilde kenarlara yapışmaması için */
+  color: hsl(220, 20%, 90%);
+  padding: 16px;
 }
 
 .container * {
-  box-sizing: border-box; /* Kritik: Boyut hesaplamasını düzeltir */
+  box-sizing: border-box;
 }
 
 /* --- Arka Plan Efektleri --- */
@@ -24,13 +24,13 @@
   filter: blur(80px);
   z-index: 1;
   opacity: 0.4;
-  pointer-events: none; /* Tıklamayı engelle */
+  pointer-events: none;
 }
 
 .glowOrb1 {
-  width: 300px; /* Mobilde çok büyük olmasın diye küçülttük */
+  width: 300px;
   height: 300px;
-  background: #7c3aed; /* Mor */
+  background: #7c3aed;
   top: -50px;
   left: -50px;
 }
@@ -38,7 +38,7 @@
 .glowOrb2 {
   width: 250px;
   height: 250px;
-  background: #ea580c; /* Turuncu */
+  background: #ea580c;
   bottom: -50px;
   right: -50px;
 }
@@ -48,15 +48,14 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 400px; /* Genişliği biraz artırdık */
+  max-width: 400px;
   padding: 40px;
-  
-  background: rgba(20, 20, 25, 0.5); /* Sadece dark mode */
-  backdrop-filter: blur(12px) saturate(180%); /* Sadece dark mode */
+  background: rgba(20, 20, 25, 0.5);
+  backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.12); /* Sadece dark mode */
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 24px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6); /* Sadece dark mode */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
 }
 
 /* Header */
@@ -66,7 +65,7 @@
 }
 
 .logoIcon {
-  color: hsl(220, 20%, 90%); /* Sadece dark mode */
+  color: hsl(220, 20%, 90%);
   margin-bottom: 12px;
 }
 
@@ -75,12 +74,12 @@
   font-weight: 300;
   letter-spacing: 4px;
   margin: 0;
-  color: hsl(220, 20%, 90%); /* Sadece dark mode */
+  color: hsl(220, 20%, 90%);
 }
 
 .subtitle {
   font-size: 12px;
-  color: hsl(220, 10%, 65%); /* Sadece dark mode */
+  color: hsl(220, 10%, 65%);
   margin-top: 8px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -98,54 +97,54 @@
   width: 100%;
 }
 
-/* INPUT AYARLARI (Kritik Kısım) */
+/* --- INPUT AYARLARI (Sorunu Çözen Kısım) --- */
 .input {
   width: 100%;
   height: 52px;
   
-  /* Arka plan ve Kenarlık */
-  background-color: #000; /* Siyah yapıldı */
-  border: 1px solid #555; /* Siyah üzerinde görülebilmesi için koyu gri kenarlık */
+  /* Görünüm */
+  background-color: #000;
+  border: 1px solid #555;
   border-radius: 12px;
-  
-  /* Yazı Tipi */
-  color: hsl(220, 20%, 90%); /* Sadece dark mode */
+  color: hsl(220, 20%, 90%);
   font-size: 15px;
   
-  /* PADDING: Soldan 70px boşluk bırakıyoruz ki ikon sığsın */
-  padding: 0 16px 0 70px; 
+  /* KRİTİK AYARLAR: !important ile kesinleştirildi */
+  padding-left: 50px !important; /* İkon için soldan kesin boşluk */
+  padding-right: 16px !important;
+  text-indent: 0 !important; /* Kaymaları sıfırla */
   
   outline: none;
   transition: all 0.2s ease-in-out;
 }
 
 .input::placeholder {
-  color: hsl(220, 10%, 45%); /* Placeholder rengini daha belirgin hale getir */
-  text-indent: 50px; /* Placeholder metnini içeri doğru it */
+  color: hsl(220, 10%, 45%);
+  /* text-indent burada SİLİNDİ, çünkü padding-left zaten işi yapıyor */
 }
 
 /* Focus Durumu */
 .input:focus {
-  background-color: #000; /* Siyah yapıldı */
-  border-color: hsl(200, 80%, 65%); /* Sadece dark mode */
-  box-shadow: 0 0 0 4px hsla(200, 80%, 65%, 0.15); /* Sadece dark mode */
+  background-color: #000;
+  border-color: hsl(200, 80%, 65%);
+  box-shadow: 0 0 0 4px hsla(200, 80%, 65%, 0.15);
 }
 
-/* SOL İKON */
+/* --- SOL İKON --- */
 .icon {
   position: absolute;
-  left: 20px; /* İkonu biraz daha sağa kaydırdım */
+  left: 20px;
   top: 50%;
-  transform: translateY(-50%); /* Dikey ortala */
-  color: hsl(220, 10%, 65%); /* Sadece dark mode */
-  pointer-events: none; /* İkona tıklayınca arkadaki inputa geçsin */
+  transform: translateY(-50%);
+  color: hsl(220, 10%, 65%);
+  pointer-events: none; /* Tıklamayı engelle, inputa geçsin */
   transition: color 0.2s;
-  z-index: 5;
+  z-index: 5; /* Inputun üstünde görünsün */
 }
 
-/* Input focus olunca ikonu parlat (JSX sırası sayesinde çalışır) */
+/* Input focus olunca ikonu parlat */
 .input:focus ~ .icon {
-  color: hsl(200, 80%, 65%); /* Sadece dark mode */
+  color: hsl(200, 80%, 65%);
 }
 
 /* Göz Butonu (Sağda) */
@@ -157,7 +156,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: hsl(220, 10%, 65%); /* Sadece dark mode */
+  color: hsl(220, 10%, 65%);
   padding: 4px;
   display: flex;
   align-items: center;
@@ -165,12 +164,12 @@
 }
 
 .eyeBtn:hover {
-  color: hsl(220, 20%, 90%); /* Sadece dark mode */
+  color: hsl(220, 20%, 90%);
 }
 
 /* Hata Kutusu */
 .errorMessage {
-  font-size: 13px;
+  font-size: 14px;
   color: hsl(0, 0%, 91%);
   background: hsla(0, 70%, 60%, 0.4);
   padding: 12px;
@@ -221,13 +220,13 @@
   margin-top: 30px;
   text-align: center;
   font-size: 12px;
-  color: hsl(220, 10%, 65%); /* Sadece dark mode */
+  color: hsl(220, 10%, 65%);
 }
 
-/* --- RESPONSIVE AYARLAR (Mobil Uyum) --- */
+/* --- RESPONSIVE AYARLAR --- */
 @media (max-width: 480px) {
   .glassCard {
-    padding: 24px; /* Mobilde iç boşluğu azalt */
+    padding: 24px;
     max-width: 100%;
   }
 
@@ -237,12 +236,11 @@
   }
   
   .glowOrb1, .glowOrb2 {
-    filter: blur(60px); /* Performans için blur azaltılabilir */
+    filter: blur(60px);
     opacity: 0.3;
   }
   
   .input {
-    font-size: 16px; /* iOS'te zoom yapmayı engeller */
+    font-size: 16px;
   }
 }
-
