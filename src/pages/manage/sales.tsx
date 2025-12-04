@@ -1,4 +1,4 @@
-import SalesList from '../components/SalesList';
+import SalesList from '../../components/SalesList';
 
 const SalesPage = () => {
   return <SalesList />;

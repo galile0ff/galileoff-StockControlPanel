@@ -1,125 +1,104 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useSWR, { mutate } from 'swr';
 import styles from './Form.module.css';
+import { Ruler, Edit2, Trash2, Plus, Loader2, Save, X, Sparkles } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-interface Size {
-  id: string;
-  name: string;
-}
-
 const SizeForm = () => {
-  const { data: sizes, error } = useSWR<Size[]>('/api/sizes', fetcher);
+  const { data: sizes, error } = useSWR('/api/sizes', fetcher);
   const [name, setName] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [editingSize, setEditingSize] = useState<Size | null>(null);
-
-  useEffect(() => {
-    if (editingSize) {
-      setName(editingSize.name);
-    } else {
-      setName('');
-    }
-  }, [editingSize]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setFormError(null);
+    const method = editingId ? 'PUT' : 'POST';
+    const body = editingId ? { id: editingId, name } : { name };
 
-    const method = editingSize ? 'PUT' : 'POST';
-    const body = editingSize ? JSON.stringify({ id: editingSize.id, name }) : JSON.stringify({ name });
-
-    const res = await fetch('/api/sizes', {
+    await fetch('/api/sizes', {
       method,
       headers: { 'Content-Type': 'application/json' },
-      body,
+      body: JSON.stringify(body),
     });
 
-    if (res.ok) {
-      setName('');
-      setEditingSize(null);
-      mutate('/api/sizes');
-    } else {
-      const err = await res.json();
-      setFormError(err.error || 'Bir hata oluştu.');
-    }
+    mutate('/api/sizes');
+    setName('');
+    setEditingId(null);
     setIsLoading(false);
   };
 
+  const handleEdit = (s: any) => { setName(s.name); setEditingId(s.id); };
   const handleDelete = async (id: string) => {
-    if (!confirm('Bu bedeni silmek istediğinizden emin misiniz?')) return;
-
-    const res = await fetch('/api/sizes', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
-    });
-
-    if (res.ok) {
-      mutate('/api/sizes');
-    } else {
-      alert('Beden silinirken bir hata oluştu.');
-    }
+    if (!confirm('Silmek istediğine emin misin?')) return;
+    await fetch('/api/sizes', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
+    mutate('/api/sizes');
   };
-
-  const handleEdit = (size: Size) => {
-    setEditingSize(size);
-  };
-
-  const cancelEdit = () => {
-    setEditingSize(null);
-    setName('');
-  }
 
   return (
-    <div>
-      <h1>{editingSize ? 'Beden Düzenle' : 'Beden Yönetimi'}</h1>
-      
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.inputGroup}>
-          <input
-            type="text"
-            placeholder={editingSize ? 'Beden Adını Düzenle' : 'Yeni Beden Adı (S, M, L...)'}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? (editingSize ? 'Güncelleniyor...' : 'Ekleniyor...') : (editingSize ? 'Güncelle' : 'Ekle')}
-          </button>
-          {editingSize && (
-            <button type="button" onClick={cancelEdit} className={styles.cancelButton}>
-              İptal
-            </button>
-          )}
-        </div>
-        {formError && <p className={styles.formError}>{formError}</p>}
-      </form>
+    <div className={styles.pageWrapper}>
+      <div className={styles.ambientLight1}></div>
+      <div className={styles.ambientLight2}></div>
 
-      <div className={styles.listContainer}>
-        <h2>Mevcut Bedenler</h2>
-        {error && <p>Bedenler yüklenemedi.</p>}
-        {!sizes && !error && <p>Yükleniyor...</p>}
-        {sizes && (
-          <ul className={styles.list}>
-            {sizes.map((size) => (
-              <li key={size.id} className={styles.listItem}>
-                <span>{size.name}</span>
-                <div className={styles.buttonGroup}>
-                  <button onClick={() => handleEdit(size)} className={styles.editButton}>
-                    Düzenle
-                  </button>
-                  <button onClick={() => handleDelete(size.id)} className={styles.deleteButton}>
-                    Sil
-                  </button>
+      <div className={styles.contentContainer}>
+        <header className={styles.glassHeader}>
+          <div className={styles.headerLeft}>
+            <div className={styles.iconBox}><Ruler size={24} /></div>
+            <div>
+              <h1 className={styles.pageTitle}>Bedenler</h1>
+              <p className={styles.pageSubtitle}>Ürün bedenlerini düzenle/ekle.</p>
+            </div>
+          </div>
+          {/* TOPLAM */}
+          <div className={styles.statBadge}>
+            <Sparkles size={14} style={{color:'#fbbf24'}} />
+            <span>Toplam Beden: <strong>{sizes?.length || 0}</strong></span>
+          </div>
+        </header>
+
+        <div className={styles.splitGrid}>
+          <div className={styles.formCard}>
+            <h3 className={styles.listTitle} style={{marginBottom:'20px'}}>
+              {editingId ? <><Edit2 size={18} /> Düzenle</> : <><Plus size={18} /> Yeni Ekle</>}
+            </h3>
+            <form onSubmit={handleSubmit} className={styles.formContent}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Beden Adı</label>
+                <input className={styles.glassInput} value={name} onChange={(e) => setName(e.target.value)} placeholder="Örn: XL, 42, Standart" required />
+              </div>
+              <div className={styles.buttonGroup}>
+                {editingId && <button type="button" onClick={() => { setEditingId(null); setName(''); }} className={styles.btnCancel}><X size={18} /> İptal</button>}
+                <button type="submit" className={styles.submitBtn} disabled={isLoading}>
+                  {isLoading ? <Loader2 className={styles.spin} size={18} /> : <Save size={18} />}
+                  {editingId ? 'Güncelle' : 'Kaydet'}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div className={styles.listCard}>
+            <div className={styles.listHeader}>
+              <h3 className={styles.listTitle}>Beden Listesi</h3>
+            </div>
+            <div className={styles.listContent}>
+              {!sizes && <p className={styles.loadingState}>Yükleniyor...</p>}
+              {sizes?.map((s: any) => (
+                <div key={s.id} className={styles.listItem}>
+                  <div className={styles.itemInfo}><Ruler size={16} style={{opacity:0.5}} /> {s.name}</div>
+                  <div className={styles.itemActions}>
+                    <button onClick={() => handleEdit(s)} className={styles.actionBtnEdit}>
+                        <Edit2 size={14} /> Düzenle
+                    </button>
+                    <button onClick={() => handleDelete(s.id)} className={styles.actionBtnDelete}>
+                        <Trash2 size={14} /> Sil
+                    </button>
+                  </div>
                 </div>
-              </li>
-            ))}
-          </ul>
-        )}
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

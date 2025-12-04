@@ -1,125 +1,104 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useSWR, { mutate } from 'swr';
 import styles from './Form.module.css';
+import { Layers, Edit2, Trash2, Plus, Loader2, Save, X, Sparkles } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-interface Category {
-  id: string;
-  name: string;
-}
-
 const CategoryForm = () => {
-  const { data: categories, error } = useSWR<Category[]>('/api/categories', fetcher);
+  const { data: categories, error } = useSWR('/api/categories', fetcher);
   const [name, setName] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
-
-  useEffect(() => {
-    if (editingCategory) {
-      setName(editingCategory.name);
-    } else {
-      setName('');
-    }
-  }, [editingCategory]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setFormError(null);
+    const method = editingId ? 'PUT' : 'POST';
+    const body = editingId ? { id: editingId, name } : { name };
 
-    const method = editingCategory ? 'PUT' : 'POST';
-    const body = editingCategory ? JSON.stringify({ id: editingCategory.id, name }) : JSON.stringify({ name });
-
-    const res = await fetch('/api/categories', {
+    await fetch('/api/categories', {
       method,
       headers: { 'Content-Type': 'application/json' },
-      body,
+      body: JSON.stringify(body),
     });
 
-    if (res.ok) {
-      setName('');
-      setEditingCategory(null);
-      mutate('/api/categories');
-    } else {
-      const err = await res.json();
-      setFormError(err.error || 'Bir hata oluştu.');
-    }
+    mutate('/api/categories');
+    setName('');
+    setEditingId(null);
     setIsLoading(false);
   };
 
+  const handleEdit = (cat: any) => { setName(cat.name); setEditingId(cat.id); };
   const handleDelete = async (id: string) => {
-    if (!confirm('Bu kategoriyi silmek istediğinizden emin misiniz?')) return;
-
-    const res = await fetch('/api/categories', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
-    });
-
-    if (res.ok) {
-      mutate('/api/categories');
-    } else {
-      alert('Kategori silinirken bir hata oluştu.');
-    }
+    if (!confirm('Silmek istediğine emin misin?')) return;
+    await fetch('/api/categories', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
+    mutate('/api/categories');
   };
-
-  const handleEdit = (category: Category) => {
-    setEditingCategory(category);
-  };
-
-  const cancelEdit = () => {
-    setEditingCategory(null);
-    setName('');
-  }
 
   return (
-    <div>
-      <h1>{editingCategory ? 'Kategori Düzenle' : 'Kategori Yönetimi'}</h1>
-      
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.inputGroup}>
-          <input
-            type="text"
-            placeholder={editingCategory ? 'Kategori Adını Düzenle' : 'Yeni Kategori Adı'}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? (editingCategory ? 'Güncelleniyor...' : 'Ekleniyor...') : (editingCategory ? 'Güncelle' : 'Ekle')}
-          </button>
-          {editingCategory && (
-            <button type="button" onClick={cancelEdit} className={styles.cancelButton}>
-              İptal
-            </button>
-          )}
-        </div>
-        {formError && <p className={styles.formError}>{formError}</p>}
-      </form>
+    <div className={styles.pageWrapper}>
+      <div className={styles.ambientLight1}></div>
+      <div className={styles.ambientLight2}></div>
 
-      <div className={styles.listContainer}>
-        <h2>Mevcut Kategoriler</h2>
-        {error && <p>Kategoriler yüklenemedi.</p>}
-        {!categories && !error && <p>Yükleniyor...</p>}
-        {categories && (
-          <ul className={styles.list}>
-            {categories.map((cat) => (
-              <li key={cat.id} className={styles.listItem}>
-                <span>{cat.name}</span>
-                <div className={styles.buttonGroup}>
-                  <button onClick={() => handleEdit(cat)} className={styles.editButton}>
-                    Düzenle
-                  </button>
-                  <button onClick={() => handleDelete(cat.id)} className={styles.deleteButton}>
-                    Sil
-                  </button>
+      <div className={styles.contentContainer}>
+        <header className={styles.glassHeader}>
+          <div className={styles.headerLeft}>
+            <div className={styles.iconBox}><Layers size={24} /></div>
+            <div>
+              <h1 className={styles.pageTitle}>Kategoriler</h1>
+              <p className={styles.pageSubtitle}>Ürün kategorilerini düzenle/ekle.</p>
+            </div>
+          </div>
+          {/* TOPLAM */}
+          <div className={styles.statBadge}>
+            <Sparkles size={14} style={{color:'#fbbf24'}} />
+            <span>Toplam Kategori: <strong>{categories?.length || 0}</strong></span>
+          </div>
+        </header>
+
+        <div className={styles.splitGrid}>
+          <div className={styles.formCard}>
+            <h3 className={styles.listTitle} style={{marginBottom:'20px'}}>
+              {editingId ? <><Edit2 size={18} /> Düzenle</> : <><Plus size={18} /> Yeni Ekle</>}
+            </h3>
+            <form onSubmit={handleSubmit} className={styles.formContent}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Kategori Adı</label>
+                <input className={styles.glassInput} value={name} onChange={(e) => setName(e.target.value)} placeholder="Örn: T-Shirt" required />
+              </div>
+              <div className={styles.buttonGroup}>
+                {editingId && <button type="button" onClick={() => { setEditingId(null); setName(''); }} className={styles.btnCancel}><X size={18} /> İptal</button>}
+                <button type="submit" className={styles.submitBtn} disabled={isLoading}>
+                  {isLoading ? <Loader2 className={styles.spin} size={18} /> : <Save size={18} />}
+                  {editingId ? 'Güncelle' : 'Kaydet'}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div className={styles.listCard}>
+            <div className={styles.listHeader}>
+              <h3 className={styles.listTitle}>Kategori Listesi</h3>
+            </div>
+            <div className={styles.listContent}>
+              {!categories && <p className={styles.loadingState}>Yükleniyor...</p>}
+              {categories?.map((cat: any) => (
+                <div key={cat.id} className={styles.listItem}>
+                  <div className={styles.itemInfo}><Layers size={16} style={{opacity:0.5}} /> {cat.name}</div>
+                  <div className={styles.itemActions}>
+                    <button onClick={() => handleEdit(cat)} className={styles.actionBtnEdit}>
+                        <Edit2 size={14} /> Düzenle
+                    </button>
+                    <button onClick={() => handleDelete(cat.id)} className={styles.actionBtnDelete}>
+                        <Trash2 size={14} /> Sil
+                    </button>
+                  </div>
                 </div>
-              </li>
-            ))}
-          </ul>
-        )}
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

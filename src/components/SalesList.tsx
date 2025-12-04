@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import useSWR from 'swr';
-import styles from '../styles/Table.module.css'; // Table.module.css kullanılıyor
+import styles from '../styles/Table.module.css'; 
+import { 
+  ShoppingCart, 
+  Filter, 
+  AlertTriangle, 
+  CheckCircle2, 
+  Package, 
+  Loader2, 
+  Sparkles,
+  Tag
+} from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -12,7 +22,7 @@ const SalesList = () => {
   useEffect(() => {
     const today = new Date();
     let start = '';
-    let end = today.toISOString().split('T')[0]; // Bugünün tarihi YYYY-MM-DD
+    let end = today.toISOString().split('T')[0];
 
     switch (selectedFilter) {
       case 'son_3_gun':
@@ -32,8 +42,8 @@ const SalesList = () => {
         break;
       case 'hepsi':
       default:
-        start = ''; // Tüm zamanlar için boş bırak
-        end = ''; // Tüm zamanlar için boş bırak
+        start = '';
+        end = '';
         break;
     }
     setCalculatedStartDate(start);
@@ -45,12 +55,10 @@ const SalesList = () => {
   const sales = data?.sales;
   const totalSalesCount = data?.totalCount;
 
-  // Tarih formatlama fonksiyonu
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
       day: 'numeric',
+      month: 'long',
       hour: '2-digit',
       minute: '2-digit',
     };
@@ -58,68 +66,126 @@ const SalesList = () => {
   };
 
   return (
-    <div>
-      <div className={styles.header}>
-        <h1>Yapılan Satışlar</h1>
-        <div className={styles.flexContainer}> {/* flexContainer sınıfını kullan */}
-          {totalSalesCount !== undefined && (
-            <p>Toplam Satış Sayısı: {totalSalesCount}</p>
-          )}
-          <div className={styles.filterOptions}> {/* Bu div için stil eklenmedi, select'i doğrudan styles.selectFilter ile stylize edeceğiz. */}
-            <label htmlFor="dateFilter" style={{ marginRight: 'var(--spacing-sm)' }}>Filtrele:</label>
+    <div className={styles.pageWrapper}>
+      <div className={styles.ambientLight1} style={{ background: '#10b981' }}></div>
+      <div className={styles.ambientLight2} style={{ background: '#0ea5e9' }}></div>
+
+      <div className={styles.contentContainer}>
+        
+        <header className={styles.glassHeader}>
+          <div className={styles.headerLeft}>
+            <div className={styles.iconBox} style={{ color: '#6ee7b7', borderColor: 'rgba(16, 185, 129, 0.3)', background: 'rgba(16, 185, 129, 0.1)' }}>
+              <ShoppingCart size={28} />
+            </div>
+            <div>
+              <h1 className={styles.pageTitle}>Satış Geçmişi</h1>
+              <p className={styles.pageSubtitle}>Gerçekleşen satışları inceleyin</p>
+            </div>
+          </div>
+          
+          <div className={styles.statBadge}>
+            <Sparkles size={14} className={styles.statIcon} />
+            <span>Toplam: <strong>{totalSalesCount ?? 0}</strong></span>
+          </div>
+        </header>
+
+        <div className={styles.controlsBar}>
+          <div className={styles.filterWrapper}>
+            <Filter size={18} className={styles.filterIcon} />
             <select
               id="dateFilter"
               value={selectedFilter}
               onChange={(e) => setSelectedFilter(e.target.value)}
-              className={styles.selectFilter}
+              className={styles.glassSelect}
             >
-              <option value="hepsi">Hepsi</option>
+              <option value="hepsi">Tüm Zamanlar</option>
               <option value="son_3_gun">Son 3 Gün</option>
               <option value="son_1_hafta">Son 1 Hafta</option>
               <option value="son_1_ay">Son 1 Ay</option>
             </select>
           </div>
         </div>
-      </div>
 
-      {error && <p>Satışlar yüklenirken bir hata oluştu.</p>}
-      {!sales && !error && <p>Yükleniyor...</p>}
+        <div className={styles.glassCard}>
+          {!sales && !error && (
+            <div className={styles.loadingState}>
+              <Loader2 className={styles.spin} size={32} />
+              <p>Yükleniyor...</p>
+            </div>
+          )}
 
-      {sales && (
-        <div className={styles.tableContainer}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Ürün Detayı</th>
-                <th>Adet</th>
-                <th>Defo Durumu</th>
-                <th>Satış Tarihi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sales.map((sale: any) => (
-                <tr key={sale.id}>
-                  <td>
-                    {sale.variant.product.name}
-                    <span style={{ color: 'var(--color-text-secondary)', marginLeft: 'var(--spacing-xs)' }}> {/* CSS değişkeni kullan */}
-                      ({sale.variant.size.name}, {sale.variant.color.name})
-                    </span>
-                  </td>
-                  <td>{sale.quantity}</td>
-                  <td>{sale.variant.is_defective ? 'Evet' : 'Hayır'}</td>
-                  <td>{formatDate(sale.sale_date)}</td>
-                </tr>
+          {error && <div className={styles.errorState}>Hata oluştu.</div>}
 
-              ))}
-               {sales.length === 0 && (
-                <tr>
-                    <td colSpan={4}>Henüz hiç satış yapılmamış.</td> {/* Colspan düzeltildi */}
-                </tr>
-            )}
-            </tbody>
-          </table>
+          {sales && sales.length === 0 && (
+            <div className={styles.emptyState}>
+              <Package size={40} style={{ marginBottom: 10, opacity: 0.5 }} />
+              <p>Bu tarih aralığında satış bulunamadı.</p>
+            </div>
+          )}
+
+          {sales && sales.length > 0 && (
+            <div className={styles.tableResponsive}>
+              {/* BURAYA DİKKAT: salesTable sınıfı eklendi */}
+              <table className={`${styles.glassTable} ${styles.salesTable}`}>
+                <thead>
+                  <tr>
+                    <th>Ürün / Varyant</th>
+                    <th>Adet</th>
+                    <th>Durum</th>
+                    <th>Tarih</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sales.map((sale: any) => (
+                    <tr key={sale.id}>
+                      {/* Ürün Bilgisi */}
+                        <td>
+                          <div className={styles.salesProductInfo}>
+                            <div className={styles.productNameWrapper}>
+                              <Package size={16} className={styles.productNameIcon} />
+                              <span className={styles.salesProductName}>{sale.variant.product.name}</span>
+                            </div>
+                            <div className={styles.variantBadgeWrapper}>
+                              <Tag size={12} style={{ marginRight: 4, opacity: 0.7 }} />
+                              <span className={styles.salesVariantBadge}>
+                                  {sale.variant.size.name} • {sale.variant.color.name}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+
+                      {/* Adet */}
+                      <td>
+                        <span className={styles.salesQuantityBadge}>{sale.quantity} Adet</span>
+                      </td>
+
+                      {/* Durum */}
+                      <td>
+                        {sale.variant.is_defective ? (
+                          <div className={`${styles.statusBadge} ${styles.defective}`}>
+                            <AlertTriangle size={14} /> Defolu
+                          </div>
+                        ) : (
+                          <div className={`${styles.statusBadge} ${styles.normal}`}>
+                            <CheckCircle2 size={14} /> Normal
+                          </div>
+                        )}
+                      </td>
+
+                      {/* Tarih */}
+                      <td>
+                        <div className={styles.dateWrapper}>
+                           {formatDate(sale.sale_date)}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
