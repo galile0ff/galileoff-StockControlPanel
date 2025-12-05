@@ -261,7 +261,7 @@ const ProductList = () => {
                           <div className={styles.productHeader}>
                             <div className={styles.productTitleGroup}>
                               <img 
-                                src={(product.image_url && product.image_url.trim()) ? product.image_url : '/assets/placeholder.svg'}
+                                src={(product.image_url && product.image_url.trim()) ? product.image_url : '/assets/logo.svg'}
                                 alt={product.name} 
                                 className={styles.productThumb} 
                                 style={{ objectFit: (product.image_url && product.image_url.trim()) ? 'cover' : 'contain' }}

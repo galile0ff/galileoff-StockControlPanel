@@ -107,6 +107,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         >
           <Menu size={24} />
         </button>
+        
         <ThemeToggle /> {/* Mobil için tema geçişi */}
       </div>
 
@@ -122,13 +123,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {/* Logo Alanı */}
         <div className={styles.sidebarHeader}>
           <div className={styles.logoWrapper}>
-            <Image src="/assets/logo.svg" alt="Logo" width={40} height={40} className={styles.logoIcon} />
+            <Image src="/assets/logo.svg" alt="Logo" width={60} height={60} className={styles.logoIcon} />
             <span className={styles.logoText}>INCEWEAR</span>
           </div>
-          {/* Mobilde sidebar içinden kapatma butonu */}
-          <button className={styles.closeButton} onClick={toggleSidebar}>
-            <X size={20} />
-          </button>
         </div>
 
         {/* Navigasyon */}

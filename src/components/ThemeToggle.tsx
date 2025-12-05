@@ -8,7 +8,7 @@ const ThemeToggle: React.FC = () => {
 
   return (
     <button onClick={toggleTheme} className={styles.themeToggleButton} aria-label="Toggle theme">
-      {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+      {theme === 'dark' ? <Sun size={28} /> : <Moon size={28} />}
     </button>
   );
 };

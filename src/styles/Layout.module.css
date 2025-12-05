@@ -42,11 +42,11 @@
 
 /* Sidebar Header */
 .sidebarHeader {
-  height: 70px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 10px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -63,7 +63,7 @@
 
 .logoText {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 28px;
   letter-spacing: 1px;
 }
 
