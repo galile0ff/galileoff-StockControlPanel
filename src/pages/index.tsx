@@ -54,7 +54,7 @@ const Dashboard = () => {
         <header className={formStyles.glassHeader}>
           <div className={formStyles.headerLeft}>
             <div className={formStyles.iconBox}>
-              <LayoutDashboard size={24} color="#fff" />
+              <LayoutDashboard size={24} />
             </div>
             <div>
               <h1 className={formStyles.pageTitle}>Yönetim Paneli</h1>

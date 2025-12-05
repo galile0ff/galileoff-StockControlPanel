@@ -91,7 +91,7 @@ const LoginPage = () => {
         </form>
         
         <div className={styles.footer}>
-          <span>© 2025 galileoff.</span>
+          <span>© 2025 🧡galileoff.</span>
         </div>
       </div>
     </div>

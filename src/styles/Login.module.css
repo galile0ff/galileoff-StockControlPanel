@@ -11,6 +11,7 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   color: hsl(220, 20%, 90%);
   padding: 16px;
+
 }
 
 .container * {
@@ -219,7 +220,7 @@
 .footer {
   margin-top: 30px;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   color: hsl(220, 10%, 65%);
 }
 
