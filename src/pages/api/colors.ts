@@ -10,7 +10,6 @@ const supabaseAdmin = createClient(
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
-      // Tüm renkleri getir
       try {
         const { data, error } = await supabaseAdmin
           .from('colors')
@@ -25,7 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
     case 'POST':
-      // Yeni bir renk oluştur
       try {
         const { name, hex_code } = req.body;
         if (!name) {
@@ -34,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const { data, error } = await supabaseAdmin
           .from('colors')
-          .insert([{ name, hex_code }]) // hex_code opsiyonel
+          .insert([{ name, hex_code }])
           .select()
           .single();
 
@@ -46,7 +44,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
     case 'PUT':
-      // Mevcut bir rengi güncelle
       try {
         const { id, name, hex_code } = req.body;
         if (!id || !name) {
@@ -70,7 +67,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
           case 'DELETE':
-            // Bir rengi sil
             try {
               const { id } = req.body;
               if (!id) {
@@ -86,7 +82,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       
               res.status(200).json({ message: 'Renk başarıyla silindi' });
             } catch (error: any) {
-              // Yabancı anahtar kısıtlama ihlali
               if (error.code === '23503') {
                 return res.status(409).json({ 
                   error: 'Bu renk, bir veya daha fazla ürün tarafından kullanıldığı için silinemez.' 

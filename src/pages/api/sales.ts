@@ -9,7 +9,6 @@ const supabaseAdmin = createClient(
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
-      // Tüm satışları listele (varyant ve ürün bilgileriyle birlikte)
       try {
         const { startDate, endDate, page = '1', limit = '10', defectStatus = 'all' } = req.query;
 
@@ -72,7 +71,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
     case 'POST':
-      // Yeni bir satış oluştur (veritabanı fonksiyonunu kullanarak)
       try {
         const { variant_id, quantity } = req.body;
         if (!variant_id || !quantity) {
@@ -82,7 +80,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           return res.status(400).json({ error: 'Miktar sıfırdan büyük olmalıdır' });
         }
 
-        // 'create_sale_and_update_stock' adlı veritabanı fonksiyonunu çağırıyoruz
+        // 'create_sale_and_update_stock' adlı veritabanı fonksiyonunu çağırıyorum
         const { data, error } = await supabaseAdmin.rpc('create_sale_and_update_stock', {
           p_variant_id: variant_id,
           p_quantity: quantity,
@@ -96,7 +94,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
       } catch (error: any) {
-        // Fonksiyondan gelen 'RAISE EXCEPTION' hatalarını yakala
+        // Fonksiyondan gelen 'RAISE EXCEPTION' hatalarını yakalamak için
         if (error.message.includes('Not enough stock')) {
           return res.status(409).json({ error: 'Bu varyant için yeterli stok yok.' });
         }

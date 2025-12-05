@@ -1,4 +1,4 @@
--- Bu şema, bir giyim markası stok yönetimi uygulaması için veritabanı yapısını tanımlar.
+-- Bu şema, bir giyim stok yönetimi uygulaması için veritabanı yapısını tanımlar.
 -- Supabase (PostgreSQL) üzerinde çalışmak üzere tasarlanmıştır.
 
 -- 1. KATEGORİLER TABLOSU
@@ -33,7 +33,7 @@ CREATE TABLE products (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   description TEXT,
-  image_url TEXT, -- Added this line
+  image_url TEXT,
   category_id UUID REFERENCES categories(id) ON DELETE RESTRICT,
   ignore_low_stock BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT now()
@@ -115,11 +115,11 @@ CREATE POLICY "Allow users to view their own profile" ON profiles FOR SELECT USI
 CREATE POLICY "Allow users to update their own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
 CREATE POLICY "Allow admin to manage all profiles" ON profiles FOR ALL USING (auth.role() = 'service_role' OR (SELECT role FROM profiles WHERE id = auth.uid()) = 'admin');
 
--- Not: Ürün resimleri için Supabase Storage'da 'product_images' adında bir bucket oluşturmanız önerilir.
+-- Not: Ürün resimleri için Supabase Storage'da 'product_images' adında bir bucket oluşturmanız gerekmektedir.
 -- Bu işlemi Supabase arayüzündeki 'Storage' bölümünden yapabilirsiniz.
 
 -- SATIŞ İŞLEMİ İÇİN VERİTABANI FONKSİYONU (RPC)
--- Bu fonksiyon, bir satışı kaydederken aynı anda stok düşürme işlemini tek bir atomik işlemde (transaction) birleştirir.
+-- Bu fonksiyon, bir satışı kaydederken aynı anda stok düşürme işlemini tek bir işlemde (transaction) birleştirir.
 -- Bu, veri tutarlılığını garanti altına alır.
 CREATE OR REPLACE FUNCTION create_sale_and_update_stock(
   p_variant_id UUID,
@@ -167,9 +167,9 @@ $$;
 CREATE OR REPLACE FUNCTION get_best_selling_variants(limit_count INTEGER)
 RETURNS TABLE (
   variant_id UUID,
-  product_id UUID, -- Ana ürünün ID'sini ekledik
+  product_id UUID, 
   product_name TEXT,
-  product_image TEXT, -- Ürünün ana resmini ekledik
+  product_image TEXT, 
   size_name TEXT,
   color_name TEXT,
   total_quantity_sold BIGINT
@@ -179,9 +179,9 @@ SECURITY DEFINER SET search_path = public
 AS $$
   SELECT
     pv.id AS variant_id,
-    p.id as product_id, -- Ana ürün ID'sini sorguya ekledik
+    p.id as product_id, 
     p.name AS product_name,
-    p.image_url as product_image, -- Resim alanını sorguya ekledik
+    p.image_url as product_image,
     s.name AS size_name,
     c.name AS color_name,
     SUM(sa.quantity) AS total_quantity_sold
@@ -190,7 +190,7 @@ AS $$
   JOIN products p ON pv.product_id = p.id
   JOIN sizes s ON pv.size_id = s.id
   JOIN colors c ON pv.color_id = c.id
-  GROUP BY pv.id, p.id, p.name, p.image_url, s.name, c.name -- p.id'yi gruplamaya ekledik
+  GROUP BY pv.id, p.id, p.name, p.image_url, s.name, c.name
   ORDER BY total_quantity_sold DESC
   LIMIT limit_count;
 $$;

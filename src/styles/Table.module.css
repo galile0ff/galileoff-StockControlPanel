@@ -79,24 +79,24 @@
   width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed;
   background: transparent;
 }.glassTable th {
-  padding: 16px 24px; /* unifiedRow ile aynı dikey padding */
-  font-size: 13px; /* Daha küçük ve modern */
-  font-weight: 700; /* Daha belirgin */
+  padding: 16px 24px;
+  font-size: 13px;
+  font-weight: 700;
   text-transform: uppercase;
-  color: var(--text-secondary); /* unifiedHeader h3 ile uyumlu */
-  border-bottom: 1px solid var(--border-light); /* unifiedHeader border ile uyumlu */
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-light); 
   white-space: nowrap;
 }
 .glassTable tr { background: transparent; }
 .glassTable td {
-  padding: 16px 24px; /* unifiedRow ile aynı padding */
-  border-bottom: 1px solid var(--border-light); /* unifiedRow border ile uyumlu */
-  color: var(--text-primary); /* unifiedRow rowTitle ile uyumlu */
-  background: transparent; /* Arka plan şeffaf */
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary);
+  background: transparent;
 }
 
 .miniTableRow td {
-  padding: 16px 24px; /* unifiedRow ile aynı padding */
+  padding: 16px 24px;
   border-bottom: 1px solid var(--border-light);
   vertical-align: middle;
   background: transparent;
@@ -114,14 +114,13 @@
 .categoryBadge { font-size: 12px; background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px; color: var(--text-secondary); margin-left: 8px; }
 
 .variantRow td {
-  /* Arka plan tamamen kaldırıldı (şeffaf) */
   background-color: transparent !important;
   background: transparent !important;
   
   /* Kenarlıklar ve boşluklar */
-  padding: 16px 24px; /* unifiedRow ile aynı padding */
-  border-bottom: 1px solid var(--border-light); /* Düz çizgi */
-  color: var(--text-primary); /* unifiedRow rowTitle ile uyumlu */
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary);
   font-size: 14px; 
   vertical-align: middle;
   transition: background-color 0.2s ease;
@@ -146,26 +145,26 @@
 
 .indentCell { 
   width: 50px; text-align: right !important; padding-right: 15px; 
-  color: var(--text-secondary); opacity: 0.5; /* Ok işaretini biraz silik yap */
+  color: var(--text-secondary); opacity: 0.5;
 }
 
 .variantInfo { display: flex; align-items: center; gap: 12px; justify-content: flex-start; }
 
 .sizeBadge { 
-  background: transparent; /* Arka planı kaldır */
-  border: 1px solid var(--border); /* İnce çerçeve */
+  background: transparent;
+  border: 1px solid var(--border); 
   padding: 4px 10px; 
   border-radius: 6px; 
   font-weight: 600; 
   min-width: 36px; 
   text-align: center; 
   color: var(--text-primary);
-  font-family: monospace; /* Daha teknik görünüm */
+  font-family: monospace;
 }
 
 .colorInfo { 
   display: flex; align-items: center; gap: 8px; 
-  background: var(--bg-tertiary); /* Çok hafif arka plan */
+  background: var(--bg-tertiary);
   padding: 4px 10px 4px 6px;
   border-radius: 20px;
   border: 1px solid var(--border-light);
@@ -250,7 +249,7 @@
 
   .variantRow td {
     display: flex; justify-content: space-between; align-items: center;
-    background: transparent !important; border: none; /* Mobilde de transparan */
+    background: transparent !important; border: none; 
     border-bottom: 1px solid var(--border-light);
     padding: 12px 20px; text-align: left;
   }
@@ -261,7 +260,7 @@
   .variantRow td:nth-child(5) { 
     justify-content: center; padding: 16px; background: transparent !important;
     flex-wrap: wrap;
-    border-bottom: 1px solid var(--border-light); /* Ayırıcı çizgi */
+    border-bottom: 1px solid var(--border-light); 
   }
   .variantRow:last-of_type td:last-child { border-bottom: none; border-radius: 0 0 16px 16px; }
 
@@ -326,15 +325,15 @@
   display: flex; align-items: center; gap: 12px;
   background: var(--bg-glass); padding: 10px 16px; border-radius: 12px;
   border: 1px solid var(--border-glass); transition: all .3s ease;
-  color: var(--text-secondary); /* Varsayılan renk, eğer başka bir yerde override edilmezse */
+  color: var(--text-secondary);
 }
 .switchContainer:hover { background: var(--bg-glass-hover); border-color: var(--border-glass-hover); }
-.switchLabel { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; user-select: none; color: var(--text-primary); } /* Light modda daha kontrastlı olması için --text-primary */
+.switchLabel { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; user-select: none; color: var(--text-primary); }
 .switch { position: relative; display: inline-block; width: 54px; height: 32px; flex-shrink: 0; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider {
   position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-  background-color: var(--bg-tertiary); /* Light temada: hsl(210, 15%, 85%) gibi */
+  background-color: var(--bg-tertiary);
   backdrop-filter: var(--backdrop-filter-glass);
   -webkit-backdrop-filter: var(--backdrop-filter-glass); border: 1px solid var(--border-light);
   box-shadow: inset 0 1px 3px var(--shadow-glass-inset); transition: all .4s cubic-bezier(.25,.8,.25,1); border-radius: 32px;
@@ -345,8 +344,8 @@
   border-radius: 50%; box-shadow: var(--shadow-md), inset 0 0 2px var(--shadow-switch-knob-inset);
 }
 .switch input:checked + .slider {
-  background-color: hsla(var(--error-h), var(--error-s), var(--error-l), 0.7); /* Light modda daha belirgin */
-  border-color: hsla(var(--error-h), var(--error-s), calc(var(--error-l) - 10%), 0.8); /* Daha koyu border */
+  background-color: hsla(var(--error-h), var(--error-s), var(--error-l), 0.7);
+  border-color: hsla(var(--error-h), var(--error-s), calc(var(--error-l) - 10%), 0.8);
   box-shadow: 0 0 15px hsla(var(--error-h), var(--error-s), var(--error-l), 0.6), inset 0 1px 1px var(--shadow-glass-inset);
 }
 .switch input:focus-visible + .slider { outline: 2px solid var(--error); outline-offset: 3px; }

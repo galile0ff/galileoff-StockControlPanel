@@ -13,7 +13,6 @@ import {
   Palette, 
   ShoppingCart, 
   Menu, 
-  X, 
   LogOut, 
   User as UserIcon
 } from 'lucide-react';
@@ -98,8 +97,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className={styles.layoutContainer}>
-      
-      {/* Mobil Menü Butonu ve Tema Geçişi */}
       <div className={`${styles.mobileHeaderControls} ${!scrollVisible ? styles.hiddenOnScroll : ''}`}>
         <button 
           className={`${styles.menuButton} ${sidebarOpen ? styles.menuButtonHidden : ''}`} 
@@ -108,16 +105,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <Menu size={24} />
         </button>
         
-        <ThemeToggle /> {/* Mobil için tema geçişi */}
+        <ThemeToggle /> 
       </div>
 
-      {/* Sidebar Overlay */}
       <div 
         className={`${styles.overlay} ${sidebarOpen ? styles.showOverlay : ''}`} 
         onClick={toggleSidebar}
       ></div>
 
-      {/* --- SIDEBAR --- */}
       <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
         
         {/* Logo Alanı */}
@@ -187,7 +182,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </div>
       </aside>
 
-      {/* --- ANA İÇERİK --- */}
       <main className={styles.mainContent}>
         <div className={styles.pageContent}>
           {children}

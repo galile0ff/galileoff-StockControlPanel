@@ -31,13 +31,13 @@
   bottom: 0;
   width: 260px;
   background: var(--bg-sidebar);
-  backdrop-filter: var(--backdrop-filter-glass); /* Glass Efekti */
+  backdrop-filter: var(--backdrop-filter-glass); 
   -webkit-backdrop-filter: var(--backdrop-filter-glass);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   z-index: 50;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Daha smooth animasyon */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Sidebar Header */
@@ -120,7 +120,7 @@
   align-items: center;
   justify-content: space-between;
   background: var(--bg-sidebar);
-  gap: 10px; /* Yeni eklenen ThemeToggle için boşluk */
+  gap: 10px; /* ThemeToggle için boşluk */
 }
 
 .userProfile {
@@ -163,7 +163,7 @@
 .logoutButton {
   background: none;
   border: none;
-  background-color: hsla(0, 70%, 60%, 0.1); /* Error renginden türetilmiş */
+  background-color: hsla(0, 70%, 60%, 0.1);
   color: var(--error);
   cursor: pointer;
   padding: 8px;
@@ -203,11 +203,11 @@
 .menuButtonHidden {
   opacity: 0;
   pointer-events: none;
-  transform: scale(0.8); /* Hafifçe küçülerek kaybolsun */
+  transform: scale(0.8); /* Hafifçe küçülerek kaybolması için */
 }
 
 .closeButton {
-  display: none; /* Desktop'ta gizli */
+  display: none;
   background: none;
   border: none;
   color: var(--text-primary);
@@ -237,7 +237,7 @@
   justify-content: center;
   align-items: center;
   border-top: 1px solid var(--border);
-  margin-top: auto; /* Footer'a doğru iter */
+  margin-top: auto;
 }
 
 /* --- MEDIA QUERIES (Mobil) --- */
@@ -249,21 +249,21 @@
   }
 
   .sidebar {
-    transform: translateX(-100%); /* Başlangıçta gizli */
+    transform: translateX(-100%);
     width: 280px; 
   }
 
   .sidebarOpen {
-    transform: translateX(0); /* Açıkken görünür */
+    transform: translateX(0);
   }
 
   .mainContent {
-    margin-left: 0; /* Sidebar genişliğini kaldır */
+    margin-left: 0;
     width: 100%;
   }
 
   .closeButton {
-    display: block; /* X butonu görünür */
+    display: block;
   }
 
   .overlay {
@@ -277,12 +277,12 @@
   }
 
   .themeToggleDesktop {
-    display: none; /* Mobilde gizle */
+    display: none;
   }
 }
 
 .mobileHeaderControls {
-  display: none; /* Masaüstünde gizli */
+  display: none;
   position: fixed;
   top: 16px;
   left: 16px;
@@ -290,7 +290,7 @@
   z-index: 60;
   justify-content: space-between;
   align-items: center;
-  gap: 10px; /* Tema geçiş butonu ve menü butonu arası boşluk */
+  gap: 10px; /* Tema geçiş butonu ve menü butonu arasındaki boşluk */
 }
 
 @media (max-width: 768px) {
@@ -300,8 +300,8 @@
 
   .hiddenOnScroll {
     opacity: 0;
-    pointer-events: none; /* Etkileşimi kapat */
-    transform: translateY(-20px); /* Hafif yukarı kaydırarak gizle */
+    pointer-events: none;
+    transform: translateY(-20px); 
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
 }

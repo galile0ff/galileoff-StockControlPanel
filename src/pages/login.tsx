@@ -57,7 +57,6 @@ const LoginPage = () => {
               className={styles.input}
               required
             />
-            {/* İkon inputun altında olmalı (CSS ~ seçicisi için) ama görsel olarak solda duracak */}
             <Mail className={styles.icon} size={20} />
           </div>
 
@@ -77,7 +76,7 @@ const LoginPage = () => {
               type="button"
               className={styles.eyeBtn}
               onClick={() => setShowPassword(!showPassword)}
-              tabIndex={-1} // Tab ile butona odaklanmayı engeller (opsiyonel)
+              tabIndex={-1}
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>

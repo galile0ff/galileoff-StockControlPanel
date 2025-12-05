@@ -9,7 +9,6 @@ const supabaseAdmin = createClient(
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'POST':
-      // Yeni bir ürün varyantı ekle
       try {
         const { product_id, size_id, color_id, stock, image_url, is_defective } = req.body;
         if (!product_id || !size_id || !color_id || stock === undefined) {
@@ -23,7 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .single();
 
         if (error) {
-          // '23505' unique constraint violation (aynı ürün, beden, renk kombinasyonu zaten var)
           if (error.code === '23505') {
             return res.status(409).json({ error: 'Bu ürün için aynı beden ve renk kombinasyonuna sahip bir varyant zaten mevcut.' });
           }
@@ -36,7 +34,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
     case 'PUT':
-      // Mevcut bir ürün varyantını güncelle (stok/resim)
       try {
         const { id, stock, image_url, is_defective } = req.body;
         if (!id) {
@@ -65,7 +62,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
     case 'DELETE':
-      // Bir ürün varyantını sil
       try {
         const { id } = req.body;
         if (!id) {

@@ -12,7 +12,6 @@ const supabaseAdmin = createClient(
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
-      // Tüm kategorileri getir
       try {
         const { data, error } = await supabaseAdmin
           .from('categories')
@@ -27,7 +26,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
     case 'POST':
-      // Yeni bir kategori oluştur
       try {
         const { name } = req.body;
         if (!name) {
@@ -38,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .from('categories')
           .insert([{ name }])
           .select()
-          .single(); // Oluşturulan veriyi geri döndür
+          .single();
 
         if (error) throw error;
         res.status(201).json(data);
@@ -48,7 +46,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
     case 'PUT':
-      // Mevcut bir kategoriyi güncelle
       try {
         const { id, name } = req.body;
         if (!id || !name) {
@@ -72,7 +69,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
           case 'DELETE':
-            // Bir kategoriyi sil
             try {
               const { id } = req.body;
               if (!id) {
@@ -88,7 +84,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       
               res.status(200).json({ message: 'Kategori başarıyla silindi' });
             } catch (error: any) {
-              // Foreign key violation (ilişkili veri var)
               if (error.code === '23503') {
                 return res.status(409).json({ 
                   error: 'Bu kategori, bir veya daha fazla ürün tarafından kullanıldığı için silinemez.' 

@@ -16,13 +16,13 @@ CREATE POLICY "Authenticated users can upload product images"
 ON storage.objects FOR INSERT
 WITH CHECK (bucket_id = 'product-images' AND auth.uid() IS NOT NULL);
 
--- 3. Opsiyonel: 'product-images' bucket'ına dosya güncelleme izni veren politika oluştur.
+-- 3. Opsiyonel: 'product-images' bucket'ına dosya güncelleme izni veren politikayı oluşturur.
 CREATE POLICY "Authenticated users can update their own product images"
 ON storage.objects FOR UPDATE
 USING (bucket_id = 'product-images' AND auth.uid() = owner)
 WITH CHECK (bucket_id = 'product-images' AND auth.uid() = owner);
 
--- 4. Opsiyonel: 'product-images' bucket'ından dosya silme izni veren politika oluştur.
+-- 4. Opsiyonel: 'product-images' bucket'ından dosya silme izni veren politikayı oluşturur.
 CREATE POLICY "Authenticated users can delete their own product images"
 ON storage.objects FOR DELETE
 USING (bucket_id = 'product-images' AND auth.uid() = owner);
@@ -30,5 +30,4 @@ USING (bucket_id = 'product-images' AND auth.uid() = owner);
 -- ÖNEMLİ NOT:
 -- Bu politikaları uygulamadan önce, Supabase Dashboard'daki "Storage" bölümünden
 -- "product-images" adında bir bucket oluşturmanız GEREKMEKTEDİR.
--- Bu SQL komutları SADECE oluşturulmuş bir bucket'ın RLS (Row Level Security)
--- ayarlarını yapar, bucket'ı KENDİSİ oluşturmaz.
+-- Bu SQL komutları SADECE oluşturulmuş bir bucket'ın RLS (Row Level Security) ayarlarını yapar, bucket'ı KENDİSİNİ oluşturmaz.

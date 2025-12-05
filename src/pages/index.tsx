@@ -18,7 +18,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const Dashboard = () => {
   const { data, error } = useSWR('/api/dashboard-stats', fetcher);
 
-  // Renkler
+  // Dashboard da Kullanılan Renkler
   const colorPrimary = '#8b5cf6';
   const colorSuccess = '#10b981';
   const colorDanger = '#ef4444';
@@ -63,7 +63,7 @@ const Dashboard = () => {
           </div>
         </header>
 
-        {/* 1. BÖLÜM: KRİTİK LİSTELER (Sadece ilk 5) */}
+        {/* 1. BÖLÜM: ÖNEMLİ LİSTELER (Sadece son 5 gösterilecek şekilde ayarlandı) */}
         <div className={styles.listsGrid}>
           
           {/* --- KRİTİK STOK --- */}
@@ -82,7 +82,7 @@ const Dashboard = () => {
 
             <div className={styles.unifiedList}>
               {data.low_stock_items?.length > 0 ? (
-                // SADECE İLK 5 KAYIT
+                // SADECE SON 5 KAYIT
                 data.low_stock_items.slice(0, 5).map((item: any) => (
                   <div key={item.id} className={styles.unifiedRow}>
                     <div className={styles.rowLeft}>
@@ -129,7 +129,7 @@ const Dashboard = () => {
 
             <div className={styles.unifiedList}>
               {data.best_selling_items?.length > 0 ? (
-                // SADECE İLK 5 KAYIT
+                // SADECE SON 5 KAYIT
                 data.best_selling_items.slice(0, 5).map((item: any) => (
                   <div key={item.variant_id} className={styles.unifiedRow}>
                     <div className={styles.rowLeft}>

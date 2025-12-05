@@ -7,8 +7,7 @@ import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-
-  // Giriş sayfasında Layout'u gösterme
+  
   if (router.pathname === '/login') {
     return (
       <ThemeProvider>

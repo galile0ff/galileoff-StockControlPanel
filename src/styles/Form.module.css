@@ -48,7 +48,6 @@
 }
 
 /* --- KART VE GRID YAPILARI --- */
-
 /* 1. Tekli Kart (Ürün Ekleme/Düzenleme Formları İçin) */
 .glassCard {
   background: var(--bg-glass-card);
@@ -75,9 +74,9 @@
 
 .glassInput, .glassSelect, .glassTextarea {
   width: 100%;
-  background: var(--bg-glass); /* Daha şeffaf bir arka plan */
-  border: 1px solid var(--border-glass); /* Daha şeffaf bir kenarlık */
-  backdrop-filter: var(--backdrop-filter-glass); /* Glass efekti */
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  backdrop-filter: var(--backdrop-filter-glass);
   -webkit-backdrop-filter: var(--backdrop-filter-glass);
   color: var(--text-primary);
   caret-color: var(--text-primary);
@@ -97,12 +96,10 @@
 .glassSelect option { background: var(--bg-primary); color: var(--text-primary); }
 .glassTextarea { resize: vertical; min-height: 100px; line-height: 1.5; }
 
-/* Renk Seçimi (Manuel Hex + Picker) */
 .colorInputGroup { display: flex; gap: 10px; align-items: center; }
 .colorPickerInput { width: 50px; height: 50px; padding: 0; border: none; background: none; cursor: pointer; }
 .colorTextInput { flex: 1; }
 
-/* Autofill Fix */
 .glassInput:-webkit-autofill, .glassInput:-webkit-autofill:hover, .glassInput:-webkit-autofill:focus, .glassInput:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px var(--bg-secondary) inset !important; -webkit-text-fill-color: var(--text-primary) !important;
 }
@@ -143,11 +140,11 @@
   padding: 20px; color: var(--text-primary); font-size: 13px; font-weight: 500; pointer-events: none;
 }
 
-/* --- LİSTE ELEMANLARI (Scrollsuz) --- */
+/* --- LİSTE ELEMANLARI --- */
 .listHeader { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border-light); }
 .listTitle { font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px; }
 
-.listContent { display: flex; flex-direction: column; gap: 10px; /* Scroll yok, sonsuz uzar */ }
+.listContent { display: flex; flex-direction: column; gap: 10px; }
 
 .listItem {
   display: flex; justify-content: space-between; align-items: center;
@@ -163,7 +160,7 @@
 
 /* --- BUTONLAR & FOOTER --- */
 .formFooter { display: flex; justify-content: flex-end; margin-top: 20px; }
-.buttonGroup { display: flex; gap: 10px; margin-top: 20px; } /* Kategori form butonları */
+.buttonGroup { display: flex; gap: 10px; margin-top: 20px; } 
 
 .submitBtn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -181,7 +178,7 @@
 }
 .btnCancel:hover { background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.1); }
 
-/* Liste Aksiyon Butonları (Yazılı) */
+/* Liste Aksiyon Butonları */
 .actionBtnEdit, .actionBtnDelete {
   display: flex; align-items: center; gap: 6px;
   padding: 8px 12px; border-radius: 8px; border: none;
@@ -218,10 +215,10 @@
 }
 
 .closeBtn {
-  background: transparent; /* Arkaplanı şeffaf yap */
+  background: transparent;
   border: 1px solid var(--border-light);
   border-radius: 50%;
-  width: 32px; /* Butonu biraz büyüt */
+  width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
@@ -235,7 +232,7 @@
 }
 
 .closeBtn svg {
-  width: 20px; /* İkon boyutunu ayarla */
+  width: 20px;
   height: 20px;
 }
 
@@ -252,11 +249,9 @@
 
 /* --- MOBİL UYUMLULUK --- */
 @media (max-width: 900px) {
-  /* Liste Gridi Tek Sütun (daha erken kırılsın) */
   .splitGrid { grid-template-columns: 1fr; }
 }
 
-/* Mobil uyumluluk */
 @media (max-width: 768px) {
   .pageWrapper { padding-top: 80px; }
   .contentContainer { width: 92%; }
@@ -286,29 +281,29 @@
   .itemActions {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Butonları yan yana sığdır */
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
   .actionBtnEdit, .actionBtnDelete {
-    justify-content: center; /* Buton içeriğini ortala */
+    justify-content: center;
     padding: 12px;
     font-size: 13px;
   }
 
   .errorBanner {
-    flex-direction: row; /* Hata mesajını yatayda tut */
+    flex-direction: row;
     align-items: center;
     gap: 12px;
     text-align: left;
   }
 
   .closeBtn {
-    align-self: center; /* Ortala */
-    margin-left: auto; /* Sağa yasla */
+    align-self: center;
+    margin-left: auto;
   }
 }
 
-/* --- CUSTOM GLASSMORPHIC SWITCH V3 --- */
+/* --- GLASSMORPHIC ANAHTAR --- */
 .switchContainer {
   display: flex;
   align-items: center;
@@ -317,7 +312,7 @@
   padding: 10px 16px;
   border-radius: 12px;
   border: 1px solid var(--border-glass);
-  transition: all .3s ease; /* Smoother transition for container */
+  transition: all .3s ease;
 }
 
 .switchContainer:hover {
@@ -338,8 +333,8 @@
 .switch {
   position: relative;
   display: inline-block;
-  width: 54px; /* Slightly wider */
-  height: 32px; /* Slightly taller */
+  width: 54px;
+  height: 32px;
   flex-shrink: 0;
 }
 
@@ -362,15 +357,15 @@
   border: 1px solid var(--border-light);
   box-shadow: inset 0 1px 3px var(--shadow-glass-inset);
   transition: all .4s cubic-bezier(.25,.8,.25,1);
-  border-radius: 32px; /* Match height for perfect capsule */
+  border-radius: 32px;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 24px; /* Larger knob */
-  width: 24px; /* Larger knob */
-  left: 3px; /* Adjust position */
+  height: 24px; 
+  width: 24px;
+  left: 3px;
   bottom: 3px;
   background: var(--bg-switch-knob);
   transition: all .4s cubic-bezier(.25,.8,.25,1);
@@ -379,23 +374,23 @@
 }
 
 .switch input:checked + .slider {
-  background-color: var(--accent); /* Ana renk */
+  background-color: var(--accent);
   border-color: var(--accent);
   box-shadow: 0 0 15px hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.6), inset 0 1px 1px var(--shadow-glass-inset);
 }
 
 .switch input:focus-visible + .slider {
   outline: 2px solid var(--accent);
-  outline-offset: 3px; /* Increased offset for better visibility */
+  outline-offset: 3px;
 }
 
 .switch input:checked + .slider:before {
-  transform: translateX(22px); /* Adjusted for new width */
+  transform: translateX(22px); 
   background: var(--bg-switch-knob-checked);
   box-shadow: var(--shadow-md), inset 0 0 2px var(--shadow-switch-knob-inset);
 }
 
-/* Defective/Critical variant switch color */
+/* Defolu/Kritik varyant anahtarı rengi */
 .switch input:checked + .defectiveSlider {
     background-color: var(--error);
     border-color: var(--error);

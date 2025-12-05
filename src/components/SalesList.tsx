@@ -56,7 +56,7 @@ const SalesList = () => {
     }
     setCalculatedStartDate(start);
     setCalculatedEndDate(end);
-    setCurrentPage(1); // Filtre değiştiğinde sayfayı başa al
+    setCurrentPage(1);
   }, [selectedFilter, defectFilter]);
 
   const queryParams = new URLSearchParams({

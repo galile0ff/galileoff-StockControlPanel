@@ -61,7 +61,6 @@ const ProductList = () => {
   const handleCriticalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
     setShowCritical(isChecked);
-    // Sayfayı yeniden yüklemeden URL'yi güncelle
     if (isChecked) {
       router.push('/manage/products?show=critical', undefined, { shallow: true });
     } else {
@@ -128,7 +127,7 @@ const ProductList = () => {
     }
   };
 
-  // --- Filtreleme ---
+  // --- Filtreleme --- //
   const filteredProducts = (products || [])
     .filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())

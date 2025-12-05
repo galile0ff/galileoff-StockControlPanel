@@ -15,7 +15,7 @@ import {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-// Türkçe-İngilizce renk haritası (Genişletilebilir)
+// Türkçe-İngilizce renk haritası
 const turkishToEnglish: { [key: string]: string } = {
   'kırmızı': 'red', 'mavi': 'blue', 'yeşil': 'green', 'sarı': 'yellow',
   'siyah': 'black', 'beyaz': 'white', 'turuncu': 'orange', 'mor': 'purple',
@@ -30,7 +30,7 @@ const ColorForm = () => {
   const { data: colors, error } = useSWR('/api/colors', fetcher);
   
   const [name, setName] = useState('');
-  const [hexCode, setHexCode] = useState(''); // Hex kodu artık sadece arka planda hesaplanıyor
+  const [hexCode, setHexCode] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -41,7 +41,6 @@ const ColorForm = () => {
     const lowerCaseName = name.toLowerCase().trim();
     
     if (lowerCaseName) {
-      // Eğer düzenleme modundaysak ve isim değişmediyse, mevcut hex kodunu koru
       if (editingId && colors) {
          const currentEdit = colors.find((c: any) => c.id === editingId);
          if (currentEdit && currentEdit.name.toLowerCase() === lowerCaseName) {
@@ -50,15 +49,10 @@ const ColorForm = () => {
          }
       }
 
-      // 1. Önce Türkçe sözlükten bak
       let englishName = turkishToEnglish[lowerCaseName];
-      
-      // 2. Türkçe karşılığı yoksa, girilen değeri direkt İngilizce gibi dene
       if (!englishName) {
         englishName = lowerCaseName;
       }
-
-      // 3. colornames kütüphanesi ile Hex kodunu bul
       const code = colornames(englishName);
       
       if (code) {
@@ -94,9 +88,8 @@ const ColorForm = () => {
     setFormError(null);
     setApiError(null);
 
-    // Kaydetmeden önce validasyon
     if (!hexCode) {
-      setFormError('Bu renk adı algılanamadı. Lütfen geçerli bir renk adı giriniz (örn: Kırmızı, Navy, Zümrüt).');
+      setFormError('Bu renk adı algılanamadı. Lütfen geçerli bir renk adı giriniz (örn: Kırmızı, Sarı, Bordo).');
       setIsLoading(false);
       return;
     }
@@ -169,21 +162,16 @@ const ColorForm = () => {
           </div>
         )}
 
-        {/* Ana Grid */}
         <div className={styles.splitGrid}>
-          
-          {/* Sol: Form Kartı */}
           <div className={styles.formCard}>
             <h3 className={styles.listTitle} style={{marginBottom:'20px'}}>
               {editingId ? <><Edit2 size={18} /> Rengi Düzenle</> : <><Plus size={18} /> Yeni Renk Ekle</>}
             </h3>
             
             <form onSubmit={handleSubmit} className={styles.formContent}>
-              
               <div className={styles.formGroup}>
                 <label className={styles.label}>Renk Adı</label>
                 
-                {/* Input Wrapper: İkon ve Input'u kapsar */}
                 <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                     <input
                       type="text"
@@ -212,13 +200,12 @@ const ColorForm = () => {
                                 backgroundColor: hexCode,
                                 border: '2px solid rgba(255,255,255,0.2)',
                                 boxShadow: '0 0 8px rgba(0,0,0,0.5)',
-                                pointerEvents: 'none' // Tıklamayı engelle
+                                pointerEvents: 'none'
                             }}
                         />
                     )}
                 </div>
 
-                {/* Yardımcı Mesaj */}
                 {!hexCode && name.length > 2 && (
                     <span style={{ fontSize: '16px', color: '#fca5a5', marginTop: '4px', display:'block' }}>
                         Bu renk adı kütüphanede bulunamadı.
@@ -248,7 +235,6 @@ const ColorForm = () => {
             </form>
           </div>
 
-          {/* Sağ: Liste Kartı */}
           <div className={styles.listCard}>
             <div className={styles.listHeader}>
               <h3 className={styles.listTitle}>Mevcut Renkler</h3>
@@ -261,7 +247,6 @@ const ColorForm = () => {
               {colors?.map((color: any) => (
                 <div key={color.id} className={styles.listItem}>
                   <div className={styles.itemInfo}>
-                    {/* Liste içindeki renk topu */}
                     <span className={styles.colorDot} style={{ backgroundColor: color.hex_code || '#333' }}></span>
                     {color.name}
                   </div>

@@ -6,7 +6,7 @@ import { Ruler, Edit2, Trash2, Plus, Loader2, Save, X, Sparkles } from 'lucide-r
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const SizeForm = () => {
-  const { data: sizes, error } = useSWR('/api/sizes', fetcher);
+  const { data: sizes } = useSWR('/api/sizes', fetcher);
   const [name, setName] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);

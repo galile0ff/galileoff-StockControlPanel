@@ -14,16 +14,14 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('dark'); // Varsayılan tema 'dark'
+  const [theme, setTheme] = useState<Theme>('dark'); // Varsayılan tema buradan ayarlanıyor.
 
   useEffect(() => {
-    // localStorage'dan tema tercihini yükle
     const storedTheme = localStorage.getItem('theme') as Theme;
     if (storedTheme) {
       setTheme(storedTheme);
       document.body.className = storedTheme + '-theme';
     } else {
-      // Kullanıcının sistem tercihini kontrol et
       const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       const initialTheme: Theme = prefersDarkMode ? 'dark' : 'light';
       setTheme(initialTheme);
@@ -32,7 +30,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // Tema değiştiğinde localStorage'a kaydet ve body sınıfını güncelle
     localStorage.setItem('theme', theme);
     document.body.className = theme + '-theme';
   }, [theme]);

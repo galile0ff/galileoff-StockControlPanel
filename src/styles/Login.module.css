@@ -98,7 +98,7 @@
   width: 100%;
 }
 
-/* --- INPUT AYARLARI (Sorunu Çözen Kısım) --- */
+/* --- INPUT AYARLARI --- */
 .input {
   width: 100%;
   height: 52px;
@@ -111,9 +111,9 @@
   font-size: 15px;
   
   /* KRİTİK AYARLAR: !important ile kesinleştirildi */
-  padding-left: 50px !important; /* İkon için soldan kesin boşluk */
+  padding-left: 50px !important;
   padding-right: 16px !important;
-  text-indent: 0 !important; /* Kaymaları sıfırla */
+  text-indent: 0 !important;
   
   outline: none;
   transition: all 0.2s ease-in-out;
@@ -121,7 +121,6 @@
 
 .input::placeholder {
   color: hsl(220, 10%, 45%);
-  /* text-indent burada SİLİNDİ, çünkü padding-left zaten işi yapıyor */
 }
 
 /* Focus Durumu */
@@ -138,9 +137,9 @@
   top: 50%;
   transform: translateY(-50%);
   color: hsl(220, 10%, 65%);
-  pointer-events: none; /* Tıklamayı engelle, inputa geçsin */
+  pointer-events: none;
   transition: color 0.2s;
-  z-index: 5; /* Inputun üstünde görünsün */
+  z-index: 5;
 }
 
 /* Input focus olunca ikonu parlat */

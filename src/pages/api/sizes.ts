@@ -10,7 +10,6 @@ const supabaseAdmin = createClient(
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
-      // Tüm bedenleri getir
       try {
         const { data, error } = await supabaseAdmin
           .from('sizes')
@@ -25,7 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
     case 'POST':
-      // Yeni bir beden oluştur
       try {
         const { name } = req.body;
         if (!name) {
@@ -46,7 +44,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
     case 'PUT':
-      // Mevcut bir bedeni güncelle
       try {
         const { id, name } = req.body;
         if (!id || !name) {
@@ -70,7 +67,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
           case 'DELETE':
-            // Bir bedeni sil
             try {
               const { id } = req.body;
               if (!id) {
@@ -86,7 +82,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       
               res.status(200).json({ message: 'Beden başarıyla silindi' });
             } catch (error: any) {
-              // Yabancı anahtar kısıtlama ihlali
               if (error.code === '23503') {
                 return res.status(409).json({ 
                   error: 'Bu beden, bir veya daha fazla ürün tarafından kullanıldığı için silinemez.' 

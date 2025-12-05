@@ -1,10 +1,10 @@
 /* --- GENEL GRİDLER --- */
 .listsGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Masaüstü: Yan yana */
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 24px;
-  align-items: start; /* Kartlar içerik kadar uzasın, zorla esnemesin */
+  align-items: start;
 }
 
 .statsGrid {
@@ -46,7 +46,7 @@
 .statIconBox { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
 
 /* ========================================= */
-/* --- UNIFIED GLASS LIST (SCROLL YOK) --- */
+/* --- UNIFIED GLASS LIST --- */
 /* ========================================= */
 
 /* Ana Kart */
@@ -58,7 +58,6 @@
   backdrop-filter: var(--backdrop-filter-glass);
   display: flex;
   flex-direction: column;
-  /* Yükseklik kısıtlamalarını kaldırdık, içeriğe göre uzayacak */
 }
 
 /* Başlık Alanı */
@@ -81,11 +80,10 @@
 }
 .viewAllLink:hover { color: var(--accent); }
 
-/* Liste Alanı - SCROLL KALDIRILDI */
+/* Liste Alanı */
 .unifiedList {
   display: flex;
   flex-direction: column;
-  /* overflow ve height özellikleri silindi */
 }
 
 /* Liste Satırı */

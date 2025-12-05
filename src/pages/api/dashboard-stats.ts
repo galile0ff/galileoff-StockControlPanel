@@ -6,7 +6,7 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 );
 
-// Stoku azalan olarak kabul edilecek eşik değeri
+// Stoku azalan olarak kabul edilecek eşik değer
 const LOW_STOCK_THRESHOLD = 1;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { data: totalStockData, error: totalStockError } = await supabaseAdmin
       .from('product_variants')
       .select('stock')
-      .neq('stock', 0); // Sadece stokta olanları dahil et
+      .neq('stock', 0);
 
     if (totalStockError) throw totalStockError;
     const total_product_stock = totalStockData ? totalStockData.reduce((sum, variant) => sum + variant.stock, 0) : 0;
@@ -86,7 +86,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw lowStockError;
     }
 
-    // En çok satan ürün varyantları
+    // Çok satan ürün varyantları
     const { data: best_selling_items_raw } = await supabaseAdmin
       .rpc('get_best_selling_variants', { limit_count: 5 });
 
@@ -113,7 +113,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
 
-    // --- SON 30 GÜNLÜK SATIŞ VERİSİ (GRAFİK İÇİN) ---
+    // --- SON 30 GÜNLÜK SATIŞ VERİSİ (ÇİZGİ GRAFİĞİ İÇİN) --- //
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     const thirtyDaysAgoISO = thirtyDaysAgo.toISOString();
@@ -128,7 +128,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Günlük satışları özetle
     const salesSummary: { [key: string]: number } = {};
     dailySalesData.forEach(sale => {
-      const saleDate = sale.sale_date.split('T')[0]; // Sadece tarihi al (YYYY-MM-DD)
+      const saleDate = sale.sale_date.split('T')[0];
       salesSummary[saleDate] = (salesSummary[saleDate] || 0) + sale.quantity;
     });
 
@@ -136,7 +136,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const last30DaysSales = [];
     for (let i = 0; i < 30; i++) {
       const d = new Date();
-      d.setDate(d.getDate() - (29 - i)); // 29 gün öncesinden bugüne
+      d.setDate(d.getDate() - (29 - i));
       const formattedDate = d.toISOString().split('T')[0];
       last30DaysSales.push({
         date: formattedDate,

@@ -8,7 +8,7 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 );
 
-// formidable'ın çalışması için Next.js body parser'ını devre dışı bırak
+// !!formidable'ın çalışması için Next.js body parser'ını devre dışı bırak
 export const config = {
   api: {
     bodyParser: false,
@@ -51,7 +51,6 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
           });
           id = JSON.parse(body).id;
         } else {
-          // Gerekirse diğer içerik türleri için geri dönüş yap veya bir hata fırlat
           return res.status(400).json({ error: 'Desteklenmeyen içerik türü' });
         }
 
@@ -70,7 +69,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
 
         if (productData?.image_url) {
             // Resim URL'sinden dosya yolunu çıkar
-            // URL formatının şu şekilde olduğunu varsayıyoruz: https://[proje_ref].supabase.co/storage/v1/object/public/product-images/dosyaadi.uzanti
+            // URL formatının şu şekilde olduğunu varsayıyorum: https://[proje_ref].supabase.co/storage/v1/object/public/product-images/dosyaadi.uzanti
             const fullPathInBucket = productData.image_url.split('/public/product-images/')[1]; // bucket içindeki yol, örn: product_images/1764784111927.jpg
 
             if (fullPathInBucket) {
@@ -85,8 +84,8 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
         }
 
         // Supabase'de 'product_variants' tablosunda 'products' tablosuna
-        // 'ON DELETE CASCADE' ayarı olduğunu varsayıyoruz.
-        // Bu sayede ürün silindiğinde ilişkili tüm varyantlar da otomatik silinir.
+        // 'ON DELETE CASCADE' ayarı olduğunu varsayıyorum.
+        // Bu sayede ürün silindiğinde ilişkili tüm varyantlar da otomatik siliniyo.
         const { error } = await supabaseAdmin
             .from('products')
             .delete()
@@ -118,7 +117,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     const description = Array.isArray(fields.description) ? fields.description[0] : fields.description;
     const category_id = Array.isArray(fields.category_id) ? fields.category_id[0] : fields.category_id;
     const ignore_low_stock_str = Array.isArray(fields.ignore_low_stock) ? fields.ignore_low_stock[0] : fields.ignore_low_stock;
-    const ignore_low_stock = ignore_low_stock_str === 'true'; // String'i boolean'a çevir
+    const ignore_low_stock = ignore_low_stock_str === 'true';
 
     const imageFile = Array.isArray(files.image) ? files.image[0] : files.image;
 
@@ -148,13 +147,13 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
       const fileContent = await fs.readFile(imageFile.filepath);
       const fileExt = imageFile.originalFilename?.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `product_images/${fileName}`; // Görselleri product_images klasörüne kaydet
+      const filePath = `product_images/${fileName}`;
 
       const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
         .from('product-images')
         .upload(filePath, fileContent, {
           contentType: imageFile.mimetype || 'image/jpeg',
-          upsert: true, // Varsa üzerine yaz (dosya adı benzersiz olsa da)
+          upsert: true,
         });
 
       if (uploadError) {
@@ -169,9 +168,10 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
       imageUrl = publicUrlData.publicUrl;
       updateData.image_url = imageUrl;
     }
+    
     // Yeni bir görsel sağlanmazsa, mevcut resim URL'si değiştirilmez.
     // Kullanıcının bir resmi kaldırmasını sağlamak için ayrı bir mekanizma gerekir.
-
+    // Bu mekanizmaya bu projede yer verilmemiştir.
 
     const { data, error } = await supabaseAdmin
       .from('products')
@@ -196,7 +196,6 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
     const { id, show } = req.query;
 
           if (id) {
-            // Belirli bir ürünü ve tüm varyantlarını getir
             const { data: product, error } = await supabaseAdmin
               .from('products')
               .select(`
@@ -229,7 +228,6 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
             return res.status(200).json({ ...product, is_low_stock: isLowStock });
     
           } else {
-            // Tüm ürünlerin listesini getir (varyantları ile birlikte)
             const { data, error } = await supabaseAdmin
               .from('products')
               .select(`
@@ -297,10 +295,10 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       const fileContent = await fs.readFile(imageFile.filepath);
       const fileExt = imageFile.originalFilename?.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `product_images/${fileName}`; // Görselleri product_images klasörüne kaydet
+      const filePath = `product_images/${fileName}`;
 
       const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
-        .from('product-images') // 'product-images' adında bir bucket olduğundan emin olun
+        .from('product-images')
         .upload(filePath, fileContent, {
           contentType: imageFile.mimetype || 'image/jpeg',
           upsert: false,
