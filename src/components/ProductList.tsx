@@ -120,22 +120,47 @@ const ProductList = () => {
 
   // --- Filtreleme --- //
   const filteredProducts = (products || [])
-    .filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .map((product) => {
-      let variants = product.product_variants;
+  .filter(product => {
+    const term = searchTerm.toLowerCase();
+    if (!term) return true;
 
-      if (defectFilter !== 'all') {
-        variants = variants.filter(v => defectFilter === 'defective' ? v.stock_defective > 0 : v.stock_defective === 0);
-      }
+    const nameMatch = product.name.toLowerCase().includes(term);
+    const categoryMatch = product.category && product.category.name.toLowerCase().includes(term);
+    const variantMatch = product.product_variants.some(v => 
+        (v.size && v.size.name.toLowerCase().includes(term)) ||
+        (v.color && v.color.name.toLowerCase().includes(term))
+    );
 
-      if (showCritical) {
-        variants = variants.filter(v => v.stock_sound <= 1);
-      }
+    return nameMatch || categoryMatch || variantMatch;
+  })
+  .map(product => {
+    const newProduct = JSON.parse(JSON.stringify(product));
+    const term = searchTerm.toLowerCase();
 
-      return { ...product, product_variants: variants };
-    });
+    if (term) {
+        const isProductLevelMatch = newProduct.name.toLowerCase().includes(term) ||
+                                    (newProduct.category && newProduct.category.name.toLowerCase().includes(term));
+        
+        if (!isProductLevelMatch) {
+            newProduct.product_variants = newProduct.product_variants.filter((v: ProductVariant) => 
+                (v.size && v.size.name.toLowerCase().includes(term)) ||
+                (v.color && v.color.name.toLowerCase().includes(term))
+            );
+        }
+    }
+    
+    let variants = newProduct.product_variants;
+    if (defectFilter !== 'all') {
+        variants = variants.filter((v: ProductVariant) => defectFilter === 'defective' ? v.stock_defective > 0 : v.stock_defective === 0);
+    }
+    if (showCritical) {
+        variants = variants.filter((v: ProductVariant) => v.stock_sound <= 1);
+    }
+    newProduct.product_variants = variants;
+    
+    return newProduct;
+  })
+  .filter((p: Product) => p.product_variants.length > 0);
 
   return (
     <div className={styles.pageWrapper}>
