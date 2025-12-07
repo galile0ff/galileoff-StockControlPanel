@@ -3,6 +3,8 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { useTheme } from '../context/ThemeContext';
 import styles from '../styles/Analytics.module.css';
+import dashboardStyles from '../styles/Dashboard.module.css';
+import { TrendingDown, AlertTriangle } from 'lucide-react';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -16,74 +18,101 @@ interface AnalyticsProps {
 const Analytics: React.FC<AnalyticsProps> = ({ stats }) => {
   const { theme } = useTheme();
 
+  // Dashboard da Kullanılan Renkler
+  const colorPrimary = '#8b5cf6';
+  const colorDanger = '#ef4444';
+
   const totalReturnsOptions: ApexCharts.ApexOptions = {
     chart: {
       type: 'radialBar',
       sparkline: {
         enabled: true,
       },
+      animations: {
+        enabled: false,
+      },
+      height: 320,
     },
-    plotOptions: {
-      radialBar: {
-        hollow: {
-          size: '75%',
-        },
-        track: {
-          background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-        },
-        dataLabels: {
-          name: {
-            show: false,
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              margin: 5,
+              size: '75%',
+            },
+            track: {
+              background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+              strokeWidth: '67%',
+            },
+            dataLabels: {
+              name: {
+                show: true,
+                fontSize: '16px',
+                color: theme === 'dark' ? '#a0a0a0' : '#888',
+                offsetY: -10,
+              },
+              value: {
+                show: true,
+                fontSize: '24px',
+                fontWeight: 600,
+                color: theme === 'dark' ? '#fff' : '#333',
+                offsetY: 5,
+              },
+            },
           },
-          value: {
-            show: true,
-            fontSize: '24px',
-            fontWeight: 600,
-            color: theme === 'dark' ? '#fff' : '#333',
-            offsetY: 8,
-          },
+        },
+    labels: ['İadeler'],
+    series: [stats.total_returns_quantity || 0],
+    colors: [colorDanger],
+    states: {
+      hover: {
+        filter: {
+          type: 'none',
+        },
+      },
+      active: {
+        filter: {
+          type: 'none',
         },
       },
     },
-    labels: ['İadeler'],
-    series: [stats.total_returns_quantity || 0],
-    colors: ['#ff4560'],
   };
 
   const salesReturnRatioOptions: ApexCharts.ApexOptions = {
     chart: {
       type: 'radialBar',
-    },
-    plotOptions: {
-      radialBar: {
-        startAngle: -135,
-        endAngle: 135,
-        hollow: {
-          margin: 15,
-          size: '70%',
-          background: 'transparent',
-        },
-        track: {
-            background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-            strokeWidth: '67%',
-        },
-        dataLabels: {
-          name: {
-            show: true,
-            fontSize: '16px',
-            color: theme === 'dark' ? '#a0a0a0' : '#888',
-            offsetY: -10,
-          },
-          value: {
-            offsetY: 5,
-            fontSize: '22px',
-            color: theme === 'dark' ? '#fff' : '#111',
-            formatter: (val) => `${parseFloat(val.toString()).toFixed(1)}%`,
-          },
-        },
+      animations: {
+        enabled: false,
       },
+      height: 320,
     },
-    fill: {
+            plotOptions: {
+              radialBar: {
+                startAngle: -135,
+                endAngle: 135,
+                hollow: {
+                  margin: 5,
+                  size: '70%',
+                  background: 'transparent',
+                },
+                track: {
+                    background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                    strokeWidth: '67%',
+                },
+                            dataLabels: {
+                              name: {
+                                show: true,
+                                fontSize: '16px',
+                                color: theme === 'dark' ? '#a0a0a0' : '#888',
+                                offsetY: -10, 
+                              },
+                              value: {
+                                offsetY: 5,
+                                fontSize: '22px',
+                                color: theme === 'dark' ? '#fff' : '#111',
+                                formatter: (val) => `${parseFloat(val.toString()).toFixed(1)}%`,
+                              },
+                            },              },
+            },    fill: {
       type: 'gradient',
       gradient: {
         shade: 'dark',
@@ -101,18 +130,34 @@ const Analytics: React.FC<AnalyticsProps> = ({ stats }) => {
     },
     labels: ['İade Oranı'],
     series: [stats.sales_vs_returns_ratio || 0],
+    states: {
+      hover: {
+        filter: {
+          type: 'none',
+        },
+      },
+      active: {
+        filter: {
+          type: 'none',
+        },
+      },
+    },
   };
 
   return (
-    <div className={styles.analyticsContainer}>
+    <div className={dashboardStyles.listsGrid}>
       <div className={styles.chartCard}>
-        <h3 className={styles.cardTitle}>Toplam İade Edilen Ürün</h3>
+        <div className={dashboardStyles.cardHeader}>
+          <div className={dashboardStyles.headerTitleGroup}>
+            <TrendingDown size={18} color={colorDanger} />
+            <h3>Toplam İade Edilen Ürün</h3>
+          </div>
+        </div>
         <div className={styles.chartWrapper}>
           <Chart
             options={totalReturnsOptions}
             series={totalReturnsOptions.series}
             type="radialBar"
-            height={200}
           />
         </div>
         <p className={styles.chartInfo}>
@@ -121,13 +166,17 @@ const Analytics: React.FC<AnalyticsProps> = ({ stats }) => {
       </div>
       
       <div className={styles.chartCard}>
-        <h3 className={styles.cardTitle}>Satışa Göre İade Oranı</h3>
+        <div className={dashboardStyles.cardHeader}>
+          <div className={dashboardStyles.headerTitleGroup}>
+            <AlertTriangle size={18} color={colorPrimary} />
+            <h3>Satışa Göre İade Oranı</h3>
+          </div>
+        </div>
         <div className={styles.chartWrapper}>
             <Chart
                 options={salesReturnRatioOptions}
                 series={salesReturnRatioOptions.series}
                 type="radialBar"
-                height={280}
             />
         </div>
          <p className={styles.chartInfo}>
