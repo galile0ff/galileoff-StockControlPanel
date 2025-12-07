@@ -212,8 +212,8 @@ const ColorForm = () => {
                     </span>
                 )}
                 {hexCode && (
-                    <span style={{ fontSize: '16px', color: '#94a3b8', marginTop: '2px', display:'block' }}>
-                        Algılanan Kod: <span style={{fontFamily:'monospace', color:'#fff'}}>{hexCode}</span>
+                    <span style={{ fontSize: '16px', color: 'var(--text-secondary)', marginTop: '2px', display:'block' }}>
+                        Algılanan Kod: <span style={{fontFamily:'monospace', color:'var(--text-primary)'}}>{hexCode}</span>
                     </span>
                 )}
               </div>
