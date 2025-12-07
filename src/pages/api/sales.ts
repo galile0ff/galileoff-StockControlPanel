@@ -22,6 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               id,
               quantity,
               sale_date,
+              sale_type,
               variant:product_variants (
                 id,
                 product:products(name),

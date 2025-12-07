@@ -163,6 +163,7 @@ const SalesList = () => {
                     <tr>
                       <th>Ürün / Varyant</th>
                       <th>Adet</th>
+                      <th>Durum</th>
                       <th>Tarih</th>
                     </tr>
                   </thead>
@@ -185,6 +186,17 @@ const SalesList = () => {
                         </td>
                         <td>
                           <span className={tableStyles.salesQuantityBadge}>{sale.quantity} Adet</span>
+                        </td>
+                        <td>
+                          {sale.sale_type === 'defective' ? (
+                            <span className={`${tableStyles.statusBadge} ${tableStyles.defectiveBadge}`}>
+                              Defolu
+                            </span>
+                          ) : (
+                            <span className={`${tableStyles.statusBadge} ${tableStyles.soundBadge}`}>
+                              Sağlam
+                            </span>
+                          )}
                         </td>
                         <td>
                           <div className={tableStyles.dateWrapper}>

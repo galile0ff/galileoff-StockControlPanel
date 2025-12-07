@@ -203,12 +203,14 @@
 .salesTable th { padding: 16px 24px; }
 .salesTable th:nth-child(1) { text-align: left; width: 50%; } 
 .salesTable th:nth-child(2) { text-align: center; } 
-.salesTable th:nth-child(3) { text-align: right; } 
+.salesTable th:nth-child(3) { text-align: center; } 
+.salesTable th:nth-child(4) { text-align: right; } 
 
 .salesTable td { padding: 16px 24px; vertical-align: middle; border-bottom: 1px solid var(--border-light); }
 .salesTable td:nth-child(1) { text-align: left; }
 .salesTable td:nth-child(2) { text-align: center; }
-.salesTable td:nth-child(3) { text-align: right; }
+.salesTable td:nth-child(3) { text-align: center; }
+.salesTable td:nth-child(4) { text-align: right; }
 
 .salesProductInfo { display: flex; flex-direction: column; gap: 8px; }
 .productNameWrapper { display: flex; align-items: center; gap: 10px; }
@@ -223,6 +225,31 @@
   border-radius: 6px; display: inline-block; font-weight: 500;
 }
 .salesQuantityBadge { background: var(--bg-tertiary); padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 14px; color: var(--text-primary); border: 1px solid var(--border-light); }
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  border: 1px solid transparent;
+}
+
+.soundBadge {
+  background-color: hsla(var(--success-h), var(--success-s), var(--success-l), 0.15);
+  color: hsl(var(--success-h), var(--success-s), 35%);
+  border-color: hsla(var(--success-h), var(--success-s), var(--success-l), 0.2);
+}
+
+.defectiveBadge {
+  background-color: hsla(var(--error-h), var(--error-s), var(--error-l), 0.1);
+  color: hsl(var(--error-h), var(--error-s), 50%);
+  border-color: hsla(var(--error-h), var(--error-s), var(--error-l), 0.2);
+}
+
 .dateWrapper { color: var(--text-secondary); font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
 
 @media (max-width: 768px) {
@@ -287,7 +314,8 @@
   .productNameWrapper { gap: 8px; }
 
   .salesTable td:nth-child(2)::before { content: "Adet:"; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
-  .salesTable td:nth-child(3)::before { content: "Tarih:"; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
+  .salesTable td:nth-child(3)::before { content: "Durum:"; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
+  .salesTable td:nth-child(4)::before { content: "Tarih:"; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
   .spacerRow { display: none; }
 
   .miniTableRow {
