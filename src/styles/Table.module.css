@@ -139,8 +139,8 @@
 
 .variantRow td:nth-child(1) { text-align: left; }
 .variantRow td:nth-child(2) { text-align: left; }
-.variantRow td:nth-child(3) { text-align: right; }
-.variantRow td:nth-child(4) { text-align: right; }
+.variantRow td:nth-child(3) { text-align: center; }
+.variantRow td:nth-child(4) { text-align: center; }
 .variantRow td:nth-child(5) { text-align: right; }
 
 .indentCell { 

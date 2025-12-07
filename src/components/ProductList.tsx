@@ -236,8 +236,8 @@ const ProductList = () => {
               <table className={`${styles.glassTable} ${styles.productTable}`}>
                 <thead>
                   <tr>
-                    <th>Ürün Detayı</th>
-                    <th style={{ textAlign: 'center' }}>Varyant</th>
+                    <th style={{ width: '50px', textAlign: 'right' }}></th>
+                    <th>Varyant</th>
                     <th style={{ textAlign: 'center' }}>Sağlam Stok</th>
                     <th style={{ textAlign: 'center' }}>Defolu Stok</th>
                     <th style={{ textAlign: 'right' }}>İşlemler</th>
