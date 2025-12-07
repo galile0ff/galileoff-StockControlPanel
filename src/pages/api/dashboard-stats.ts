@@ -34,21 +34,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (salesAndReturnsError) throw salesAndReturnsError;
     
         const total_sales_quantity = salesAndReturnsData
-    
-            ? salesAndReturnsData.reduce((sum, sale) => sum + sale.quantity, 0)
-    
+            ? salesAndReturnsData
+                .filter(s => s.quantity > 0)
+                .reduce((sum, sale) => sum + sale.quantity, 0)
             : 0;
     
-    
-    
         const total_returns_quantity = salesAndReturnsData
-    
             ? salesAndReturnsData
-    
                 .filter(s => s.quantity < 0)
-    
                 .reduce((sum, sale) => sum + Math.abs(sale.quantity), 0)
-    
             : 0;
 
     // 4. Toplam defolu ürün (adet bazında)
