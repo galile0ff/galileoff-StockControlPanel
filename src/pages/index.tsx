@@ -344,7 +344,7 @@ const Dashboard = () => {
                   options={totalReturnsOptions}
                   series={totalReturnsOptions.series}
                   type="radialBar"
-                  height={340}
+                  height={280}
                 />
               </div>
               <p className={styles.chartInfo}>

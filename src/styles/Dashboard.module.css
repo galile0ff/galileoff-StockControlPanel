@@ -33,7 +33,7 @@
   height: 100%;
 }
 .chartContainer { width: 100%; height: 320px; padding-top: 10px; }
-.cardHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.cardHeader { display: flex; justify-content: space-between; align-items: center; }
 
 /* --- STAT KARTLARI --- */
 .statCard {
