@@ -37,7 +37,7 @@
   display: flex; align-items: center; justify-content: center; color: var(--text-primary);
 }
 .pageTitle { font-size: 20px; font-weight: 700; margin: 0; color: var(--text-primary); }
-.pageSubtitle { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+.pageSubtitle { font-size: 13px; color: var(--text-secondary); margin: 0; }
 
 /* Toplam Sayısı Rozeti */
 .statBadge {

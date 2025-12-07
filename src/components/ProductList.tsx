@@ -163,21 +163,21 @@ const ProductList = () => {
   .filter((p: Product) => p.product_variants.length > 0);
 
   return (
-    <div className={styles.pageWrapper}>
+    <div className={formStyles.pageWrapper}>
       
       {/* Arka Plan */}
-      <div className={styles.ambientLight1} style={{ background: 'radial-gradient(circle, #6366f1 0%, transparent 70%)' }}></div>
-      <div className={styles.ambientLight2} style={{ background: 'radial-gradient(circle, #8b5cf6 0%, transparent 70%)' }}></div>
+      <div className={formStyles.ambientLight1} style={{ background: 'radial-gradient(circle, #6366f1 0%, transparent 70%)' }}></div>
+      <div className={formStyles.ambientLight2} style={{ background: 'radial-gradient(circle, #8b5cf6 0%, transparent 70%)' }}></div>
 
-      <div className={styles.contentContainer}>
-        <header className={styles.glassHeader}>
-          <div className={styles.headerLeft}>
-            <div className={styles.iconBox}>
-              <Package className={styles.headerIcon} size={28} />
+      <div className={formStyles.contentContainer}>
+        <header className={formStyles.glassHeader}>
+          <div className={formStyles.headerLeft}>
+            <div className={formStyles.iconBox}>
+              <Package className={formStyles.headerIcon} size={28} />
             </div>
             <div>
-              <h1 className={styles.pageTitle}>Ürün Listesi</h1>
-              <p className={styles.pageSubtitle}>Tüm ürünleri görüntüleyin ve uygun işlemleri yapın.</p>
+              <h1 className={formStyles.pageTitle}>Ürün Listesi</h1>
+              <p className={formStyles.pageSubtitle}>Tüm ürünleri görüntüleyin ve uygun işlemleri yapın.</p>
             </div>
           </div>
           
@@ -251,7 +251,7 @@ const ProductList = () => {
 
           {products && filteredProducts.length === 0 && (
             <div className={styles.emptyState}>
-              <p>Aradığınız kriterlere uygun ürün bulunamadı.</p>
+              <p>Ürün eklemeyi deneyebilirsin.</p>
             </div>
           )}
 
