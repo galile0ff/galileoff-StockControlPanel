@@ -25,9 +25,9 @@ interface Size { id: string; name: string; }
 interface Color { id: string; name: string; hex_code: string; }
 interface ProductVariant {
   id: string;
-  stock: number;
+  stock_sound: number;
+  stock_defective: number;
   image_url: string | null;
-  is_defective: boolean;
   size: Size;
   color: Color;
 }
@@ -136,11 +136,11 @@ const ProductList = () => {
       let variants = product.product_variants;
 
       if (defectFilter !== 'all') {
-        variants = variants.filter(v => defectFilter === 'defective' ? v.is_defective : !v.is_defective);
+        variants = variants.filter(v => defectFilter === 'defective' ? v.stock_defective > 0 : v.stock_defective === 0);
       }
 
       if (showCritical) {
-        variants = variants.filter(v => v.stock <= 1);
+        variants = variants.filter(v => v.stock_sound <= 1);
       }
 
       return { ...product, product_variants: variants };
@@ -246,8 +246,8 @@ const ProductList = () => {
                   <tr>
                     <th>Ürün Detayı</th>
                     <th style={{ textAlign: 'center' }}>Varyant</th>
-                    <th style={{ textAlign: 'center' }}>Stok</th>
-                    <th style={{ textAlign: 'center' }}>Durum</th>
+                    <th style={{ textAlign: 'center' }}>Sağlam Stok</th>
+                    <th style={{ textAlign: 'center' }}>Defolu Stok</th>
                     <th style={{ textAlign: 'right' }}>İşlemler</th>
                   </tr>
                 </thead>
@@ -308,20 +308,14 @@ const ProductList = () => {
                             </div>
                           </td>
                           <td>
-                            <span className={`${styles.stockBadge} ${variant.stock <= 3 ? styles.stockLow : styles.stockNormal}`}>
-                              {variant.stock} Adet
+                            <span className={`${styles.stockBadge} ${variant.stock_sound <= 3 ? styles.stockLow : styles.stockNormal}`}>
+                              {variant.stock_sound} Adet
                             </span>
                           </td>
                           <td>
-                             {variant.is_defective ? (
-                               <span className={`${styles.statusBadge} ${styles.defective}`}>
-                                 <AlertTriangle size={12} /> Defolu
-                               </span>
-                             ) : (
-                               <span className={`${styles.statusBadge} ${styles.normal}`}>
-                                 <CheckCircle2 size={12} /> Sağlam
-                               </span>
-                             )}
+                             <span className={`${styles.stockBadge} ${styles.defective}`}>
+                               {variant.stock_defective} Adet
+                             </span>
                           </td>
                           <td>
                             <div className={styles.actionsCell}>
@@ -334,7 +328,7 @@ const ProductList = () => {
                               </Link>
                               
                               <button 
-                                onClick={() => handleSold(variant.id, variant.stock)} 
+                                onClick={() => handleSold(variant.id, variant.stock_sound)} 
                                 className={styles.actionBtnSold}
                                 title="Satış Yap"
                               >

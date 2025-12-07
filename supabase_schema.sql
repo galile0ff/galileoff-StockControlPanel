@@ -46,9 +46,9 @@ CREATE TABLE product_variants (
   product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
   size_id UUID REFERENCES sizes(id) ON DELETE RESTRICT,
   color_id UUID REFERENCES colors(id) ON DELETE RESTRICT,
-  stock INTEGER NOT NULL DEFAULT 0,
+  stock_sound INTEGER NOT NULL DEFAULT 0 CHECK (stock_sound >= 0),
+  stock_defective INTEGER NOT NULL DEFAULT 0 CHECK (stock_defective >= 0),
   image_url TEXT, -- Varyanta özel resim
-  is_defective BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT now(),
   UNIQUE(product_id, size_id, color_id) -- Bir ürünün aynı beden ve renkteki varyantı benzersiz olmalıdır.
 );
@@ -105,7 +105,7 @@ CREATE POLICY "Allow admin to manage products" ON products FOR ALL USING (auth.r
 
 -- Ürün Varyantları için politikalar
 CREATE POLICY "Allow public read access to product variants" ON product_variants FOR SELECT USING (true);
-CREATE POLICY "Allow admin to manage product variants" ON product_variants FOR ALL USING (auth.role() = 'service_role' OR (SELECT role FROM profiles WHERE id = auth.uid()) = 'admin');
+CREATE POLICY "Allow admin to manage product variants" on product_variants FOR ALL USING (auth.role() = 'service_role' OR (SELECT role FROM profiles WHERE id = auth.uid()) = 'admin');
 
 -- Satışlar için politikalar (Sadece adminler yönetebilir)
 CREATE POLICY "Allow admin to manage sales" ON sales FOR ALL USING (auth.role() = 'service_role' OR (SELECT role FROM profiles WHERE id = auth.uid()) = 'admin');
@@ -120,45 +120,45 @@ CREATE POLICY "Allow admin to manage all profiles" ON profiles FOR ALL USING (au
 
 -- SATIŞ İŞLEMİ İÇİN VERİTABANI FONKSİYONU (RPC)
 -- Bu fonksiyon, bir satışı kaydederken aynı anda stok düşürme işlemini tek bir işlemde (transaction) birleştirir.
--- Bu, veri tutarlılığını garanti altına alır.
+-- Varsayılan olarak 'sağlam' stoktan düşer.
 CREATE OR REPLACE FUNCTION create_sale_and_update_stock(
   p_variant_id UUID,
   p_quantity INTEGER
 )
-RETURNS INTEGER -- Kalan yeni stoku döndürür
+RETURNS INTEGER -- Kalan yeni sağlam stoğu döndürür
 LANGUAGE plpgsql
 AS $$
 DECLARE
-  current_stock INTEGER;
-  new_stock INTEGER;
+  current_sound_stock INTEGER;
+  new_sound_stock INTEGER;
 BEGIN
-  -- 1. İşlem anındaki stoku al ve satırı kilitle (FOR UPDATE)
-  SELECT stock INTO current_stock
+  -- 1. İşlem anındaki sağlam stoku al ve satırı kilitle (FOR UPDATE)
+  SELECT stock_sound INTO current_sound_stock
   FROM public.product_variants
   WHERE id = p_variant_id
   FOR UPDATE;
 
   -- 2. Yeterli stok olup olmadığını kontrol et
-  IF current_stock IS NULL THEN
+  IF current_sound_stock IS NULL THEN
     RAISE EXCEPTION 'Variant with ID % not found', p_variant_id;
   END IF;
 
-  IF current_stock < p_quantity THEN
-    RAISE EXCEPTION 'Not enough stock for variant %. Available: %, Required: %', p_variant_id, current_stock, p_quantity;
+  IF current_sound_stock < p_quantity THEN
+    RAISE EXCEPTION 'Not enough sound stock for variant %. Available: %, Required: %', p_variant_id, current_sound_stock, p_quantity;
   END IF;
 
-  -- 3. Stoku güncelle
-  new_stock := current_stock - p_quantity;
+  -- 3. Sağlam stoku güncelle
+  new_sound_stock := current_sound_stock - p_quantity;
   UPDATE public.product_variants
-  SET stock = new_stock
+  SET stock_sound = new_sound_stock
   WHERE id = p_variant_id;
 
   -- 4. Satışlar tablosuna kaydı ekle
   INSERT INTO public.sales (variant_id, quantity)
   VALUES (p_variant_id, p_quantity);
 
-  -- 5. Kalan stoku döndür
-  RETURN new_stock;
+  -- 5. Kalan sağlam stoku döndür
+  RETURN new_sound_stock;
 END;
 $$;
 

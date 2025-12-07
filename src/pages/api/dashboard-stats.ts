@@ -20,14 +20,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { count: total_unique_products, error: uniqueProductsError } = await supabaseAdmin.from('products').select('*', { count: 'exact', head: true });
     if (uniqueProductsError) throw uniqueProductsError;
 
-    // 2. Toplam ürün (varyasyonlarla birlikte - tüm varyantların toplam stoğu)
+    // 2. Toplam ürün (sağlam ve defolu stokların toplamı)
     const { data: totalStockData, error: totalStockError } = await supabaseAdmin
       .from('product_variants')
-      .select('stock')
-      .neq('stock', 0);
+      .select('stock_sound, stock_defective');
 
     if (totalStockError) throw totalStockError;
-    const total_product_stock = totalStockData ? totalStockData.reduce((sum, variant) => sum + variant.stock, 0) : 0;
+    const total_product_stock = totalStockData ? totalStockData.reduce((sum, variant) => sum + variant.stock_sound + variant.stock_defective, 0) : 0;
 
     // 3. Toplam satış (adet bazında)
     const { data: totalSalesQuantityData, error: totalSalesQuantityError } = await supabaseAdmin
@@ -40,12 +39,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // 4. Toplam defolu ürün (adet bazında)
     const { data: defectiveStockData, error: defectiveStockError } = await supabaseAdmin
       .from('product_variants')
-      .select('stock')
-      .eq('is_defective', true)
-      .neq('stock', 0);
+      .select('stock_defective')
+      .gt('stock_defective', 0);
 
     if (defectiveStockError) throw defectiveStockError;
-    const total_defective_stock = defectiveStockData ? defectiveStockData.reduce((sum, variant) => sum + variant.stock, 0) : 0;
+    const total_defective_stock = defectiveStockData ? defectiveStockData.reduce((sum, variant) => sum + variant.stock_defective, 0) : 0;
 
     // --- KRİTİK STOK VE ÇOK SATANLAR ---
     const { data: ignoredProducts, error: ignoredProductsError } = await supabaseAdmin
@@ -64,21 +62,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .from('product_variants')
       .select(`
         id,
-        stock,
+        stock_sound,
         product:products(id, name, image_url),
         size:sizes(name),
         color:colors(name)
       `)
-      .lte('stock', LOW_STOCK_THRESHOLD);
+      .lte('stock_sound', LOW_STOCK_THRESHOLD)
+      .gt('stock_sound', 0);
 
     if (ignoredProductIds.length > 0) {
-      for (const productId of ignoredProductIds) {
-        lowStockQuery = lowStockQuery.neq('product_id', productId);
-      }
+      lowStockQuery = lowStockQuery.not('product_id', 'in', `(${ignoredProductIds.join(',')})`);
     }
     
     const { data: low_stock_items, error: lowStockError } = await lowStockQuery
-      .order('stock', { ascending: true })
+      .order('stock_sound', { ascending: true })
       .limit(5);
 
     if (lowStockError) {
@@ -144,11 +141,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
 
+    // Sağlam stok hesaplaması
+    const total_sound_stock = total_product_stock - total_defective_stock;
+
     res.status(200).json({
       total_unique_products,
       total_product_stock,
       total_sales_quantity,
       total_defective_stock,
+      total_sound_stock,
       low_stock_items,
       best_selling_items,
       daily_sales_data: last30DaysSales

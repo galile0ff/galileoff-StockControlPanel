@@ -86,6 +86,8 @@
   --bg-hover: hsl(210, 20%, 95%); /* Hover rengi */
   --bg-glass-card: rgba(255, 255, 255, 0.7); /* Açık tema için glass kart arka planı */
   --bg-glass-stat: rgba(255, 255, 255, 0.5); /* Açık tema için glass stat kart arka planı */
+  --defective-text-color: hsl(210, 10%, 18%);
+  --defective-bg-color: hsla(0, 0%, 0%, 0.1);
 }
 
 /* Dark Tema */
@@ -127,6 +129,8 @@
   --bg-hover: hsl(220, 20%, 15%); /* Hover rengi */
   --bg-glass-card: rgba(20, 20, 25, 0.5); /* Koyu tema için glass kart arka planı, şeffaflık ayarı */
   --bg-glass-stat: rgba(255, 255, 255, 0.04); /* Koyu tema için glass stat kart arka planı, şeffaflık ayarı */
+  --defective-text-color: hsl(200, 80%, 65%);
+  --defective-bg-color: hsla(200, 80%, 65%, 0.15);
 }
 
 /* Temel stilleri sıfırlama ve genel ayarlar */

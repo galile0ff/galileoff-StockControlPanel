@@ -40,9 +40,8 @@ const Dashboard = () => {
   );
 
   // Stok Dağılım Hesabı
-  const nonDefectiveStock = (data.total_product_stock || 0) - (data.total_defective_stock || 0);
   const stockComparisonData = [
-    { name: 'Stok Dağılımı', 'Sağlam': nonDefectiveStock, 'Defolu': data.total_defective_stock || 0 },
+    { name: 'Stok Dağılımı', 'Sağlam': data.total_sound_stock || 0, 'Defolu': data.total_defective_stock || 0 },
   ];
 
   return (
@@ -99,7 +98,7 @@ const Dashboard = () => {
                     </div>
                     <div className={styles.rowRight}>
                       <div className={`${styles.unifiedBadge} ${styles.badgeWarning}`}>
-                        {item.stock}
+                        {item.stock_sound}
                       </div>
                     </div>
                   </div>

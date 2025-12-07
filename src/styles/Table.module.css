@@ -138,7 +138,7 @@
 }
 
 .variantRow td:nth-child(1) { text-align: left; }
-.variantRow td:nth-child(2) { text-align: right; }
+.variantRow td:nth-child(2) { text-align: left; }
 .variantRow td:nth-child(3) { text-align: right; }
 .variantRow td:nth-child(4) { text-align: right; }
 .variantRow td:nth-child(5) { text-align: right; }
@@ -182,7 +182,7 @@
 .stockLow { background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.15); color: var(--error); }
 .statusBadge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 12px; }
 .normal { background: hsla(var(--success-h), var(--success-s), var(--success-l), 0.1); color: var(--success); }
-.defective { background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.15); color: var(--error); }
+.defective { background: var(--defective-bg-color); color: var(--defective-text-color); }
 
 .actionsCell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; position: relative; }
 .actionBtnEdit, .actionBtnSold, .actionBtnDeleteVariant, .actionBtnDelete {
@@ -201,16 +201,14 @@
 
 .salesTable { width: 100%; }
 .salesTable th { padding: 16px 24px; }
-.salesTable th:nth-child(1) { text-align: left; width: 45%; } 
+.salesTable th:nth-child(1) { text-align: left; width: 50%; } 
 .salesTable th:nth-child(2) { text-align: center; } 
-.salesTable th:nth-child(3) { text-align: center; } 
-.salesTable th:nth-child(4) { text-align: right; } 
+.salesTable th:nth-child(3) { text-align: right; } 
 
 .salesTable td { padding: 16px 24px; vertical-align: middle; border-bottom: 1px solid var(--border-light); }
 .salesTable td:nth-child(1) { text-align: left; }
 .salesTable td:nth-child(2) { text-align: center; }
-.salesTable td:nth-child(3) { text-align: center; }
-.salesTable td:nth-child(4) { text-align: right; }
+.salesTable td:nth-child(3) { text-align: right; }
 
 .salesProductInfo { display: flex; flex-direction: column; gap: 8px; }
 .productNameWrapper { display: flex; align-items: center; gap: 10px; }
@@ -254,9 +252,9 @@
     padding: 12px 20px; text-align: left;
   }
   .indentCell { display: none; }
-  .variantRow td:nth-child(3)::before { content: "Stok:"; color: var(--text-secondary); font-size: 13px; margin-right: 8px; }
-  .variantRow td:nth-child(4) { display: flex; }
-  .variantRow td:nth-child(4)::before { content: "Durum:"; color: var(--text-secondary); font-size: 13px; margin-right: 8px; }
+  .variantRow td:nth-child(2)::before { content: "Varyant:"; color: var(--text-secondary); font-size: 13px; margin-right: 8px; }
+  .variantRow td:nth-child(3)::before { content: "Sağlam Stok:"; color: var(--text-secondary); font-size: 13px; margin-right: 8px; }
+  .variantRow td:nth-child(4)::before { content: "Defolu Stok:"; color: var(--text-secondary); font-size: 13px; margin-right: 8px; }
   .variantRow td:nth-child(5) { 
     justify-content: center; padding: 16px; background: transparent !important;
     flex-wrap: wrap;
@@ -289,8 +287,7 @@
   .productNameWrapper { gap: 8px; }
 
   .salesTable td:nth-child(2)::before { content: "Adet:"; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
-  .salesTable td:nth-child(3)::before { content: "Durum:"; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
-  .salesTable td:nth-child(4)::before { content: "Tarih:"; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
+  .salesTable td:nth-child(3)::before { content: "Tarih:"; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
   .spacerRow { display: none; }
 
   .miniTableRow {

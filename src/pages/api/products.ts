@@ -208,9 +208,9 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
                 category:categories(id, name),
                 product_variants (
                   id,
-                  stock,
+                  stock_sound,
+                  stock_defective,
                   image_url,
-                  is_defective,
                   size:sizes(id, name),
                   color:colors(id, name, hex_code)
                 )
@@ -222,7 +222,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
             
             let isLowStock = false;
             if (!product.ignore_low_stock) {
-                isLowStock = product.product_variants.some(variant => variant.stock <= 1);
+                isLowStock = product.product_variants.some(variant => variant.stock_sound <= 1);
             }
             
             return res.status(200).json({ ...product, is_low_stock: isLowStock });
@@ -240,9 +240,9 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
                 category:categories(id, name),
                 product_variants (
                   id,
-                  stock,
+                  stock_sound,
+                  stock_defective,
                   image_url,
-                  is_defective,
                   size:sizes(id, name),
                   color:colors(id, name, hex_code)
                 )
@@ -254,7 +254,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
             let productsWithLowStockStatus = data.map(product => {
                 let isLowStock = false;
                 if (!product.ignore_low_stock) {
-                    isLowStock = product.product_variants.some(variant => variant.stock <= 1);
+                    isLowStock = product.product_variants.some(variant => variant.stock_sound <= 1);
                 }
                 return { ...product, is_low_stock: isLowStock };
             });

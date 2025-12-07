@@ -10,32 +10,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   switch (req.method) {
     case 'GET':
       try {
-        const { startDate, endDate, page = '1', limit = '10', defectStatus = 'all' } = req.query;
+        const { startDate, endDate, page = '1', limit = '10' } = req.query;
 
         const pageNum = parseInt(page as string, 10);
         const limitNum = parseInt(limit as string, 10);
         const offset = (pageNum - 1) * limitNum;
 
-        let query;
-
-        if (defectStatus !== 'all') {
-          query = supabaseAdmin
-            .from('sales')
-            .select(`
-              id,
-              quantity,
-              sale_date,
-              variant:product_variants!inner (
-                id,
-                is_defective,
-                product:products(name),
-                size:sizes(name),
-                color:colors(name)
-              )
-            `, { count: 'exact' })
-            .eq('variant.is_defective', defectStatus === 'defective');
-        } else {
-          query = supabaseAdmin
+        let query = supabaseAdmin
             .from('sales')
             .select(`
               id,
@@ -43,13 +24,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               sale_date,
               variant:product_variants (
                 id,
-                is_defective,
                 product:products(name),
                 size:sizes(name),
                 color:colors(name)
               )
             `, { count: 'exact' });
-        }
 
         if (startDate) {
           query = query.gte('sale_date', `${startDate}T00:00:00Z`);

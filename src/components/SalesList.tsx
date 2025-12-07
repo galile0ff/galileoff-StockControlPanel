@@ -6,8 +6,6 @@ import paginationStyles from '../styles/Pagination.module.css';
 import { 
   ShoppingCart, 
   Filter, 
-  AlertTriangle, 
-  CheckCircle2, 
   Package, 
   Loader2, 
   Sparkles,
@@ -20,7 +18,6 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const SalesList = () => {
   const [selectedFilter, setSelectedFilter] = useState('hepsi');
-  const [defectFilter, setDefectFilter] = useState('all');
   const [calculatedStartDate, setCalculatedStartDate] = useState('');
   const [calculatedEndDate, setCalculatedEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,12 +54,11 @@ const SalesList = () => {
     setCalculatedStartDate(start);
     setCalculatedEndDate(end);
     setCurrentPage(1);
-  }, [selectedFilter, defectFilter]);
+  }, [selectedFilter]);
 
   const queryParams = new URLSearchParams({
     page: currentPage.toString(),
     limit: itemsPerPage.toString(),
-    defectStatus: defectFilter,
   });
   if (calculatedStartDate) queryParams.set('startDate', calculatedStartDate);
   if (calculatedEndDate) queryParams.set('endDate', calculatedEndDate);
@@ -139,19 +135,6 @@ const SalesList = () => {
                 <option value="son_1_ay">Son 1 Ay</option>
               </select>
             </div>
-            <div className={tableStyles.filterWrapper}>
-              <Filter size={18} className={tableStyles.filterIcon} />
-              <select
-                id="defectFilter"
-                value={defectFilter}
-                onChange={(e) => setDefectFilter(e.target.value)}
-                className={tableStyles.glassSelect}
-              >
-                <option value="all">Tüm Durumlar</option>
-                <option value="defective">Sadece Defolular</option>
-                <option value="normal">Sadece Sağlamlar</option>
-              </select>
-            </div>
           </div>
         </div>
 
@@ -180,7 +163,6 @@ const SalesList = () => {
                     <tr>
                       <th>Ürün / Varyant</th>
                       <th>Adet</th>
-                      <th>Durum</th>
                       <th>Tarih</th>
                     </tr>
                   </thead>
@@ -203,17 +185,6 @@ const SalesList = () => {
                         </td>
                         <td>
                           <span className={tableStyles.salesQuantityBadge}>{sale.quantity} Adet</span>
-                        </td>
-                        <td>
-                          {sale.variant?.is_defective ? (
-                            <div className={`${tableStyles.statusBadge} ${tableStyles.defective}`}>
-                              <AlertTriangle size={14} /> Defolu
-                            </div>
-                          ) : (
-                            <div className={`${tableStyles.statusBadge} ${tableStyles.normal}`}>
-                              <CheckCircle2 size={14} /> Normal
-                            </div>
-                          )}
                         </td>
                         <td>
                           <div className={tableStyles.dateWrapper}>
