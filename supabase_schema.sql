@@ -59,6 +59,7 @@ CREATE TABLE sales (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   variant_id UUID NOT NULL REFERENCES product_variants(id) ON DELETE CASCADE,
   quantity INTEGER NOT NULL CHECK (quantity > 0),
+  sale_type TEXT NOT NULL DEFAULT 'sound' CHECK (sale_type IN ('sound', 'defective')),
   sale_date TIMESTAMPTZ DEFAULT now()
 );
 
@@ -120,45 +121,48 @@ CREATE POLICY "Allow admin to manage all profiles" ON profiles FOR ALL USING (au
 
 -- SATIŞ İŞLEMİ İÇİN VERİTABANI FONKSİYONU (RPC)
 -- Bu fonksiyon, bir satışı kaydederken aynı anda stok düşürme işlemini tek bir işlemde (transaction) birleştirir.
--- Varsayılan olarak 'sağlam' stoktan düşer.
+-- 'sound' veya 'defective' türünde satış yapabilir.
 CREATE OR REPLACE FUNCTION create_sale_and_update_stock(
   p_variant_id UUID,
-  p_quantity INTEGER
+  p_quantity INTEGER,
+  p_sale_type TEXT
 )
-RETURNS INTEGER -- Kalan yeni sağlam stoğu döndürür
+RETURNS INTEGER -- Kalan stoğu döndürür
 LANGUAGE plpgsql
 AS $$
 DECLARE
-  current_sound_stock INTEGER;
-  new_sound_stock INTEGER;
+  current_stock INTEGER;
+  new_stock INTEGER;
 BEGIN
-  -- 1. İşlem anındaki sağlam stoku al ve satırı kilitle (FOR UPDATE)
-  SELECT stock_sound INTO current_sound_stock
-  FROM public.product_variants
-  WHERE id = p_variant_id
-  FOR UPDATE;
+  -- Satış türüne göre ilgili stoğu al ve satırı kilitle
+  IF p_sale_type = 'sound' THEN
+    SELECT stock_sound INTO current_stock FROM public.product_variants WHERE id = p_variant_id FOR UPDATE;
+    
+    IF current_stock IS NULL THEN RAISE EXCEPTION 'Variant not found'; END IF;
+    IF current_stock < p_quantity THEN RAISE EXCEPTION 'Not enough sound stock'; END IF;
 
-  -- 2. Yeterli stok olup olmadığını kontrol et
-  IF current_sound_stock IS NULL THEN
-    RAISE EXCEPTION 'Variant with ID % not found', p_variant_id;
+    new_stock := current_stock - p_quantity;
+    UPDATE public.product_variants SET stock_sound = new_stock WHERE id = p_variant_id;
+
+  ELSIF p_sale_type = 'defective' THEN
+    SELECT stock_defective INTO current_stock FROM public.product_variants WHERE id = p_variant_id FOR UPDATE;
+
+    IF current_stock IS NULL THEN RAISE EXCEPTION 'Variant not found'; END IF;
+    IF current_stock < p_quantity THEN RAISE EXCEPTION 'Not enough defective stock'; END IF;
+
+    new_stock := current_stock - p_quantity;
+    UPDATE public.product_variants SET stock_defective = new_stock WHERE id = p_variant_id;
+  
+  ELSE
+    RAISE EXCEPTION 'Invalid sale type: %', p_sale_type;
   END IF;
 
-  IF current_sound_stock < p_quantity THEN
-    RAISE EXCEPTION 'Not enough sound stock for variant %. Available: %, Required: %', p_variant_id, current_sound_stock, p_quantity;
-  END IF;
+  -- Satışlar tablosuna kaydı ekle
+  INSERT INTO public.sales (variant_id, quantity, sale_type)
+  VALUES (p_variant_id, p_quantity, p_sale_type);
 
-  -- 3. Sağlam stoku güncelle
-  new_sound_stock := current_sound_stock - p_quantity;
-  UPDATE public.product_variants
-  SET stock_sound = new_sound_stock
-  WHERE id = p_variant_id;
-
-  -- 4. Satışlar tablosuna kaydı ekle
-  INSERT INTO public.sales (variant_id, quantity)
-  VALUES (p_variant_id, p_quantity);
-
-  -- 5. Kalan sağlam stoku döndür
-  RETURN new_sound_stock;
+  -- Kalan stoğu döndür
+  RETURN new_stock;
 END;
 $$;
 

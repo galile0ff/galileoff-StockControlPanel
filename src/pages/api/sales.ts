@@ -51,18 +51,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     case 'POST':
       try {
-        const { variant_id, quantity } = req.body;
-        if (!variant_id || !quantity) {
-          return res.status(400).json({ error: 'Varyant ID ve miktar zorunludur' });
+        const { variant_id, quantity, sale_type } = req.body;
+        if (!variant_id || !quantity || !sale_type) {
+          return res.status(400).json({ error: 'Varyant ID, miktar ve satış türü zorunludur' });
         }
         if (quantity <= 0) {
           return res.status(400).json({ error: 'Miktar sıfırdan büyük olmalıdır' });
         }
+        if (sale_type !== 'sound' && sale_type !== 'defective') {
+          return res.status(400).json({ error: 'Geçersiz satış türü' });
+        }
 
-        // 'create_sale_and_update_stock' adlı veritabanı fonksiyonunu çağırıyorum
         const { data, error } = await supabaseAdmin.rpc('create_sale_and_update_stock', {
           p_variant_id: variant_id,
           p_quantity: quantity,
+          p_sale_type: sale_type
         });
 
         if (error) throw error;

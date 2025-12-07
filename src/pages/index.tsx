@@ -69,7 +69,7 @@ const Dashboard = () => {
           <div className={styles.unifiedCard}>
             <div className={styles.unifiedHeader}>
               <div className={styles.headerTitleGroup}>
-                <div className={styles.headerIconSm} style={{ background: '#f59e0b' }}>
+                <div className={styles.headerIconSm} style={{ background: '#f50b0b' }}>
                   <TrendingDown size={18} color="#fff" />
                 </div>
                 <h3>Kritik Stok</h3>

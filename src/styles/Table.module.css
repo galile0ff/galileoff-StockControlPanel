@@ -304,19 +304,7 @@
   .miniTableRow td:last-child { text-align: right; }
 }
 
-.stockErrorMessage {
-  order: -1; width: 100%; text-align: center; color: var(--error);
-  background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.1);
-  padding: 8px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 10px; display: block;
-}
 
-@media (min-width: 769px) {
-  .stockErrorMessage {
-    position: absolute; right: calc(100% + 12px); top: 50%; transform: translateY(-50%);
-    width: max-content; white-space: nowrap; padding: 6px 12px; z-index: 10; margin-bottom: 0;
-    box-shadow: var(--shadow-lg); border: 1px solid hsla(var(--error-h), var(--error-s), var(--error-l), 0.2);
-  }
-}
 
 .switchContainer {
   display: flex; align-items: center; gap: 12px;
