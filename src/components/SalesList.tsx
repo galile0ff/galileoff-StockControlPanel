@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import formStyles from '../styles/Form.module.css';
 import tableStyles from '../styles/Table.module.css';
 import paginationStyles from '../styles/Pagination.module.css';
@@ -11,16 +11,22 @@ import {
   Sparkles,
   Tag,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Undo2
 } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const SalesList = () => {
+  const { mutate } = useSWRConfig();
   const [selectedFilter, setSelectedFilter] = useState('hepsi');
   const [calculatedStartDate, setCalculatedStartDate] = useState('');
   const [calculatedEndDate, setCalculatedEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [displayedSales, setDisplayedSales] = useState<any[]>([]);
+  const [totalSales, setTotalSales] = useState(0);
+  const [isReturning, setIsReturning] = useState<number | null>(null);
+
   const itemsPerPage = 10;
   const tableRef = useRef<HTMLDivElement>(null);
 
@@ -64,10 +70,45 @@ const SalesList = () => {
   if (calculatedEndDate) queryParams.set('endDate', calculatedEndDate);
 
   const swrKey = `/api/sales?${queryParams.toString()}`;
-  const { data, error } = useSWR(swrKey, fetcher);
-  const sales = data?.sales;
-  const totalSalesCount = data?.totalCount;
-  const totalPages = totalSalesCount ? Math.ceil(totalSalesCount / itemsPerPage) : 0;
+  const { data, error } = useSWR(swrKey, fetcher, {
+    revalidateOnFocus: false,
+  });
+
+  useEffect(() => {
+    if (data?.sales) {
+      setDisplayedSales(data.sales);
+      setTotalSales(data.totalCount);
+    }
+  }, [data]);
+
+  const totalPages = totalSales ? Math.ceil(totalSales / itemsPerPage) : 0;
+
+  const handleReturn = async (saleId: number, variantId: number, saleType: string) => {
+    setIsReturning(saleId);
+
+    try {
+      const res = await fetch('/api/sales', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ saleId, variantId, saleType }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'İade işlemi başarısız oldu.');
+      }
+
+      setDisplayedSales(prevSales => prevSales.filter(sale => sale.id !== saleId));
+      setTotalSales(prevTotal => prevTotal - 1);
+      mutate(swrKey);
+
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message);
+    } finally {
+      setIsReturning(null);
+    }
+  };
 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -95,6 +136,8 @@ const SalesList = () => {
     handleScrollToTable();
   };
 
+  const isLoading = !data && !error;
+
   return (
     <div className={formStyles.pageWrapper}>
       <div className={tableStyles.ambientLight1} style={{ background: '#10b981' }}></div>
@@ -115,7 +158,7 @@ const SalesList = () => {
           
           <div className={formStyles.statBadge}>
             <Sparkles size={14} className={formStyles.statIcon} />
-            <span>Toplam Satış: <strong>{totalSalesCount ?? 0}</strong></span>
+            <span>Toplam Satış: <strong>{totalSales ?? 0}</strong></span>
           </div>
         </header>
 
@@ -139,23 +182,23 @@ const SalesList = () => {
         </div>
 
         <div className={formStyles.glassCard} ref={tableRef}>
-          {!sales && !error && (
+          {isLoading && (
             <div className={tableStyles.loadingState}>
               <Loader2 className={tableStyles.spin} size={32} />
               <p>Yükleniyor...</p>
             </div>
           )}
 
-          {error && <div className={tableStyles.errorState}>Hata oluştu.</div>}
+          {error && <div className={tableStyles.errorState}>Veriler yüklenirken bir hata oluştu.</div>}
 
-          {sales && sales.length === 0 && (
+          {!isLoading && displayedSales.length === 0 && (
             <div className={tableStyles.emptyState}>
               <Package size={40} style={{ marginBottom: 10, opacity: 0.5 }} />
               <p>Bu tarih aralığında satış bulunamadı.</p>
             </div>
           )}
 
-          {sales && sales.length > 0 && (
+          {!isLoading && displayedSales.length > 0 && (
             <>
               <div className={tableStyles.tableResponsive}>
                 <table className={`${tableStyles.glassTable} ${tableStyles.salesTable}`}>
@@ -165,10 +208,11 @@ const SalesList = () => {
                       <th>Adet</th>
                       <th>Durum</th>
                       <th>Tarih</th>
+                      <th>İşlemler</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {sales.map((sale: any) => (
+                    {displayedSales.map((sale: any) => (
                       <tr key={sale.id}>
                         <td>
                           <div className={tableStyles.salesProductInfo}>
@@ -210,6 +254,22 @@ const SalesList = () => {
                         <td>
                           <div className={tableStyles.dateWrapper}>
                              {formatDate(sale.sale_date)}
+                          </div>
+                        </td>
+                        <td>
+                          <div className={tableStyles.actionsCell} style={{ justifyContent: 'flex-end' }}>
+                            <button 
+                              className={`${tableStyles.actionBtnReturn}`}
+                              onClick={() => handleReturn(sale.id, sale.variant.id, sale.sale_type)}
+                              disabled={isReturning === sale.id}
+                            >
+                              {isReturning === sale.id ? (
+                                <Loader2 size={16} className={tableStyles.spin} />
+                              ) : (
+                                <Undo2 size={16} />
+                              )}
+                              İade Et
+                            </button>
                           </div>
                         </td>
                       </tr>

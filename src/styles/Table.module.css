@@ -185,12 +185,23 @@
 .defective { background: var(--defective-bg-color); color: var(--defective-text-color); }
 
 .actionsCell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; position: relative; }
-.actionBtnEdit, .actionBtnSold, .actionBtnDeleteVariant, .actionBtnDelete {
+.actionBtnEdit, .actionBtnSold, .actionBtnDeleteVariant, .actionBtnDelete, .actionBtnReturn {
   display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s;
 }
 .actionBtnEdit { background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.1); color: var(--accent); }
 .actionBtnSold { background: hsla(var(--success-h), var(--success-s), var(--success-l), 0.1); color: var(--success); }
 .actionBtnDeleteVariant, .actionBtnDelete { background: hsla(var(--error-h), var(--error-s), var(--error-l), 0.1); color: var(--error); }
+
+.actionBtnReturn {
+  background: hsla(210, 100%, 70%, 0.15);
+  color: hsl(210, 100%, 70%);
+  border: 1px solid hsla(210, 100%, 70%, 0.2);
+}
+
+.actionBtnReturn:hover {
+  background: hsla(210, 100%, 70%, 0.25);
+  transform: scale(1.05);
+}
 
 .actionBtnEdit:hover { background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.2); transform: scale(1.05); }
 
