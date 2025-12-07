@@ -10,7 +10,7 @@ import styles from '../styles/Dashboard.module.css';
 import tableStyles from '../styles/Table.module.css';
 import {
   AlertTriangle, ArrowRight, Check, Layers, LayoutDashboard,
-  Loader2, Package, ShoppingCart, TrendingDown, TrendingUp, Zap
+  Loader2, Package, ShoppingCart, SquareDot, SquareDotIcon, TrendingDown, TrendingUp, Zap
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useTheme } from '../context/ThemeContext';
@@ -279,7 +279,8 @@ const Dashboard = () => {
                 ))
               ) : (
                 <div className={tableStyles.emptyState} style={{ padding: '40px', textAlign: 'center' }}>
-                  Henüz satış verisi yok.
+                  <SquareDotIcon size={32} color="#10b981" style={{ marginBottom: 10, display: 'block', margin: '0 auto 10px auto' }} />
+                  <p style={{ textAlign: 'center' }}>Henüz satış verisi yok.</p>
                 </div>
               )}
             </div>
