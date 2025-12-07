@@ -159,8 +159,7 @@ const ProductList = () => {
     newProduct.product_variants = variants;
     
     return newProduct;
-  })
-  .filter((p: Product) => p.product_variants.length > 0);
+  });
 
   return (
     <div className={formStyles.pageWrapper}>
