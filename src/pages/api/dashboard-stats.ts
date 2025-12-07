@@ -30,7 +30,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // 3. Toplam satış ve iade (adet bazında)
     const { data: salesAndReturnsData, error: salesAndReturnsError } = await supabaseAdmin
       .from('sales')
-      .select('quantity');
+      .select('quantity')
+      .eq('has_been_returned', false);
     if (salesAndReturnsError) throw salesAndReturnsError;
     
         const total_sales_quantity = salesAndReturnsData
@@ -100,6 +101,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { data: dailySalesData, error: dailySalesError } = await supabaseAdmin
       .from('sales')
       .select('sale_date, quantity')
+      .eq('has_been_returned', false) // Add this filter
       .gte('sale_date', thirtyDaysAgo.toISOString());
     if (dailySalesError) throw dailySalesError;
 
