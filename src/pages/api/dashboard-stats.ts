@@ -105,10 +105,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const salesSummary: { [key: string]: number } = {};
     dailySalesData.forEach(sale => {
-      if (sale.quantity > 0) {
         const saleDate = sale.sale_date.split('T')[0];
         salesSummary[saleDate] = (salesSummary[saleDate] || 0) + sale.quantity;
-      }
+      // }
     });
 
     const last30DaysSales = Array.from({ length: 30 }, (_, i) => {
