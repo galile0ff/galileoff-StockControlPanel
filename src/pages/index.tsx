@@ -400,6 +400,12 @@ const Dashboard = () => {
                     contentStyle={{ backgroundColor: 'rgba(20, 20, 25, 0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', backdropFilter: 'blur(10px)' }}
                     labelStyle={{ color: '#fff', fontWeight: 600 }}
                     itemStyle={{ color: colorPrimary, fontWeight: 500 }}
+                    formatter={(value: any, name: string) => {
+                      if (name === 'sales') {
+                        return [value, 'Satışlar'];
+                      }
+                      return [value, name];
+                    }}
                   />
                   <Area type="monotone" dataKey="sales" stroke={colorPrimary} fillOpacity={1} fill="url(#colorSales)" strokeWidth={2.5} />
                 </AreaChart>
