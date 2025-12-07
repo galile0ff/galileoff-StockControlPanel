@@ -373,7 +373,12 @@ const ProductList = () => {
                 <h3 className={formStyles.modalTitle}>Satış Yap</h3>
                 <p className={formStyles.modalProductName}>{saleModalInfo.product.name}</p>
                 <div className={formStyles.modalVariantBadge}>
-                  {saleModalInfo.variant.size.name} • {saleModalInfo.variant.color.name}
+                  <span>{saleModalInfo.variant.size.name}</span>
+                  <span style={{opacity: 0.3}}>•</span>
+                  <span style={{display: 'inline-flex', alignItems: 'center', gap: '8px'}}>
+                    <span className={styles.colorDot} style={{ backgroundColor: saleModalInfo.variant.color.hex_code || '#ccc' }}></span>
+                    <span>{saleModalInfo.variant.color.name}</span>
+                  </span>
                 </div>
               </div>
             </div>

@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 id,
                 product:products(name),
                 size:sizes(name),
-                color:colors(name)
+                color:colors(name, hex_code)
               )
             `, { count: 'exact' });
 

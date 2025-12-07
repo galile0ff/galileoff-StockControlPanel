@@ -178,9 +178,18 @@ const SalesList = () => {
                             </div>
                             <div className={tableStyles.variantBadgeWrapper}>
                               <Tag size={16} style={{ marginRight: 6, opacity: 0.7 }} />
-                              <span className={tableStyles.salesVariantBadge}>
-                                  {sale.variant?.size?.name || '-'} • {sale.variant?.color?.name || '-'}
-                              </span>
+                              <div className={tableStyles.salesVariantBadge}>
+                                <span>{sale.variant?.size?.name || '-'}</span>
+                                <span style={{opacity: 0.3}}>•</span>
+                                <span style={{display: 'inline-flex', alignItems: 'center', gap: '6px'}}>
+                                  <span className={tableStyles.colorDot} style={{ 
+                                    backgroundColor: sale.variant?.color?.hex_code || '#ccc',
+                                    width: '12px',
+                                    height: '12px'
+                                  }}></span>
+                                  <span>{sale.variant?.color?.name || '-'}</span>
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </td>
