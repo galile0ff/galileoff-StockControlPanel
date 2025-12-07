@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   switch (req.method) {
     case 'GET':
       try {
-        const { startDate, endDate, page = '1', limit = '10' } = req.query;
+        const { startDate, endDate, page = '1', limit = '10', saleType, returned } = req.query;
 
         const pageNum = parseInt(page as string, 10);
         const limitNum = parseInt(limit as string, 10);
@@ -37,6 +37,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         if (endDate) {
           query = query.lte('sale_date', `${endDate}T23:59:59Z`);
+        }
+
+        if (saleType && saleType !== 'hepsi') {
+          query = query.eq('sale_type', saleType);
+        }
+
+        if (returned && returned !== 'hepsi') {
+          const isReturned = returned === 'returned';
+          query = query.eq('has_been_returned', isReturned);
         }
 
         const { data, error, count } = await query

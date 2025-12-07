@@ -52,7 +52,10 @@
 
 .controlsBar { display: flex; gap: 16px; flex-wrap: wrap; }
 .searchWrapper { position: relative; display: flex; align-items: center; flex: 1; min-width: 250px; }
-.filterWrapper { position: relative; width: 220px; }
+.filterWrapper { 
+  position: relative; 
+  flex: 1;
+}
 .searchIcon { display: none; }
 .filterIcon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none; z-index: 2; }
 
@@ -65,7 +68,11 @@
 .glassSelect { padding-left: 50px; appearance: none; cursor: pointer; background-image: var(--select-arrow-svg); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; }
 .glassSelect option { background: var(--bg-primary); color: var(--text-primary); }
 
-.filtersContainer { display: flex; gap: 16px; width: 100%; }
+.filtersContainer { 
+  display: flex; 
+  gap: 16px; 
+  width: 100%; 
+}
 
 .glassCard {
   background: var(--bg-glass-card);
@@ -287,7 +294,7 @@
   .glassHeader { flex-direction: column; align-items: flex-start; gap: 16px; }
   .headerActions { width: 100%; justify-content: space-between; }
   .controlsBar { flex-direction: column; align-items: stretch; }
-  .filtersContainer { flex-direction: row; }
+  .filtersContainer { flex-direction: row; flex-wrap: wrap; }
   .filterWrapper { flex: 1; width: auto; }
 
   .glassTable, .glassTable tbody, .glassTable tr, .glassTable td { display: block; width: 100%; }

@@ -27,6 +27,8 @@ const SalesList = () => {
   const [displayedSales, setDisplayedSales] = useState<any[]>([]);
   const [totalSales, setTotalSales] = useState(0);
   const [isReturning, setIsReturning] = useState<number | null>(null);
+  const [selectedDefectiveFilter, setSelectedDefectiveFilter] = useState('hepsi');
+  const [selectedReturnedFilter, setSelectedReturnedFilter] = useState('hepsi');
 
   const itemsPerPage = 10;
   const tableRef = useRef<HTMLDivElement>(null);
@@ -61,7 +63,7 @@ const SalesList = () => {
     setCalculatedStartDate(start);
     setCalculatedEndDate(end);
     setCurrentPage(1);
-  }, [selectedFilter]);
+  }, [selectedFilter, selectedDefectiveFilter, selectedReturnedFilter]);
 
   const queryParams = new URLSearchParams({
     page: currentPage.toString(),
@@ -69,6 +71,8 @@ const SalesList = () => {
   });
   if (calculatedStartDate) queryParams.set('startDate', calculatedStartDate);
   if (calculatedEndDate) queryParams.set('endDate', calculatedEndDate);
+  if (selectedDefectiveFilter !== 'hepsi') queryParams.set('saleType', selectedDefectiveFilter);
+  if (selectedReturnedFilter !== 'hepsi') queryParams.set('returned', selectedReturnedFilter);
 
   const swrKey = `/api/sales?${queryParams.toString()}`;
   const { data, error } = useSWR(swrKey, fetcher, {
@@ -177,6 +181,36 @@ const SalesList = () => {
                 <option value="son_3_gun">Son 3 Gün</option>
                 <option value="son_1_hafta">Son 1 Hafta</option>
                 <option value="son_1_ay">Son 1 Ay</option>
+              </select>
+            </div>
+
+            {/* Defolu/Sağlam filtresi */}
+            <div className={tableStyles.filterWrapper}>
+              <Package size={18} className={tableStyles.filterIcon} />
+              <select
+                id="defectiveFilter"
+                value={selectedDefectiveFilter}
+                onChange={(e) => setSelectedDefectiveFilter(e.target.value)}
+                className={tableStyles.glassSelect}
+              >
+                <option value="hepsi">Durum (Hepsi)</option>
+                <option value="defective">Defolu</option>
+                <option value="sound">Sağlam</option>
+              </select>
+            </div>
+
+            {/* İade Edilmiş mi filtresi */}
+            <div className={tableStyles.filterWrapper}>
+              <Undo2 size={18} className={tableStyles.filterIcon} />
+              <select
+                id="returnedFilter"
+                value={selectedReturnedFilter}
+                onChange={(e) => setSelectedReturnedFilter(e.target.value)}
+                className={tableStyles.glassSelect}
+              >
+                <option value="hepsi">İade (Hepsi)</option>
+                <option value="returned">İade Edildi</option>
+                <option value="not_returned">İade Edilmedi</option>
               </select>
             </div>
           </div>
