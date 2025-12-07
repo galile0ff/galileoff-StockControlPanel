@@ -48,10 +48,9 @@ const ProductList = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [defectFilter, setDefectFilter] = useState<'all' | 'defective' | 'non-defective'>('all');
-  const [showCritical, setShowCritical] = useState(router.query.show === 'critical');
   const [isSaleModalOpen, setSaleModalOpen] = useState(false);
-  const [selectedVariantForSale, setSelectedVariantForSale] = useState<ProductVariant | null>(null);
-
+  const [saleModalInfo, setSaleModalInfo] = useState<{ product: Product; variant: ProductVariant } | null>(null);
+  const [showCritical, setShowCritical] = useState(router.query.show === 'critical');
 
   useEffect(() => {
     setShowCritical(router.query.show === 'critical');
@@ -95,8 +94,8 @@ const ProductList = () => {
     }
   };
 
-  const openSaleModal = (variant: ProductVariant) => {
-    setSelectedVariantForSale(variant);
+  const openSaleModal = (product: Product, variant: ProductVariant) => {
+    setSaleModalInfo({ product, variant });
     setSaleModalOpen(true);
   };
 
@@ -110,12 +109,12 @@ const ProductList = () => {
     if (salesRes.ok) {
       mutate(swrKey);
       setSaleModalOpen(false);
-      setSelectedVariantForSale(null);
+      setSaleModalInfo(null);
     } else {
       const salesError = await salesRes.json();
       alert(`Satış sırasında hata oluştu: ${salesError.error || 'Bilinmeyen bir hata oluştu.'}`);
       setSaleModalOpen(false);
-      setSelectedVariantForSale(null);
+      setSaleModalInfo(null);
     }
   };
 
@@ -319,7 +318,7 @@ const ProductList = () => {
                               </Link>
                               
                               <button 
-                                onClick={() => openSaleModal(variant)} 
+                                onClick={() => openSaleModal(product, variant)} 
                                 className={styles.actionBtnSold}
                                 title="Satış Yap"
                                 disabled={variant.stock_sound <= 0 && variant.stock_defective <= 0}
@@ -359,39 +358,60 @@ const ProductList = () => {
         </div>
       </div>
       
-      {isSaleModalOpen && selectedVariantForSale && (
+      {isSaleModalOpen && saleModalInfo && (
         <div className={formStyles.modalOverlay} onClick={() => setSaleModalOpen(false)}>
           <div className={formStyles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <h3 className={formStyles.modalTitle}>Satış Türü Seç</h3>
-            <div className={formStyles.modalStockInfo}>
-              <div className={formStyles.stockItem}>
-                <div className={formStyles.stockLabel}>SAĞLAM</div>
-                <div className={formStyles.stockValue}>{selectedVariantForSale.stock_sound} Adet</div>
+            
+            <div className={formStyles.modalHeader}>
+              <div className={formStyles.modalProductImage}>
+                <img 
+                  src={(saleModalInfo.product.image_url || '/assets/logo.svg')}
+                  alt={saleModalInfo.product.name} 
+                />
               </div>
-              <div className={formStyles.stockItem}>
-                <div className={formStyles.stockLabel}>DEFOLU</div>
-                <div className={formStyles.stockValue}>{selectedVariantForSale.stock_defective} Adet</div>
+              <div className={formStyles.modalProductDetails}>
+                <h3 className={formStyles.modalTitle}>Satış Yap</h3>
+                <p className={formStyles.modalProductName}>{saleModalInfo.product.name}</p>
+                <div className={formStyles.modalVariantBadge}>
+                  {saleModalInfo.variant.size.name} • {saleModalInfo.variant.color.name}
+                </div>
               </div>
             </div>
+
+            <div className={formStyles.modalSectionTitle}>Satılacak Stoğu Seçin</div>
+            
+            <div className={formStyles.modalStockInfo}>
+              <div className={formStyles.stockItem}>
+                <div className={formStyles.stockLabel}>SAĞLAM STOK</div>
+                <div className={formStyles.stockValue}>{saleModalInfo.variant.stock_sound} Adet</div>
+              </div>
+              <div className={formStyles.stockItem}>
+                <div className={formStyles.stockLabel}>DEFOLU STOK</div>
+                <div className={formStyles.stockValue}>{saleModalInfo.variant.stock_defective} Adet</div>
+              </div>
+            </div>
+
             <div className={formStyles.modalActions}>
               <button
-                onClick={() => handleSold(selectedVariantForSale.id, 'sound')}
+                onClick={() => handleSold(saleModalInfo.variant.id, 'sound')}
                 className={`${formStyles.modalButton} ${formStyles.btnSound}`}
-                disabled={selectedVariantForSale.stock_sound <= 0}
+                disabled={saleModalInfo.variant.stock_sound <= 0}
               >
+                <CheckCircle2 size={16}/>
                 Sağlam Sat
               </button>
               <button
-                onClick={() => handleSold(selectedVariantForSale.id, 'defective')}
+                onClick={() => handleSold(saleModalInfo.variant.id, 'defective')}
                 className={`${formStyles.modalButton} ${formStyles.btnDefective}`}
-                disabled={selectedVariantForSale.stock_defective <= 0}
+                disabled={saleModalInfo.variant.stock_defective <= 0}
               >
+                <AlertTriangle size={16}/>
                 Defolu Sat
               </button>
               <button
                 onClick={() => {
                   setSaleModalOpen(false);
-                  setSelectedVariantForSale(null);
+                  setSaleModalInfo(null);
                 }}
                 className={`${formStyles.modalButton} ${formStyles.modalCloseBtn}`}
               >
