@@ -210,7 +210,7 @@ const SalesList = () => {
               >
                 <option value="hepsi">İade (Hepsi)</option>
                 <option value="returned">İade Edildi</option>
-                <option value="not_returned">İade Edilmedi</option>
+                <option value="not_returned">Satış</option>
               </select>
             </div>
           </div>
