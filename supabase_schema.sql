@@ -58,9 +58,10 @@ CREATE TABLE product_variants (
 CREATE TABLE sales (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   variant_id UUID NOT NULL REFERENCES product_variants(id) ON DELETE CASCADE,
-  quantity INTEGER NOT NULL CHECK (quantity > 0),
+  quantity INTEGER NOT NULL CHECK (quantity <> 0),
   sale_type TEXT NOT NULL DEFAULT 'sound' CHECK (sale_type IN ('sound', 'defective')),
-  sale_date TIMESTAMPTZ DEFAULT now()
+  sale_date TIMESTAMPTZ DEFAULT now(),
+  has_been_returned BOOLEAN DEFAULT FALSE
 );
 
 -- 7. KULLANICI PROFİLLERİ TABLOSU
@@ -197,4 +198,57 @@ AS $$
   GROUP BY pv.id, p.id, p.name, p.image_url, s.name, c.name
   ORDER BY total_quantity_sold DESC
   LIMIT limit_count;
+$$;
+
+-- İADE İŞLEMİ İÇİN VERİTABANI FONKSİYONU (RPC)
+-- Bu fonksiyon, bir iade işlemini kaydederken aynı anda stok artırma işlemini tek bir işlemde birleştirir.
+-- Mükerrer iadeleri engellemek için 'has_been_returned' bayrağını kullanır.
+CREATE OR REPLACE FUNCTION create_return_and_update_stock(
+  p_original_sale_id UUID
+)
+RETURNS void
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  original_sale RECORD;
+  return_quantity INTEGER;
+BEGIN
+  -- 1. Orijinal satışı bul ve tekrar iadeye karşı koru
+  SELECT * INTO original_sale
+  FROM public.sales
+  WHERE id = p_original_sale_id
+  FOR UPDATE; -- Satırı işlem boyunca kilitle
+
+  -- Satış bulunamazsa veya zaten bir iade ise (negatif quantity)
+  IF NOT FOUND OR original_sale.quantity < 0 THEN
+    RAISE EXCEPTION 'Return cannot be processed for this record: %', p_original_sale_id;
+  END IF;
+
+  -- Zaten iade edilmişse işlemi durdur
+  IF original_sale.has_been_returned = TRUE THEN
+    RAISE EXCEPTION 'This sale has already been returned.';
+  END IF;
+
+  -- 2. Stoğu güncelle (artır)
+  IF original_sale.sale_type = 'sound' THEN
+    UPDATE public.product_variants
+    SET stock_sound = stock_sound + original_sale.quantity
+    WHERE id = original_sale.variant_id;
+  ELSIF original_sale.sale_type = 'defective' THEN
+     UPDATE public.product_variants
+    SET stock_defective = stock_defective + original_sale.quantity
+    WHERE id = original_sale.variant_id;
+  END IF;
+  
+  -- 3. Orijinal satışı "iade edildi" olarak işaretle
+  UPDATE public.sales
+  SET has_been_returned = TRUE
+  WHERE id = p_original_sale_id;
+
+  -- 4. İade işlemini temsil eden yeni bir (negatif) satış kaydı oluştur
+  return_quantity := -1 * original_sale.quantity;
+  INSERT INTO public.sales (variant_id, quantity, sale_type, has_been_returned)
+  VALUES (original_sale.variant_id, return_quantity, original_sale.sale_type, NULL);
+
+END;
 $$;

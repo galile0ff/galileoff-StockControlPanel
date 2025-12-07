@@ -12,7 +12,8 @@ import {
   Tag,
   ChevronLeft,
   ChevronRight,
-  Undo2
+  Undo2,
+  CheckCircle2
 } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -76,31 +77,31 @@ const SalesList = () => {
 
   useEffect(() => {
     if (data?.sales) {
-      setDisplayedSales(data.sales);
+      const actualSales = data.sales.filter((sale: any) => sale.quantity > 0);
+      setDisplayedSales(actualSales);
       setTotalSales(data.totalCount);
     }
   }, [data]);
 
   const totalPages = totalSales ? Math.ceil(totalSales / itemsPerPage) : 0;
 
-  const handleReturn = async (saleId: number, variantId: number, saleType: string) => {
+  const handleReturn = async (saleId: number) => {
     setIsReturning(saleId);
 
     try {
-      const res = await fetch('/api/sales', {
-        method: 'DELETE',
+      const res = await fetch('/api/returns', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ saleId, variantId, saleType }),
+        body: JSON.stringify({ saleId }),
       });
 
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.error || 'İade işlemi başarısız oldu.');
       }
-
-      setDisplayedSales(prevSales => prevSales.filter(sale => sale.id !== saleId));
-      setTotalSales(prevTotal => prevTotal - 1);
+      
       mutate(swrKey);
+      mutate('/api/dashboard-stats'); 
 
     } catch (err: any) {
       console.error(err);
@@ -258,18 +259,25 @@ const SalesList = () => {
                         </td>
                         <td>
                           <div className={tableStyles.actionsCell} style={{ justifyContent: 'flex-end' }}>
-                            <button 
-                              className={`${tableStyles.actionBtnReturn}`}
-                              onClick={() => handleReturn(sale.id, sale.variant.id, sale.sale_type)}
-                              disabled={isReturning === sale.id}
-                            >
-                              {isReturning === sale.id ? (
-                                <Loader2 size={16} className={tableStyles.spin} />
-                              ) : (
-                                <Undo2 size={16} />
-                              )}
-                              İade Et
-                            </button>
+                            {sale.has_been_returned ? (
+                               <span className={`${tableStyles.statusBadge} ${tableStyles.returnedBadge}`}>
+                                <CheckCircle2 size={14} />
+                                <span>İade</span>
+                              </span>
+                            ) : (
+                              <button 
+                                className={`${tableStyles.actionBtnReturn}`}
+                                onClick={() => handleReturn(sale.id)}
+                                disabled={isReturning === sale.id}
+                              >
+                                {isReturning === sale.id ? (
+                                  <Loader2 size={16} className={tableStyles.spin} />
+                                ) : (
+                                  <Undo2 size={16} />
+                                )}
+                                İade Et
+                              </button>
+                            )}
                           </div>
                         </td>
                       </tr>

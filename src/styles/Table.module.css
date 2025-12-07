@@ -253,10 +253,9 @@
   border: 1px solid transparent;
 }
 
-.soundBadge {
-  background-color: hsla(var(--success-h), var(--success-s), var(--success-l), 0.15);
-  color: hsl(var(--success-h), var(--success-s), 35%);
-  border-color: hsla(var(--success-h), var(--success-s), var(--success-l), 0.2);
+.statusBadge.soundBadge {
+  background-color: hsla(var(--success-h), var(--success-s), var(--success-l), 0.1);
+  color: var(--success);
 }
 
 .defectiveBadge {
@@ -265,7 +264,21 @@
   border-color: hsla(var(--error-h), var(--error-s), var(--error-l), 0.2);
 }
 
-.dateWrapper { color: var(--text-secondary); font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+.statusBadge.returnedBadge {
+  background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.1);
+  border: 1px solid hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.2);
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+}
+
+.dateWrapper {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
 
 @media (max-width: 768px) {
   .pageWrapper { padding-top: 80px; }

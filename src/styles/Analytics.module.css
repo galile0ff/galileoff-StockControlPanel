@@ -1,0 +1,85 @@
+.analyticsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    margin-top: 2rem;
+  }
+  
+  .chartCard {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari desteği için */
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    
+    /* İçerik Düzeni */
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  [data-theme='light'] .chartCard {
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .chartCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+  }
+  
+  .cardTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    opacity: 0.9;
+  }
+  
+  .chartWrapper {
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .chartInfo {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-color-secondary);
+    max-width: 280px;
+  }
+
+  .chartInfo strong {
+    color: var(--text-color);
+    font-weight: 600;
+  }
+  
+  /* Responsive Davranış */
+  @media (max-width: 768px) {
+    .analyticsContainer {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  
+    .chartCard {
+      padding: 1rem;
+    }
+  
+    .cardTitle {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .chartInfo {
+        margin-top: 1rem;
+        font-size: 0.85rem;
+    }
+  }
+  

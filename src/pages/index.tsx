@@ -12,6 +12,7 @@ import {
   AlertTriangle, ArrowRight, Check, Layers, LayoutDashboard,
   Loader2, Package, ShoppingCart, TrendingDown, TrendingUp, Zap
 } from 'lucide-react';
+import Analytics from '../components/Analytics';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -202,7 +203,14 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* 3. BÖLÜM: GRAFİKLER */}
+        {/* 3. BÖLÜM: İADE ANALİZLERİ BÖLÜMÜ */}
+        {data.total_returns_quantity !== undefined && data.sales_vs_returns_ratio !== undefined && (
+          <>
+            <Analytics stats={data} />
+          </>
+        )}
+
+        {/* 4. BÖLÜM: GRAFİKLER */}
         <div className={styles.chartsGrid}>
           <div className={styles.chartCard}>
             <div className={styles.cardHeader}>

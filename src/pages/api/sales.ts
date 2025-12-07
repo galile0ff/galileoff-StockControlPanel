@@ -23,6 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               quantity,
               sale_date,
               sale_type,
+              has_been_returned,
               variant:product_variants (
                 id,
                 product:products(name),
@@ -85,71 +86,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break;
 
-    case 'DELETE':
-      try {
-        const { saleId, variantId, saleType } = req.body;
-
-        if (!saleId || !variantId || !saleType) {
-          return res.status(400).json({ error: 'Satış ID, Varyant ID ve Satış Tipi zorunludur' });
-        }
-
-        if (saleType !== 'sound' && saleType !== 'defective') {
-          return res.status(400).json({ error: 'Geçersiz Satış Tipi' });
-        }
-        
-        // 1. Mevcut stokları al
-        const { data: variant, error: fetchError } = await supabaseAdmin
-          .from('product_variants')
-          .select('stock_sound, stock_defective')
-          .eq('id', variantId)
-          .single();
-
-        if (fetchError || !variant) {
-          console.error('Varyant getirme hatası:', fetchError);
-          return res.status(404).json({ error: 'İade edilecek ürün varyantı bulunamadı.' });
-        }
-
-        // 2. Satış tipine göre doğru stoğu artır
-        const updatePayload = saleType === 'sound'
-          ? { stock_sound: variant.stock_sound + 1 }
-          : { stock_defective: variant.stock_defective + 1 };
-
-        const { error: stockError } = await supabaseAdmin
-          .from('product_variants')
-          .update(updatePayload)
-          .eq('id', variantId);
-        
-        if (stockError) {
-          console.error('Stok artırma hatası:', stockError);
-          throw new Error('Stok güncellenirken bir hata oluştu.');
-        }
-
-        // 3. Satışı sil
-        const { error: deleteError } = await supabaseAdmin
-          .from('sales')
-          .delete()
-          .match({ id: saleId });
-
-        if (deleteError) {
-          console.error('Satış silme hatası:', deleteError);
-          // Hata durumunda, az önce yapılan stok artışını geri al
-          const rollbackPayload = saleType === 'sound'
-            ? { stock_sound: variant.stock_sound }
-            : { stock_defective: variant.stock_defective };
-          await supabaseAdmin.from('product_variants').update(rollbackPayload).eq('id', variantId);
-          
-          throw new Error('Satış kaydı silinirken bir hata oluştu, stok değişikliği geri alındı.');
-        }
-        
-        res.status(200).json({ message: 'İade işlemi başarıyla tamamlandı.' });
-
-      } catch (error: any) {
-        res.status(500).json({ error: error.message });
-      }
-      break;
-
     default:
-      res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
+      res.setHeader('Allow', ['GET', 'POST']);
       res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

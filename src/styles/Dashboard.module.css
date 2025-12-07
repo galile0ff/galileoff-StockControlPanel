@@ -80,10 +80,21 @@
 }
 .viewAllLink:hover { color: var(--accent); }
 
-/* Liste Alanı */
 .unifiedList {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-left: 0.5rem;
+  border-left: 3px solid var(--primary-color);
 }
 
 /* Liste Satırı */
