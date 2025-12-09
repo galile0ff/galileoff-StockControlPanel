@@ -54,7 +54,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         if (error) throw error;
         
-        res.status(200).json({ sales: data, totalCount: count });
+        const { count: nonReturnedTotal } = await supabaseAdmin
+          .from('sales')
+          .select('*', { count: 'exact', head: true })
+          .eq('has_been_returned', false);
+
+        res.status(200).json({ sales: data, totalCount: count, nonReturnedTotal });
       } catch (error: any) {
         res.status(500).json({ error: error.message });
       }

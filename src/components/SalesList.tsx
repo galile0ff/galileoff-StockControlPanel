@@ -26,6 +26,7 @@ const SalesList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [displayedSales, setDisplayedSales] = useState<any[]>([]);
   const [totalSales, setTotalSales] = useState(0);
+  const [paginationTotal, setPaginationTotal] = useState(0);
   const [isReturning, setIsReturning] = useState<number | null>(null);
   const [selectedDefectiveFilter, setSelectedDefectiveFilter] = useState('hepsi');
   const [selectedReturnedFilter, setSelectedReturnedFilter] = useState('hepsi');
@@ -83,11 +84,12 @@ const SalesList = () => {
     if (data?.sales) {
       const actualSales = data.sales.filter((sale: any) => sale.quantity > 0);
       setDisplayedSales(actualSales);
-      setTotalSales(data.totalCount);
+      setTotalSales(data.nonReturnedTotal ?? 0);
+      setPaginationTotal(data.totalCount ?? 0);
     }
   }, [data]);
 
-  const totalPages = totalSales ? Math.ceil(totalSales / itemsPerPage) : 0;
+  const totalPages = paginationTotal ? Math.ceil(paginationTotal / itemsPerPage) : 0;
 
   const handleReturn = async (saleId: number) => {
     setIsReturning(saleId);
