@@ -38,41 +38,49 @@
 ## 🖼️ Proje Galerisi
 <div align="center">
 <details>
-  <summary>Giriş Sayfası & Dashboard</summary>
+  <summary>Giriş Sayfası</summary>
   <br>
   <table>
     <tr>
       <td><img src="public/screenshots/1.png" width="400" /></td>
+    </tr>
+  </table>
+</details>
+<details>
+  <summary>Dashboard</summary>
+  <br>
+  <table>
+    <tr>
       <td><img src="public/screenshots/2.png" width="400" /></td>
-    </tr>
-  </table>
-</details>
-<details>
-  <summary>Ürünler ve Ürün Ekleme</summary>
-  <br>
-  <table>
-    <tr>
       <td><img src="public/screenshots/3.png" width="400" /></td>
-      <td><img src="public/screenshots/4.png" width="400" /></td>
     </tr>
   </table>
 </details>
 <details>
-  <summary>Satışlar ve Raporlar</summary>
+  <summary>Ürünler Sayfası</summary>
   <br>
   <table>
     <tr>
-      <td><img src="public/screenshots/5.png" width="400" /></td>
+      <td><img src="public/screenshots/4.png" width="300" /></td>
+      <td><img src="public/screenshots/7.png" width="300" /></td>
+      <td><img src="public/screenshots/5.png" width="300" /></td>
+    </tr>
+  </table>
+</details>
+<details>
+  <summary>Renk Ekleme</summary>
+  <br>
+  <table>
+    <tr>
       <td><img src="public/screenshots/6.png" width="400" /></td>
     </tr>
   </table>
 </details>
 <details>
-  <summary>Kategoriler ve Tema</summary>
+  <summary>Satışlar Sayfası</summary>
   <br>
   <table>
     <tr>
-      <td><img src="public/screenshots/7.png" width="400" /></td>
       <td><img src="public/screenshots/8.png" width="400" /></td>
     </tr>
   </table>
