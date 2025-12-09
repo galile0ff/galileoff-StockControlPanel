@@ -36,47 +36,16 @@
 ---
 
 ## 🖼️ Proje Galerisi
-
-<div align="center" style="margin-top:20px">
-
-<style>
-  .gallery-section table {
-    margin: 15px auto;
-  }
-  .gallery-section img {
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .gallery-section img:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-  }
-  summary {
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: 600;
-    padding: 8px;
-    border-radius: 8px;
-    background: #f2f2f2;
-    display: inline-block;
-    transition: background 0.2s ease;
-  }
-  summary:hover {
-    background: #e6e6e6;
-  }
-</style>
-
-<div class="gallery-section">
-
+<div align="center">
 <details>
   <summary>Giriş Sayfası</summary>
   <br>
-  <img src="public/screenshots/1.png" width="800" />
+  <table>
+    <tr>
+      <td><img src="public/screenshots/1.png" width="800" /></td>
+    </tr>
+  </table>
 </details>
-
-<br>
-
 <details>
   <summary>Dashboard</summary>
   <br>
@@ -87,9 +56,6 @@
     </tr>
   </table>
 </details>
-
-<br>
-
 <details>
   <summary>Ürünler Sayfası</summary>
   <br>
@@ -101,25 +67,24 @@
     </tr>
   </table>
 </details>
-
-<br>
-
 <details>
   <summary>Renk Ekleme</summary>
   <br>
-  <img src="public/screenshots/6.png" width="800" />
+  <table>
+    <tr>
+      <td><img src="public/screenshots/6.png" width="800" /></td>
+    </tr>
+  </table>
 </details>
-
-<br>
-
 <details>
   <summary>Satışlar Sayfası</summary>
   <br>
-  <img src="public/screenshots/8.png" width="800" />
+  <table>
+    <tr>
+      <td><img src="public/screenshots/8.png" width="800" /></td>
+    </tr>
+  </table>
 </details>
-
-</div>
-
 </div>
 
 ---
