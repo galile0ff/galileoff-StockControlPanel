@@ -21,7 +21,7 @@
 
 ## 📋 İçindekiler
 
-> [!NOTE]
+> [!İçindekiler]
 > - [🖼️ Proje Galerisi](#️-proje-galerisi)
 > - [✨ Temel Özellikler](#-temel-özellikler)
 > - [🏗️ Teknik Mimari](#️-teknik-mimari)
@@ -62,10 +62,10 @@
 Bu proje, modern web geliştirme standartlarına uygun, ölçeklenebilir ve bakımı kolay bir mimari üzerine inşa edilmiştir.
 
 ```
-┌───────────────────┐      ┌─────────────────────────┐      ┌────────────────────────┐
-│   İstemci (Browser) │ ────▶│   Next.js (Web Sunucusu)  │ ────▶│   Supabase (Backend)   │
-│ (React Components)│      │   (API Routes)          │      │    (PostgreSQL DB)   │
-└───────────────────┘      └─────────────────────────┘      └────────────────────────┘
+┌───────────────────┐       ┌─────────────────────────┐      ┌────────────────────────┐
+│ İstemci (Browser) │ ────▶ │ Next.js (Web Sunucusu) │ ────▶│   Supabase (Backend)   │
+│ (React Components)│       │       (API Routes)      │      │    (PostgreSQL DB)     │
+└───────────────────┘       └─────────────────────────┘      └────────────────────────┘
          │                          │                          ▲
          │                          │                          │
          └──────────────────────────▼──────────────────────────┘
@@ -104,7 +104,6 @@ Projenin çalışması için bir Supabase projesine ihtiyacınız var.
 5. **Settings > API** bölümünden `Project URL`, `anon public` Key ve `service_role` Secret Key'i kopyalayın.
 
 ### Adım 3: Ortam Değişkenlerini Oluşturun
-<details>
 <summary>👉 Proje kök dizininde <code>.env.local</code> adında bir dosya oluşturun ve içeriğini buraya tıklayarak kopyalayın.</summary>
 
 ```bash
@@ -116,7 +115,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=[SUPABASE_ANON_KEY'İNİZ]
 # Bu anahtarın dışarı sızdırılmamasına özellikle dikkat edin!
 SUPABASE_SERVICE_ROLE_KEY=[SUPABASE_SERVICE_ROLE_KEY'İNİZ]
 ```
-</details>
 
 ### Adım 4: Bağımlılıkları Yükleyin ve Çalıştırın
 ```bash
