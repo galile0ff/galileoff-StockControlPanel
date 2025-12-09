@@ -47,7 +47,6 @@ interface Product {
 const ProductList = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
-  const [defectFilter, setDefectFilter] = useState<'all' | 'defective' | 'non-defective'>('all');
   const [isSaleModalOpen, setSaleModalOpen] = useState(false);
   const [saleModalInfo, setSaleModalInfo] = useState<{ product: Product; variant: ProductVariant } | null>(null);
   const [showCritical, setShowCritical] = useState(router.query.show === 'critical');
@@ -174,9 +173,6 @@ const ProductList = () => {
     }
     
     let variants = newProduct.product_variants;
-    if (defectFilter !== 'all') {
-        variants = variants.filter((v: ProductVariant) => defectFilter === 'defective' ? v.stock_defective > 0 : v.stock_defective === 0);
-    }
     if (showCritical) {
         variants = variants.filter((v: ProductVariant) => v.stock_sound <= 1);
     }
@@ -231,19 +227,6 @@ const ProductList = () => {
           </div>
 
           <div className={styles.filterGroup}>
-            <div className={styles.filterWrapper}>
-              <Filter size={18} className={styles.filterIcon} />
-              <select
-                value={defectFilter}
-                onChange={(e) => setDefectFilter(e.target.value as any)}
-                className={styles.glassSelect}
-              >
-                <option value="all">Tüm Durumlar</option>
-                <option value="defective">Sadece Defolular</option>
-                <option value="non-defective">Sadece Sağlamlar</option>
-              </select>
-            </div>
-
             <div className={styles.switchContainer}>
               <span className={styles.switchLabel}>
                   <AlertTriangle size={14} />
