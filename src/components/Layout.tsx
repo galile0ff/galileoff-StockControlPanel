@@ -119,7 +119,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className={styles.sidebarHeader}>
           <div className={styles.logoWrapper}>
             <Image src="/assets/logo.svg" alt="Logo" width={60} height={60} className={styles.logoIcon} />
-            <span className={styles.logoText}>galileoff.</span>
+            <span className={styles.logoText}>INCEWEAR</span>
           </div>
         </div>
 

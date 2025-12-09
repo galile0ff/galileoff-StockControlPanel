@@ -41,7 +41,7 @@ const LoginPage = () => {
       <div className={styles.glassCard}>
         <div className={styles.header}>
           <Image src="/assets/logo.svg" alt="Logo" width={160} height={160} className={styles.logoIcon} />
-          <h1 className={styles.title}>galileoff.</h1>
+          <h1 className={styles.title}>INCEWEAR</h1>
           <p className={styles.subtitle}>Yönetim Paneli</p>
         </div>
 
