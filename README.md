@@ -132,9 +132,7 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 
 ```
 /
-├── .github/
-│   └── workflows/
-│       └── ci.yml              # Sürekli Entegrasyon (CI) otomasyonu
+
 ├── .gitignore
 ├── middleware.ts               # Next.js middleware (örn: kimlik doğrulama yönlendirmeleri)
 ├── next-env.d.ts               # Next.js için TypeScript tip tanımlamaları
@@ -145,7 +143,7 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 ├── tsconfig.json               # TypeScript derleyici ayarları
 ├── public/
 │   └── assets/
-│       └── logo.svg            # Proje logosu
+│       └── logo.svg            # Site logosu
 └── src/
     ├── components/             # Tekrar kullanılabilir React bileşenleri (Formlar, Listeler vb.)
     │   ├── CategoryForm.tsx
@@ -196,8 +194,6 @@ Yeni bir ürün ve varyantları oluşturur.
 {
   "name": "Yeni Sezon T-Shirt",
   "code": "TSH-001",
-  "purchasePrice": 150.00,
-  "salePrice": 299.90,
   "categoryId": "c5a6b7d8-e9f0-1234-5678-9abcdef01234",
   "variants": [
     { "sizeId": "s1...", "colorId": "c1...", "stock": 10, "isDefective": 0 },
@@ -212,7 +208,6 @@ Mevcut bir ürünün bilgilerini veya varyantlarını günceller.
 {
   "productId": "p1...",
   "name": "Güncellenmiş T-Shirt Adı",
-  "salePrice": 329.90,
   "variantsToAdd": [
     { "sizeId": "s3...", "colorId": "c2...", "stock": 20, "isDefective": 0 }
   ],
