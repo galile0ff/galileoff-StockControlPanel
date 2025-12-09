@@ -42,7 +42,7 @@
   <br>
   <table>
     <tr>
-      <td><img src="public/screenshots/1.png" width="400" /></td>
+      <td><img src="public/screenshots/1.png" width="800" /></td>
     </tr>
   </table>
 </details>
@@ -72,7 +72,7 @@
   <br>
   <table>
     <tr>
-      <td><img src="public/screenshots/6.png" width="400" /></td>
+      <td><img src="public/screenshots/6.png" width="800" /></td>
     </tr>
   </table>
 </details>
@@ -81,7 +81,7 @@
   <br>
   <table>
     <tr>
-      <td><img src="public/screenshots/8.png" width="400" /></td>
+      <td><img src="public/screenshots/8.png" width="800" /></td>
     </tr>
   </table>
 </details>
