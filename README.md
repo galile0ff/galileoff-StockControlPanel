@@ -37,16 +37,46 @@
 
 ## 🖼️ Proje Galerisi
 <div align="center">
-
-<img src="public/screenshots/1.png" width="400" />
-<img src="public/screenshots/2.png" width="400" />
-<img src="public/screenshots/3.png" width="400" />
-<img src="public/screenshots/4.png" width="400" />
-<img src="public/screenshots/5.png" width="400" />
-<img src="public/screenshots/6.png" width="400" />
-<img src="public/screenshots/7.png" width="400" />
-<img src="public/screenshots/8.png" width="400" />
-
+<details>
+  <summary>Giriş Sayfası & Dashboard</summary>
+  <br>
+  <table>
+    <tr>
+      <td><img src="public/screenshots/1.png" width="400" /></td>
+      <td><img src="public/screenshots/2.png" width="400" /></td>
+    </tr>
+  </table>
+</details>
+<details>
+  <summary>Ürünler ve Ürün Ekleme</summary>
+  <br>
+  <table>
+    <tr>
+      <td><img src="public/screenshots/3.png" width="400" /></td>
+      <td><img src="public/screenshots/4.png" width="400" /></td>
+    </tr>
+  </table>
+</details>
+<details>
+  <summary>Satışlar ve Raporlar</summary>
+  <br>
+  <table>
+    <tr>
+      <td><img src="public/screenshots/5.png" width="400" /></td>
+      <td><img src="public/screenshots/6.png" width="400" /></td>
+    </tr>
+  </table>
+</details>
+<details>
+  <summary>Kategoriler ve Tema</summary>
+  <br>
+  <table>
+    <tr>
+      <td><img src="public/screenshots/7.png" width="400" /></td>
+      <td><img src="public/screenshots/8.png" width="400" /></td>
+    </tr>
+  </table>
+</details>
 </div>
 
 ---
