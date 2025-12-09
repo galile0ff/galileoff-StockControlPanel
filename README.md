@@ -51,8 +51,8 @@
   <br>
   <table>
     <tr>
-      <td><img src="public/screenshots/2.png" width="800" /></td>
-      <td><img src="public/screenshots/3.png" width="800" /></td>
+      <td><img src="public/screenshots/2.png" width="400" /></td>
+      <td><img src="public/screenshots/3.png" width="400" /></td>
     </tr>
   </table>
 </details>
