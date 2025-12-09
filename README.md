@@ -1,46 +1,54 @@
-# galileoff-StockControlPanel
+<div align="center">
+  <img src="./public/assets/logo.svg" alt="Project Logo" width="120" />
+  <h1>Galileoff Stock Control Panel</h1>
+  <p>
+    <strong>Gelişmiş Giyim Stok ve Satış Yönetim Paneli</strong>
+  </p>
+  <p>
+    Modern ve hızlı bir web paneli ile ürünlerinizi, stoklarınızı, satışlarınızı ve iadelerinizi yönetin. Dashboard üzerinden kritik stok seviyelerini, en çok satan ürünleri ve satış performansını anlık olarak takip edin.
+  </p>
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgalile0ff%2Fgalileoff-StockControlPanel)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/galile0ff/galileoff-StockControlPanel?style=social)](https://github.com/galile0ff/galileoff-StockControlPanel/stargazers)
+  [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgalile0ff%2Fgalileoff-StockControlPanel)
+  [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+  [![GitHub stars](https://img.shields.io/github/stars/galile0ff/galileoff-StockControlPanel?style=social)](https://github.com/galile0ff/galileoff-StockControlPanel/stargazers)
 
-**galileoff Giyim Stok Takip Paneli**
-<br>
-Modern ve hızlı bir web paneli ile ürünlerini, stoklarını, beden ve renk seçeneklerini yönet.
-<br>
-Dashboard üzerinden kritik stok seviyelerini ve satış performansını anlık takip et.
+</div>
 
 ---
 
-## 🚀 Özellikler
+## 🚀 Temel Özellikler
 
-- **🛍 Ürün Yönetimi:** Fotoğraf, ad, kategori, beden, renk ve stok girişi ile detaylı ürün yönetimi.
-- **📦 Dinamik Varyasyonlar:** Kategori, beden ve renk seçeneklerini sınırsız ekle, düzenle ve sil.
+- **📦 Ürün Yönetimi:** Ürünleri fotoğraf, kategori, sağlam/defolu stok adedi gibi detaylarla yönetin.
+- **🎨 Dinamik Varyasyonlar:** Sınırsız sayıda kategori, beden ve renk seçeneği tanımlayın.
+- **📈 Satış ve İade Takibi:** Yapılan satışları ve iadeleri kaydedin, stok durumunu otomatik olarak güncelleyin.
 - **📊 Akıllı Dashboard:**
-  - Kritik stok uyarıları (Stoku azalan ürünler).
-  - Çok satanlar listesi.
-  - Toplam envanter değeri ve ürün adetleri.
-- **👤 Kullanıcı Yönetimi:** Admin yetkilendirme ve güvenli giriş sistemi.
-- **🎨 Modern UI:** Minimalist tasarım, tamamen responsive ve mobil uyumlu.
-- **🌙 Açık ve Koyu Tema Desteği:** Kullanıcı tercihine göre arayüz temasını değiştirme özelliği.
+  - **Kritik Stok Uyarıları:** Stoğu belirli bir seviyenin altına düşen ürünleri anında görün.
+  - **En Çok Satanlar:** Performanslarına göre en popüler ürünleri listeleyin.
+  - **Finansal Özet:** Toplam satış geliri ve iade maliyetleri gibi önemli metrikleri takip edin.
+  - **Görsel Raporlar:** Satış trendleri, stok dağılımı gibi verileri grafiklerle analiz edin.
+- **🔐 Güvenlik:** Supabase Auth ile güvenli kullanıcı girişi ve admin rol yetkilendirmesi.
+- **🌙 Modern Arayüz:** Açık ve koyu tema desteği ile kullanıcı dostu, tamamen responsive tasarım.
 
 ---
 
-## 💻 Teknolojiler
+## 💻 Teknoloji Yığını
 
-Proje, performans ve ölçeklenebilirlik için en güncel teknolojilerle geliştirilmiştir.
+Proje, performans ve ölçeklenebilirlik için modern ve güçlü teknolojilerle geliştirilmiştir.
 
-| Katman | Teknoloji | Badge |
+| Katman | Teknoloji | Açıklama |
 | :--- | :--- | :--- |
-| **Frontend** | Next.js + React + TypeScript | ![Next.js](https://img.shields.io/badge/Next.js-black?style=flat&logo=next.js&logoColor=white) |
-| **Backend** | Next.js API Routes | ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white) |
-| **Veritabanı** | Supabase (PostgreSQL + Auth) | ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white) |
-| **Data Fetch** | SWR (Stale-While-Revalidate) | ![SWR](https://img.shields.io/badge/SWR-000000?style=flat&logo=vercel&logoColor=white) |
-| **Hosting** | Vercel | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white) |
+| **Framework** | **Next.js 13** (App Router) | React tabanlı, sunucu taraflı render ve statik site oluşturma. |
+| **Dil** | **TypeScript** | JavaScript'e tip güvenliği ekler, büyük projelerde hataları azaltır. |
+| **Veritabanı & Backend** | **Supabase** | PostgreSQL veritabanı, kimlik doğrulama, depolama ve anlık API'ler. |
+| **Veri Çekme** | **SWR** | Vercel tarafından geliştirilen, yeniden doğrulama stratejisine sahip data-fetching kütüphanesi. |
+| **Grafik & Raporlama** | **Recharts, ApexCharts** | İnteraktif ve özelleştirilebilir grafik bileşenleri. |
+| **Form Yönetimi** | **React Hook Form** | Performanslı ve esnek form yönetimi. |
+| **İkonlar** | **Lucide React** | Hafif ve özelleştirilebilir ikon kütüphanesi. |
+| **Hosting** | **Vercel** | Next.js projeleri için optimize edilmiş, hızlı ve kolay dağıtım platformu. |
 
 ---
 
-## ⚡ Başlarken
+## ⚡ Yerelde Çalıştırma
 
 Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin.
 
@@ -51,22 +59,30 @@ git clone https://github.com/galile0ff/galileoff-StockControlPanel.git
 cd galileoff-StockControlPanel
 ```
 
-### 2. Supabase Ayarları
+### 2. Supabase Projesini Ayarlayın
 
-Bu proje, veritabanı ve kimlik doğrulama için **Supabase** kullanır.
+Bu proje, altyapı olarak tamamen **Supabase** üzerine kuruludur.
 
--   [Supabase](https://supabase.com/)'e kaydolun ve yeni bir proje oluşturun.
--   Proje kontrol panelinizdeki **SQL Editor** bölümüne gidin.
--   `supabase_schema.sql` dosyasının içeriğini kopyalayıp editörde çalıştırarak veritabanı şemanızı oluşturun.
--   **Settings > API** bölümünden `Project URL` ve `anon public` anahtarınızı alın.
+1.  [Supabase](https://supabase.com/)'e kaydolun ve yeni bir proje oluşturun.
+2.  Proje panelinizdeki **SQL Editor** bölümüne gidin.
+3.  `supabase_schema.sql` dosyasının içeriğini kopyalayıp editörde çalıştırarak veritabanı şemanızı kurun.
+4.  Ardından `supabase_storage_policies.sql` içeriğini de aynı şekilde çalıştırarak depolama (storage) kurallarını ayarlayın.
+5.  **Settings > API** bölümünden projenize ait şu üç bilgiyi kopyalayın:
+    *   `Project URL`
+    *   `anon public` Key
+    *   `service_role` Secret Key
 
-### 3. Ortam Değişkenlerini Ayarlayın
+### 3. Ortam Değişkenlerini Oluşturun
 
-Proje kök dizininde `.env.local` adında bir dosya oluşturun ve Supabase'den aldığınız bilgileri içine ekleyin.
+Proje kök dizininde `.env.local` adında bir dosya oluşturun ve Supabase'den aldığınız bilgileri aşağıdaki gibi içine ekleyin.
 
 ```bash
+# Genel istemci tarafı erişim için
 NEXT_PUBLIC_SUPABASE_URL=SUPABASE_PROJE_URL'İNİZ
 NEXT_PUBLIC_SUPABASE_ANON_KEY=SUPABASE_ANON_KEY'İNİZ
+
+# API rotalarında yönetici işlemleri (ürün ekleme, silme vb.) için
+SUPABASE_SERVICE_ROLE_KEY=SUPABASE_SERVICE_ROLE_KEY'İNİZ
 ```
 
 ### 4. Bağımlılıkları Yükleyin ve Çalıştırın
@@ -76,88 +92,41 @@ npm install
 npm run dev
 ```
 
-Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalışıyor olacaktır.
+Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalışmaya hazır!
 
 ---
 
-## 🗂 Proje Yapısı
+## 🗄️ Veritabanı Mimarisi
 
-```text
-galileoff-StockControlPanel/
-├── components/           # UI Bileşenleri (Formlar, Listeler, Layout)
-│   ├── CategoryForm.tsx
-│   ├── ProductList.tsx
-│   ├── SalesList.tsx
-│   └── ...
-├── lib/                  # Yardımcı kütüphaneler
-│   └── supabaseClient.ts # Supabase bağlantı ayarları
-├── pages/                # Next.js Sayfaları ve Route yapısı
-│   ├── index.tsx         # Dashboard
-│   ├── api/              # Backend API Endpoint'leri
-│   │   ├── products.ts
-│   │   ├── sales.ts
-│   │   └── ...
-│   ├── manage/           # Yönetim sayfaları (Ekle/Düzenle)
-│   └── sales.tsx
-└── styles/               # CSS Modülleri ve Global stiller
-```
+Veritabanı, `supabase_schema.sql` dosyasında tanımlanmıştır ve Supabase'in güçlü özelliklerinden yararlanır.
+
+-   **Row-Level Security (RLS):** Tüm tablolarda RLS aktif edilmiştir. Veri okuma işlemleri herkese açıkken, yazma, güncelleme ve silme işlemleri yalnızca `admin` rolüne sahip doğrulanmış kullanıcılar tarafından yapılabilir.
+-   **Transactional Functions (RPC):** `create_sale_and_update_stock` ve `create_return_and_update_stock` gibi PostgreSQL fonksiyonları, bir satış veya iade işlemi sırasında birden fazla tabloyu (örn: `sales` ve `product_variants`) tek bir atomik işlemde günceller. Bu, veri tutarlılığını garanti eder ve yarış koşullarını (race conditions) önler.
+-   **Depolama (Storage):** Ürün resimleri, `product-images` adlı bir Supabase Storage bucket'ında saklanır. Erişim politikaları `supabase_storage_policies.sql` dosyasında tanımlanmıştır.
+
 ---
 
-## 📄 API Dokümantasyonu
+## 📄 API Uç Noktaları (Endpoints)
 
-Uygulama, veri yönetimi için aşağıdaki RESTful API rotalarını kullanır.
-
-### 🛍 Ürünler (Products)
+Uygulama, veri yönetimi için aşağıdaki RESTful API rotalarını kullanır. Bu rotalar, yönetici yetkisi gerektiren eylemler için `SUPABASE_SERVICE_ROLE_KEY`'i kullanır.
 
 | Metot | Endpoint | Açıklama |
 | :--- | :--- | :--- |
-| `GET` | `/api/products` | Tüm ürünleri listeler. |
-| `POST` | `/api/products` | Yeni bir ürün oluşturur. |
-| `PUT` | `/api/products` | Ürün stok veya bilgilerini günceller. |
-| `DELETE` | `/api/products` | Bir ürünü siler. |
-| `GET` | `/api/product-variants` | Ürüne ait varyantları (beden/renk) getirir. |
-
-### 🏷 Kategoriler ve Varyasyonlar
-
-| Metot | Endpoint | Açıklama |
-| :--- | :--- | :--- |
-| `GET` | `/api/categories` | Mevcut kategorileri listeler. |
-| `POST` | `/api/categories` | Yeni kategori ekler. |
-| `GET` | `/api/colors` | Renk seçeneklerini listeler. |
-| `POST` | `/api/colors` | Yeni renk tanımlar. |
-| `GET` | `/api/sizes` | Beden seçeneklerini listeler. |
-
-### 📈 Satış ve İstatistikler
-
-| Metot | Endpoint | Açıklama |
-| :--- | :--- | :--- |
-| `GET` | `/api/sales` | Geçmiş satış kayıtlarını listeler. |
-| `POST` | `/api/sales` | Yeni bir satış işlemi kaydeder. |
-| `GET` | `/api/dashboard-stats` | Dashboard için özet verileri (toplam stok, ciro vb.) getirir. |
+| `GET, POST, PUT, DELETE` | `/api/products` | Ürünleri ve ürün varyantlarını yönetir. |
+| `GET, POST, PUT, DELETE` | `/api/categories` | Kategorileri yönetir. |
+| `GET, POST, PUT, DELETE` | `/api/colors` | Renkleri yönetir. |
+| `GET, POST, PUT, DELETE` | `/api/sizes` | Bedenleri yönetir. |
+| `GET, POST` | `/api/sales` | Satış kayıtlarını listeler ve oluşturur. |
+| `GET, POST` | `/api/returns` | İade kayıtlarını listeler ve oluşturur. |
+| `GET` | `/api/dashboard-stats` | Dashboard için tüm istatistiksel verileri toplar. |
 
 ---
 
-## 🎨 UI Mockup’ları
+## ☕ Destek Olun
 
-Arayüz tasarımı minimal ve kullanıcı odaklıdır.
-*(Ekran görüntüleri buraya gelecek)*
+Bu proje işinize yaradıysa ve geliştirmemi desteklemek istiyorsanız, bana bir kahve ısmarlayabilirsiniz! Ayrıca projeyi beğendiysen **GitHub'da yıldız (⭐)** vererek de destek olabilirsin. Destekleriniz, projeyi daha ileri taşımam için büyük bir motivasyon kaynağı. 🚀
 
-| Dashboard | Ürün Ekleme |
-| :---: | :---: |
-| ![Dashboard Screenshot](https://via.placeholder.com/600x400?text=Dashboard+Ekrani) | ![Add Product Screenshot](https://via.placeholder.com/600x400?text=Urun+Ekleme+Ekrani) |
-
----
-
-## ☕ Bana Kahve Ismarla
-
-Bu proje işine yaradıysa ve geliştirmemi desteklemek istiyorsan, bana bir kahve ısmarlayabilirsin! Ayrıca projeyi beğendiysen **GitHub'da yıldız (⭐)** vererek de destek olabilirsin. Desteklerin projeyi daha ileri taşımam için motive ediyor. 🚀
-
-[![Buy Me a Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=☕&slug=galileoff&button_colour=FF5F5F&font_colour=ffffff&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/galileoff)
-<div>
-  <a href="https://github.com/galile0ff/galileoff-StockControlPanel/stargazers">
-    <img src="https://img.shields.io/github/stars/galile0ff/galileoff-StockControlPanel?style=social&label=Star&height=40" alt="GitHub Star" height="40" />
-  </a>
-</div>
+<a href="https://www.buymeacoffee.com/galileoff" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 ---
 
