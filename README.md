@@ -104,7 +104,8 @@ Projenin çalışması için bir Supabase projesine ihtiyacınız var.
 5. **Settings > API** bölümünden `Project URL`, `anon public` Key ve `service_role` Secret Key'i kopyalayın.
 
 ### Adım 3: Ortam Değişkenlerini Oluşturun
-<summary>👉 Proje kök dizininde <code>.env.local</code> adında bir dosya oluşturun ve içeriğini buraya tıklayarak kopyalayın.</summary>
+
+<summary>👉 Proje kök dizininde <code>.env.local</code> adında bir dosya oluşturun ve içeriğini kopyalayın.</summary>
 
 ```bash
 # Genel istemci tarafı erişim için
@@ -126,8 +127,8 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 ---
 
 ## 🗂️ Proje Yapısı
-<details>
-<summary>👉 Projenin detaylı dosya ve klasör yapısını görmek için tıklayın.</summary>
+
+<summary>👉 Projenin detaylı dosya ve klasör yapısı.</summary>
 
 ```
 /
@@ -170,7 +171,7 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
         ├── globals.css
         └── Dashboard.module.css
 ```
-</details>
+
 
 ---
 
@@ -186,8 +187,8 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 | `GET, POST` | `/api/returns` | İade kayıtlarını listeler ve oluşturur. |
 | `GET` | `/api/dashboard-stats` | Dashboard için tüm istatistiksel verileri toplar. |
 
-<details>
-<summary>👉 Örnek API İstek Body'lerini görmek için tıklayın.</summary>
+
+<summary>👉 Örnek API İstek Body'leri.</summary>
 
 #### `POST /api/products`
 Yeni bir ürün ve varyantları oluşturur.
@@ -245,7 +246,7 @@ Bir iade kaydeder. Stoklar otomatik olarak güncellenir.
   ]
 }
 ```
-</details>
+
 
 ---
 
