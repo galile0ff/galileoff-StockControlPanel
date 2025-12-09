@@ -44,61 +44,6 @@ const Dashboard = () => {
     </div>
   );
 
-  const totalReturnsOptions: ApexCharts.ApexOptions = {
-    chart: {
-      type: 'radialBar',
-      sparkline: {
-        enabled: true,
-      },
-      animations: {
-        enabled: false,
-      },
-      height: '100%',
-    },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              margin: 5,
-              size: '75%',
-            },
-            track: {
-              background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-              strokeWidth: '67%',
-            },
-            dataLabels: {
-              name: {
-                show: true,
-                fontSize: '16px',
-                color: theme === 'dark' ? '#a0a0a0' : '#888',
-                offsetY: -10,
-              },
-              value: {
-                show: true,
-                fontSize: '24px',
-                fontWeight: 600,
-                color: theme === 'dark' ? '#fff' : '#333',
-                offsetY: 5,
-              },
-            },
-          },
-        },
-    labels: ['İadeler'],
-    series: [data.total_returns_quantity || 0],
-    colors: [colorDanger],
-    states: {
-      hover: {
-        filter: {
-          type: 'none',
-        },
-      },
-      active: {
-        filter: {
-          type: 'none',
-        },
-      },
-    },
-  };
-
   const salesReturnRatioOptions: ApexCharts.ApexOptions = {
     chart: {
       type: 'radialBar',
@@ -330,52 +275,69 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* 3. BÖLÜM: İADE ANALİZLERİ BÖLÜMÜ */}
-        {data.total_returns_quantity !== undefined && data.sales_vs_returns_ratio !== undefined && (
-          <div className={styles.chartsGrid}>
-            <div className={styles.chartCard}>
-              <div className={styles.cardHeader}>
-                <div className={styles.headerTitleGroup}>
-                  <TrendingDown size={18} color={colorDanger} />
-                  <h3>Toplam İade Edilen Ürün</h3>
-                </div>
+        {/* 3. BÖLÜM: GRAFİKLER */}
+        <div className={styles.chartsGrid}>
+          <div className={`${styles.chartCard} ${styles.fullWidth}`}>
+            <div className={styles.cardHeader}>
+              <div className={styles.headerTitleGroup}>
+                <TrendingUp size={18} color={colorPrimary} />
+                <h3>30 Günlük Satış ve İade Trendi</h3>
               </div>
-              <div className={styles.chartContainer}>
-                <Chart
-                  options={totalReturnsOptions}
-                  series={totalReturnsOptions.series}
-                  type="radialBar"
-                  height={280}
-                />
-              </div>
-              <p className={styles.chartInfo}>
-                Toplam <strong>{data.total_returns_quantity || 0}</strong> adet ürün iade edilmiştir.
-              </p>
             </div>
-            
-            <div className={styles.chartCard}>
-              <div className={styles.cardHeader}>
-                <div className={styles.headerTitleGroup}>
-                  <AlertTriangle size={18} color={colorPrimary} />
-                  <h3>Satışa Göre İade Oranı</h3>
-                </div>
-              </div>
-              <div className={styles.chartContainer}>
-                  <Chart
-                      options={salesReturnRatioOptions}
-                      series={salesReturnRatioOptions.series}
-                      type="radialBar"
-                      height={380}
+            <div className={styles.chartContainer} style={{ height: '300px' }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={data.daily_sales_data} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={colorPrimary} stopOpacity={0.4} />
+                      <stop offset="95%" stopColor={colorPrimary} stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="colorReturns" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={colorDanger} stopOpacity={0.4} />
+                      <stop offset="95%" stopColor={colorDanger} stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke={colorGrid} vertical={false} />
+                  <XAxis dataKey="date" stroke={colorText} fontSize={10} tickFormatter={(tick) => tick.substring(5).replace('-', '/')} tickMargin={10} />
+                  <YAxis stroke={colorText} fontSize={10} tickMargin={10} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: 'rgba(20, 20, 25, 0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', backdropFilter: 'blur(10px)' }}
+                    labelStyle={{ color: '#fff', fontWeight: 600 }}
+                    formatter={(value: any, name: string) => {
+                      if (name === 'sales') return [value, 'Satışlar'];
+                      if (name === 'returns') return [value, 'İadeler'];
+                      return [value, name];
+                    }}
                   />
-              </div>
-              <p className={styles.chartInfo}>
-                Satılan ürünlerin yaklaşık <strong>%{data.sales_vs_returns_ratio.toFixed(1)}</strong> kadarı iade edilmiştir.
-              </p>
+                  <Legend wrapperStyle={{ paddingTop: '10px', color: '#fff', fontSize: '12px' }} />
+                  <Area type="monotone" dataKey="sales" name="Satışlar" stroke={colorPrimary} fillOpacity={1} fill="url(#colorSales)" strokeWidth={2.5} />
+                  <Area type="monotone" dataKey="returns" name="İadeler" stroke={colorDanger} fillOpacity={1} fill="url(#colorReturns)" strokeWidth={2.5} />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </div>
-        )}
+          
+          <div className={styles.chartCard}>
+            <div className={styles.cardHeader}>
+              <div className={styles.headerTitleGroup}>
+                <AlertTriangle size={18} color={colorPrimary} />
+                <h3>Satışa Göre İade Oranı</h3>
+              </div>
+            </div>
+            <div className={styles.chartContainer}>
+                <Chart
+                    options={salesReturnRatioOptions}
+                    series={salesReturnRatioOptions.series}
+                    type="radialBar"
+                    height={380}
+                />
+            </div>
+            <p className={styles.chartInfo}>
+              Satılan ürünlerin yaklaşık <strong>%{data.sales_vs_returns_ratio.toFixed(1)}</strong> kadarı iade edilmiştir.
+            </p>
+          </div>
+        </div>
 
-        {/* 4. BÖLÜM: GRAFİKLER */}
         <div className={styles.chartsGrid}>
           <div className={styles.chartCard}>
             <div className={styles.cardHeader}>
@@ -401,18 +363,17 @@ const Dashboard = () => {
                     labelStyle={{ color: '#fff', fontWeight: 600 }}
                     itemStyle={{ color: colorPrimary, fontWeight: 500 }}
                     formatter={(value: any, name: string) => {
-                      if (name === 'sales') {
-                        return [value, 'Satışlar'];
+                      if (name === 'net_sales') {
+                        return [value, 'Net Satışlar'];
                       }
                       return [value, name];
                     }}
                   />
-                  <Area type="monotone" dataKey="sales" stroke={colorPrimary} fillOpacity={1} fill="url(#colorSales)" strokeWidth={2.5} />
+                  <Area type="monotone" dataKey="net_sales" name="Net Satışlar" stroke={colorPrimary} fillOpacity={1} fill="url(#colorSales)" strokeWidth={2.5} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
           </div>
-
           <div className={styles.chartCard}>
             <div className={styles.cardHeader}>
               <div className={styles.headerTitleGroup}>

@@ -94,28 +94,41 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
     
-    // --- SON 30 GÜNLÜK SATIŞ VERİSİ (ÇİZGİ GRAFİĞİ İÇİN) --- //
+    // --- SON 30 GÜNLÜK SATIŞ VE İADE VERİSİ --- //
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const { data: dailySalesData, error: dailySalesError } = await supabaseAdmin
+    const { data: dailySalesAndReturns, error: dailySalesError } = await supabaseAdmin
       .from('sales')
       .select('sale_date, quantity')
       .gte('sale_date', thirtyDaysAgo.toISOString());
+
     if (dailySalesError) throw dailySalesError;
 
-    const salesSummary: { [key: string]: number } = {};
-    dailySalesData.forEach(sale => {
-        const saleDate = sale.sale_date.split('T')[0];
-        salesSummary[saleDate] = (salesSummary[saleDate] || 0) + sale.quantity;
-      // }
+    const trendSummary: { [key: string]: { sales: number; returns: number } } = {};
+    dailySalesAndReturns.forEach(item => {
+      const saleDate = item.sale_date.split('T')[0];
+      if (!trendSummary[saleDate]) {
+        trendSummary[saleDate] = { sales: 0, returns: 0 };
+      }
+      if (item.quantity > 0) {
+        trendSummary[saleDate].sales += item.quantity;
+      } else {
+        trendSummary[saleDate].returns += Math.abs(item.quantity);
+      }
     });
 
-    const last30DaysSales = Array.from({ length: 30 }, (_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() - (29 - i));
-      const formattedDate = d.toISOString().split('T')[0];
-      return { date: formattedDate, sales: salesSummary[formattedDate] || 0 };
-    });
+    const last30DaysTrend = Array.from({ length: 30 }, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - (29 - i));
+        const formattedDate = d.toISOString().split('T')[0];
+        const dailySummary = trendSummary[formattedDate] || { sales: 0, returns: 0 };
+        return {
+          date: formattedDate,
+          sales: dailySummary.sales,
+          returns: dailySummary.returns,
+          net_sales: dailySummary.sales - dailySummary.returns,
+        };
+      });
 
     // Sağlam stok hesaplaması
     const total_sound_stock = total_product_stock - total_defective_stock;
@@ -129,7 +142,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       total_sound_stock,
       low_stock_items,
       best_selling_items,
-      daily_sales_data: last30DaysSales,
+      daily_sales_data: last30DaysTrend,
       total_returns_quantity,
       sales_vs_returns_ratio
     });
