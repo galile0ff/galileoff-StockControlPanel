@@ -6,7 +6,6 @@
 
 <div align="center">
 
-[![Node.js CI](https://github.com/galile0ff/galileoff-StockControlPanel/actions/workflows/ci.yml/badge.svg)](https://github.com/galile0ff/galileoff-StockControlPanel/actions/workflows/ci.yml)
 ![GitHub last commit](https://img.shields.io/github/last-commit/galile0ff/galileoff-StockControlPanel?style=for-the-badge&logo=github)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/galile0ff/galileoff-StockControlPanel?style=for-the-badge&logo=github)
 ![License](https://img.shields.io/github/license/galile0ff/galileoff-StockControlPanel?style=for-the-badge&color=blue)
@@ -22,24 +21,24 @@
 
 ## 📋 İçindekiler
 
-- [🖼️ Proje Galerisi](#️-proje-galerisi)
-- [✨ Temel Özellikler](#-temel-özellikler)
-- [🏗️ Teknik Mimari](#️-teknik-mimari)
-- [💻 Teknoloji Yığını](#-teknoloji-yığını)
-- [🚀 Yerelde Çalıştırma](#-yerelde-çalıştırma)
-- [⚙️ Sürekli Entegrasyon (CI)](#️-sürekli-entegrasyon-ci)
-- [🗂️ Proje Yapısı](#️-proje-yapısı)
-- [📄 API Uç Noktaları](#-api-uç-noktaları)
-- [🤝 Katkıda Bulunma](#-katkıda-bulunma)
-- [☕ Destek Olun](#-destek-olun)
-- [📝 Lisans](#-lisans)
+> [!NOTE]
+> - [🖼️ Proje Galerisi](#️-proje-galerisi)
+> - [✨ Temel Özellikler](#-temel-özellikler)
+> - [🏗️ Teknik Mimari](#️-teknik-mimari)
+> - [💻 Teknoloji Yığını](#-teknoloji-yığını)
+> - [🚀 Yerelde Çalıştırma](#-yerelde-çalıştırma)
+> - [🗂️ Proje Yapısı](#️-proje-yapısı)
+> - [📄 API Uç Noktaları](#-api-uç-noktaları)
+> - [🤝 Katkıda Bulunma](#-katkıda-bulunma)
+> - [☕ Destek Olun](#-destek-olun)
+> - [📝 Lisans](#-lisans)
 
 ---
 
 ## 🖼️ Proje Galerisi
 <div align="center">
 
-*Not: Proje ekran görüntüleri yakında eklenecektir.*
+*Ekran görüntülerini `public/screenshots` klasörüne ekleyerek bu bölümde görünmelerini sağlayabilirsiniz.*
 
 </div>
 
@@ -128,24 +127,6 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 
 ---
 
-## ⚙️ Sürekli Entegrasyon (CI)
-
-Bu proje, kod kalitesini ve kararlılığını sağlamak için **GitHub Actions** üzerinde çalışan bir Sürekli Entegrasyon (CI) boru hattı (pipeline) kullanır.
-
-[![Node.js CI](https://github.com/galile0ff/galileoff-StockControlPanel/actions/workflows/ci.yml/badge.svg)](https://github.com/galile0ff/galileoff-StockControlPanel/actions/workflows/ci.yml)
-
-**Bu otomasyon ne yapar?**
-
--   `main` branch'ine her yeni kod gönderildiğinde (`push`) veya bir `pull request` açıldığında otomatik olarak tetiklenir.
--   Projeyi, Node.js'in farklı sürümleri (18.x, 20.x) üzerinde test eder.
--   Tüm `npm` bağımlılıklarını kurar (`npm install`).
--   Kod stili ve potansiyel hataları kontrol etmek için `lint` komutunu çalıştırır (`npm run lint`).
--   Projenin başarılı bir şekilde derlendiğini doğrulamak için `build` komutunu çalıştırır (`npm run build`).
-
-Bu süreç, projenin her zaman çalışır ve kararlı durumda kalmasını sağlar, ayrıca olası hataların erken bir aşamada tespit edilmesine yardımcı olur.
-
----
-
 ## 🗂️ Proje Yapısı
 <details>
 <summary>👉 Projenin detaylı dosya ve klasör yapısını görmek için tıklayın.</summary>
@@ -211,10 +192,13 @@ Bu süreç, projenin her zaman çalışır ve kararlı durumda kalmasını sağl
 <summary>👉 Örnek API İstek Body'lerini görmek için tıklayın.</summary>
 
 #### `POST /api/products`
-Yeni bir ürün oluşturmak için gönderilen örnek JSON body'si.
+Yeni bir ürün ve varyantları oluşturur.
 ```json
 {
   "name": "Yeni Sezon T-Shirt",
+  "code": "TSH-001",
+  "purchasePrice": 150.00,
+  "salePrice": 299.90,
   "categoryId": "c5a6b7d8-e9f0-1234-5678-9abcdef01234",
   "variants": [
     { "sizeId": "s1...", "colorId": "c1...", "stock": 10, "isDefective": 0 },
@@ -223,15 +207,44 @@ Yeni bir ürün oluşturmak için gönderilen örnek JSON body'si.
 }
 ```
 
+#### `PUT /api/products`
+Mevcut bir ürünün bilgilerini veya varyantlarını günceller.
+```json
+{
+  "productId": "p1...",
+  "name": "Güncellenmiş T-Shirt Adı",
+  "salePrice": 329.90,
+  "variantsToAdd": [
+    { "sizeId": "s3...", "colorId": "c2...", "stock": 20, "isDefective": 0 }
+  ],
+  "variantsToUpdate": [
+    { "id": "pv1...", "stock": 8, "isDefective": 1 }
+  ],
+  "variantsToDelete": [
+    "pv2..."
+  ]
+}
+```
+
 #### `POST /api/sales`
-Yeni bir satış kaydetmek için gönderilen örnek JSON body'si.
+Yeni bir satış kaydeder. Stoklar otomatik olarak düşülür.
 ```json
 {
   "items": [
-    { "variantId": "pv1...", "quantity": 2, "price": 299.99 },
-    { "variantId": "pv2...", "quantity": 1, "price": 349.50 }
-  ],
-  "totalAmount": 949.48
+    { "variantId": "pv1...", "quantity": 2 },
+    { "variantId": "pv2...", "quantity": 1 }
+  ]
+}
+```
+
+#### `POST /api/returns`
+Bir iade kaydeder. Stoklar otomatik olarak güncellenir.
+```json
+{
+  "items": [
+    { "variantId": "pv1...", "quantity": 1, "isDefective": true },
+    { "variantId": "pv2...", "quantity": 1, "isDefective": false }
+  ]
 }
 ```
 </details>
