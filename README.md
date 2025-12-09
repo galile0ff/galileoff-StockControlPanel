@@ -6,6 +6,7 @@
 
 <div align="center">
 
+[![Node.js CI](https://github.com/galile0ff/galileoff-StockControlPanel/actions/workflows/ci.yml/badge.svg)](https://github.com/galile0ff/galileoff-StockControlPanel/actions/workflows/ci.yml)
 [![Oturum Aç ve Çalıştır](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/galile0ff/galileoff-StockControlPanel)
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgalile0ff%2Fgalileoff-StockControlPanel)
 
@@ -31,9 +32,9 @@
 - [🏗️ Teknik Mimari](#️-teknik-mimari)
 - [💻 Teknoloji Yığını](#-teknoloji-yığını)
 - [🚀 Yerelde Çalıştırma](#-yerelde-çalıştırma)
+- [⚙️ Sürekli Entegrasyon (CI)](#️-sürekli-entegrasyon-ci)
 - [🗂️ Proje Yapısı](#️-proje-yapısı)
 - [📄 API Uç Noktaları](#-api-uç-noktaları)
-- [🗺️ Yol Haritası](#️-yol-haritası)
 - [🤝 Katkıda Bulunma](#-katkıda-bulunma)
 - [☕ Destek Olun](#-destek-olun)
 - [📝 Lisans](#-lisans)
@@ -148,12 +149,33 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 
 ---
 
+### <p align="center">⚙️ Sürekli Entegrasyon (CI)</p>
+
+Bu proje, kod kalitesini ve kararlılığını sağlamak için **GitHub Actions** üzerinde çalışan bir Sürekli Entegrasyon (CI) boru hattı (pipeline) kullanır.
+
+[![Node.js CI](https://github.com/galile0ff/galileoff-StockControlPanel/actions/workflows/ci.yml/badge.svg)](https://github.com/galile0ff/galileoff-StockControlPanel/actions/workflows/ci.yml)
+
+**Bu otomasyon ne yapar?**
+
+-   `main` branch'ine her yeni kod gönderildiğinde (`push`) veya bir `pull request` açıldığında otomatik olarak tetiklenir.
+-   Projeyi, Node.js'in farklı sürümleri (18.x, 20.x) üzerinde test eder.
+-   Tüm `npm` bağımlılıklarını kurar (`npm install`).
+-   Kod stili ve potansiyel hataları kontrol etmek için `lint` komutunu çalıştırır (`npm run lint`).
+-   Projenin başarılı bir şekilde derlendiğini doğrulamak için `build` komutunu çalıştırır (`npm run build`).
+
+Bu süreç, projenin her zaman çalışır ve kararlı durumda kalmasını sağlar, ayrıca olası hataların erken bir aşamada tespit edilmesine yardımcı olur.
+
+---
+
 ### <p align="center">🗂️ Proje Yapısı</p>
 <details>
 <summary>👉 Projenin detaylı dosya ve klasör yapısını görmek için tıklayın.</summary>
 
 ```
 /
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # Sürekli Entegrasyon (CI) otomasyonu
 ├── .gitignore
 ├── middleware.ts               # Next.js middleware (örn: kimlik doğrulama yönlendirmeleri)
 ├── next-env.d.ts               # Next.js için TypeScript tip tanımlamaları
@@ -239,15 +261,32 @@ Yeni bir satış kaydetmek için gönderilen örnek JSON body'si.
 
 ---
 
-### <p align="center">🗺️ Yol Haritası</p>
+### <p align="center">🤝 Katkıda Bulunma</p>
 
-Gelecekte projeye eklenmesi planlanan özellikler:
+Katkılarınız projeyi daha iyi hale getirecektir! Lütfen `CONTRIBUTING.md` dosyasını inceleyin.
 
-- [ ] **Kullanıcı Rolleri:** `Admin` dışında `Editor`, `Viewer` gibi farklı kullanıcı rolleri tanımlama.
-- [ ] **Gelişmiş Raporlama:** Tarih aralığına göre filtrelenebilir ve CSV/Excel olarak indirilebilir satış raporları.
-- [ ] **Tedarikçi Yönetimi:** Ürünlerin hangi tedarikçilerden temin edildiğini yönetme modülü.
-- [ ] **Stok Transferi:** Mağazalar veya depolar arasında stok transferi yapabilme.
-- [ ] **Barkod Desteği:** Ürünlere barkod atama ve barkod okuyucu ile satış yapabilme.
+1.  Bu repoyu fork'layın.
+2.  Yeni bir özellik dalı oluşturun (`git checkout -b feature/yeni-ozellik`).
+3.  Değişikliklerinizi commit'leyin (`git commit -m 'feat: Yeni bir özellik eklendi'`).
+4.  Dalınızı push'layın (`git push origin feature/yeni-ozellik`).
+5.  Bir Pull Request açın.
+
+---
+
+### <p align="center">☕ Destek Olun</p>
+<p align="center">
+Bu proje işinize yaradıysa ve geliştirmemi desteklemek istiyorsanız, bana bir kahve ısmarlayabilirsiniz!
+</p>
+<p align="center">
+<a href="https://www.buymeacoffee.com/galileoff" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+</p>
+
+---
+
+### <p align="center">📝 Lisans</p>
+<p align="center">
+Bu proje <a href="LICENSE">MIT</a> lisansı ile lisanslanmıştır.
+</p>
 
 ---
 
