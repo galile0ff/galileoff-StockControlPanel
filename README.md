@@ -4,25 +4,46 @@
   <p><strong>Gelişmiş Giyim Stok ve Satış Yönetim Paneli</strong></p>
 </div>
 
+<div align="center">
+
+[![Oturum Aç ve Çalıştır](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/galile0ff/galileoff-StockControlPanel)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgalile0ff%2Fgalileoff-StockControlPanel)
+
+![GitHub last commit](https://img.shields.io/github/last-commit/galile0ff/galileoff-StockControlPanel?style=for-the-badge&logo=github)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/galile0ff/galileoff-StockControlPanel?style=for-the-badge&logo=github)
+![License](https://img.shields.io/github/license/galile0ff/galileoff-StockControlPanel?style=for-the-badge&color=blue)
+![GitHub stars](https://img.shields.io/github/stars/galile0ff/galileoff-StockControlPanel?style=for-the-badge&logo=github&label=Yıldızla)
+
+</div>
+
 <p align="center">
   Modern ve hızlı bir web paneli ile ürünlerinizi, stoklarınızı, satışlarınızı ve iadelerinizi yönetin. Dashboard üzerinden kritik stok seviyelerini, en çok satan ürünleri ve satış performansını anlık olarak takip edin.
 </p>
 
-<p align="center">
-  <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgalile0ff%2Fgalileoff-StockControlPanel" target="_blank">
-    <img src="https://vercel.com/button" alt="Deploy with Vercel"/>
-  </a>
-  <a href="LICENSE" target="_blank">
-    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"/>
-  </a>
-  <a href="https://github.com/galile0ff/galileoff-StockControlPanel/stargazers" target="_blank">
-    <img src="https://img.shields.io/github/stars/galile0ff/galileoff-StockControlPanel?style=social" alt="GitHub Stars"/>
-  </a>
-</p>
+---
+
+<br>
+
+## 📋 İçindekiler
+
+- [🖼️ Proje Galerisi](#️-proje-galerisi)
+- [✨ Temel Özellikler](#-temel-özellikler)
+- [🏗️ Teknik Mimari](#️-teknik-mimari)
+- [💻 Teknoloji Yığını](#-teknoloji-yığını)
+- [🚀 Yerelde Çalıştırma](#-yerelde-çalıştırma)
+- [🗂️ Proje Yapısı](#️-proje-yapısı)
+- [📄 API Uç Noktaları](#-api-uç-noktaları)
+- [🗺️ Yol Haritası](#️-yol-haritası)
+- [🤝 Katkıda Bulunma](#-katkıda-bulunma)
+- [☕ Destek Olun](#-destek-olun)
+- [📝 Lisans](#-lisans)
+
+<br>
 
 ---
 
-## 🖼️ Proje Galerisi
+### <p align="center">🖼️ Proje Galerisi</p>
+<div align="center">
 
 *Ekran görüntülerini `docs/images` klasörüne eklediğinizde burada görüneceklerdir.*
 
@@ -30,10 +51,11 @@
 | :---: | :---: | :---: |
 | ![Dashboard Ekranı](./docs/images/01-dashboard.png) | ![Ürün Listesi](./docs/images/02-product-list.png) | ![Ürün Ekleme Formu](./docs/images/03-add-product.png) |
 
+</div>
+
 ---
 
-## ✨ Temel Özellikler
-
+### <p align="center">✨ Temel Özellikler</p>
 -   **📦 Kapsamlı Ürün Yönetimi:** Ürünleri fotoğraf, kategori, tedarikçi, alış fiyatı, satış fiyatı, sağlam/defolu stok adedi gibi zengin detaylarla yönetin.
 -   **🎨 Sınırsız Varyasyon:** Projenize özel sınırsız sayıda Kategori, Renk ve Beden tanımlayın ve bunları ürünlerle ilişkilendirin.
 -   **📈 Akıllı Satış ve İade Takibi:** Yapılan satışları ve iadeleri kaydederek stok durumunu anlık ve otomatik olarak güncelleyin.
@@ -47,9 +69,11 @@
 
 ---
 
-## 🏗️ Teknik Mimari
-
+### <p align="center">🏗️ Teknik Mimari</p>
+<p align="center">
 Bu proje, modern web geliştirme standartlarına uygun, ölçeklenebilir ve bakımı kolay bir mimari üzerine inşa edilmiştir.
+</p>
+<div align="center">
 
 ```
 ┌───────────────────┐      ┌─────────────────────────┐      ┌────────────────────────┐
@@ -61,15 +85,11 @@ Bu proje, modern web geliştirme standartlarına uygun, ölçeklenebilir ve bak�
          └──────────────────────────▼──────────────────────────┘
                   (SWR ile Veri Çekme ve Önbellekleme)
 ```
-
--   **Frontend:** Kullanıcı arayüzü, **Next.js** üzerinde çalışan **React** bileşenlerinden oluşur. Sayfalar sunucu tarafında oluşturulur (SSR) veya istemci tarafında dinamik olarak güncellenir.
--   **Backend API:** Next.js'in **API Routes** özelliği, projenin backend'i olarak hizmet verir. Gelen istekleri doğrular ve Supabase ile iletişim kurar.
--   **Veritabanı (Database):** **Supabase**, PostgreSQL veritabanını, kimlik doğrulamayı (Auth), dosya depolamayı (Storage) ve güvenlik kurallarını (RLS) yöneten merkezi BaaS (Backend as a Service) platformudur.
+</div>
 
 ---
 
-## 💻 Teknoloji Yığını
-
+### <p align="center">💻 Teknoloji Yığını</p>
 | Katman | Teknoloji | Açıklama |
 | :--- | :--- | :--- |
 | **Framework** | **Next.js 13** | React tabanlı, sunucu taraflı render ve statik site oluşturma. |
@@ -82,36 +102,31 @@ Bu proje, modern web geliştirme standartlarına uygun, ölçeklenebilir ve bak�
 
 ---
 
-## 🚀 Yerelde Çalıştırma
+### <p align="center">🚀 Yerelde Çalıştırma</p>
 
-Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin.
+#### Adım 1: Projeyi Klonlayın veya Gitpod'da Açın
 
-### Adım 1: Projeyi Klonlayın
+- **Seçenek A: Gitpod (Önerilen - Sıfır Kurulum)**<br>
+  [![Oturum Aç ve Çalıştır](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/galile0ff/galileoff-StockControlPanel)<br>
+  Yukarıdaki butona tıklayarak projeyi anında tarayıcınızda, tüm kurulumları yapılmış bir geliştirme ortamında açabilirsiniz.
 
-```bash
-git clone https://github.com/galile0ff/galileoff-StockControlPanel.git
-cd galileoff-StockControlPanel
-```
+- **Seçenek B: Yerel Makine**
+  ```bash
+  git clone https://github.com/galile0ff/galileoff-StockControlPanel.git
+  cd galileoff-StockControlPanel
+  ```
 
-### Adım 2: Supabase Projesini Ayarlayın
+#### Adım 2: Supabase Projesini Ayarlayın
+Projenin çalışması için bir Supabase projesine ihtiyacınız var.
+1. [Supabase](https://supabase.com/)'e kaydolun ve yeni bir proje oluşturun.
+2. Proje panelindeki **SQL Editor**'e gidin.
+3. `supabase_schema.sql` dosyasının içeriğini kopyalayıp çalıştırın.
+4. `supabase_storage_policies.sql` içeriğini de aynı şekilde çalıştırın.
+5. **Settings > API** bölümünden `Project URL`, `anon public` Key ve `service_role` Secret Key'i kopyalayın.
 
-Bu proje, altyapı olarak tamamen **Supabase** üzerine kuruludur.
-
-1.  [Supabase](https://supabase.com/)'e kaydolun ve yeni bir proje oluşturun.
-2.  Proje panelinizdeki **SQL Editor** bölümüne gidin.
-3.  `supabase_schema.sql` dosyasının içeriğini kopyalayıp çalıştırarak veritabanı şemanızı kurun.
-4.  Ardından `supabase_storage_policies.sql` içeriğini de aynı şekilde çalıştırarak depolama (storage) kurallarını ayarlayın.
-5.  **Settings > API** bölümünden projenize ait şu üç bilgiyi kopyalayın:
-    *   `Project URL`
-    *   `anon public` Key
-    *   `service_role` Secret Key
-
-### Adım 3: Ortam Değişkenlerini Oluşturun
-
+#### Adım 3: Ortam Değişkenlerini Oluşturun
 <details>
 <summary>👉 Proje kök dizininde <code>.env.local</code> adında bir dosya oluşturun ve içeriğini buraya tıklayarak kopyalayın.</summary>
-
-Aşağıdaki içeriği oluşturduğunuz `.env.local` dosyasına yapıştırın ve Supabase'den aldığınız bilgilerle `[...]` kısımlarını doldurun.
 
 ```bash
 # Genel istemci tarafı erişim için
@@ -122,23 +137,123 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=[SUPABASE_ANON_KEY'İNİZ]
 # Bu anahtarın dışarı sızdırılmamasına özellikle dikkat edin!
 SUPABASE_SERVICE_ROLE_KEY=[SUPABASE_SERVICE_ROLE_KEY'İNİZ]
 ```
-
 </details>
 
-### Adım 4: Bağımlılıkları Yükleyin ve Çalıştırın
-
+#### Adım 4: Bağımlılıkları Yükleyin ve Çalıştırın
 ```bash
 npm install
 npm run dev
 ```
-
 Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalışmaya hazır!
 
 ---
 
-## 🤝 Katkıda Bulunma
+### <p align="center">🗂️ Proje Yapısı</p>
+<details>
+<summary>👉 Projenin detaylı dosya ve klasör yapısını görmek için tıklayın.</summary>
 
-Katkılarınız projeyi daha iyi hale getirecektir!
+```
+/
+├── .gitignore
+├── middleware.ts               # Next.js middleware (örn: kimlik doğrulama yönlendirmeleri)
+├── next-env.d.ts               # Next.js için TypeScript tip tanımlamaları
+├── package.json                # Proje bağımlılıkları ve script'leri
+├── README.md                   # Bu dosya
+├── supabase_schema.sql         # Supabase veritabanı şeması, tablolar ve RLS poliçeleri
+├── supabase_storage_policies.sql # Supabase depolama güvenlik kuralları
+├── tsconfig.json               # TypeScript derleyici ayarları
+├── public/
+│   └── assets/
+│       └── logo.svg            # Proje logosu
+└── src/
+    ├── components/             # Tekrar kullanılabilir React bileşenleri (Formlar, Listeler vb.)
+    │   ├── CategoryForm.tsx
+    │   ├── Layout.tsx
+    │   ├── ProductForm.tsx
+    │   └── ...
+    ├── context/                # React Context API sağlayıcıları (örn: Tema Yönetimi)
+    │   └── ThemeContext.tsx
+    ├── lib/                    # Yardımcı fonksiyonlar ve kütüphane ayarları
+    │   └── supabaseClient.ts   # Supabase istemci bağlantı konfigürasyonu
+    ├── pages/                  # Uygulama sayfaları ve API rotaları
+    │   ├── _app.tsx              # Global App bileşeni
+    │   ├── index.tsx             # Ana Dashboard sayfası
+    │   ├── login.tsx             # Giriş sayfası
+    │   ├── api/                  # Backend API uç noktaları
+    │   │   ├── categories.ts
+    │   │   ├── products.ts
+    │   │   └── ...
+    │   └── manage/               # Ürün, kategori vb. yönetim sayfaları
+    │       ├── products.tsx
+    │       └── ...
+    └── styles/                 # Global ve modüler CSS dosyaları
+        ├── globals.css
+        └── Dashboard.module.css
+```
+</details>
+
+---
+
+### <p align="center">📄 API Uç Noktaları</p>
+
+| Metot | Endpoint | Açıklama |
+| :--- | :--- | :--- |
+| `GET, POST, PUT, DELETE` | `/api/products` | Ürünleri ve ürün varyantlarını yönetir. |
+| `GET, POST, PUT, DELETE` | `/api/categories` | Kategorileri yönetir. |
+| `GET, POST, PUT, DELETE` | `/api/colors` | Renkleri yönetir. |
+| `GET, POST, PUT, DELETE` | `/api/sizes` | Bedenleri yönetir. |
+| `GET, POST` | `/api/sales` | Satış kayıtlarını listeler ve oluşturur. |
+| `GET, POST` | `/api/returns` | İade kayıtlarını listeler ve oluşturur. |
+| `GET` | `/api/dashboard-stats` | Dashboard için tüm istatistiksel verileri toplar. |
+
+<details>
+<summary>👉 Örnek API İstek Body'lerini görmek için tıklayın.</summary>
+
+#### `POST /api/products`
+Yeni bir ürün oluşturmak için gönderilen örnek JSON body'si.
+```json
+{
+  "name": "Yeni Sezon T-Shirt",
+  "categoryId": "c5a6b7d8-e9f0-1234-5678-9abcdef01234",
+  "variants": [
+    { "sizeId": "s1...", "colorId": "c1...", "stock": 10, "isDefective": 0 },
+    { "sizeId": "s2...", "colorId": "c1...", "stock": 5, "isDefective": 1 }
+  ]
+}
+```
+
+#### `POST /api/sales`
+Yeni bir satış kaydetmek için gönderilen örnek JSON body'si.
+```json
+{
+  "items": [
+    { "variantId": "pv1...", "quantity": 2, "price": 299.99 },
+    { "variantId": "pv2...", "quantity": 1, "price": 349.50 }
+  ],
+  "totalAmount": 949.48
+}
+```
+</details>
+
+<br>
+
+---
+
+### <p align="center">🗺️ Yol Haritası</p>
+
+Gelecekte projeye eklenmesi planlanan özellikler:
+
+- [ ] **Kullanıcı Rolleri:** `Admin` dışında `Editor`, `Viewer` gibi farklı kullanıcı rolleri tanımlama.
+- [ ] **Gelişmiş Raporlama:** Tarih aralığına göre filtrelenebilir ve CSV/Excel olarak indirilebilir satış raporları.
+- [ ] **Tedarikçi Yönetimi:** Ürünlerin hangi tedarikçilerden temin edildiğini yönetme modülü.
+- [ ] **Stok Transferi:** Mağazalar veya depolar arasında stok transferi yapabilme.
+- [ ] **Barkod Desteği:** Ürünlere barkod atama ve barkod okuyucu ile satış yapabilme.
+
+---
+
+### <p align="center">🤝 Katkıda Bulunma</p>
+
+Katkılarınız projeyi daha iyi hale getirecektir! Lütfen `CONTRIBUTING.md` dosyasını inceleyin.
 
 1.  Bu repoyu fork'layın.
 2.  Yeni bir özellik dalı oluşturun (`git checkout -b feature/yeni-ozellik`).
@@ -148,14 +263,17 @@ Katkılarınız projeyi daha iyi hale getirecektir!
 
 ---
 
-## ☕ Destek Olun
-
+### <p align="center">☕ Destek Olun</p>
+<p align="center">
 Bu proje işinize yaradıysa ve geliştirmemi desteklemek istiyorsanız, bana bir kahve ısmarlayabilirsiniz!
-
+</p>
+<p align="center">
 <a href="https://www.buymeacoffee.com/galileoff" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+</p>
 
 ---
 
-## 📝 Lisans
-
-Bu proje [MIT](LICENSE) lisansı ile lisanslanmıştır.
+### <p align="center">📝 Lisans</p>
+<p align="center">
+Bu proje <a href="LICENSE">MIT</a> lisansı ile lisanslanmıştır.
+</p>
