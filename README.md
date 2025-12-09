@@ -1,12 +1,13 @@
 # galileoff-StockControlPanel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fusername%2Fgalileoff-StockControlPanel)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgalile0ff%2Fgalileoff-StockControlPanel)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/username/galileoff-StockControlPanel?style=social)](https://github.com/username/galileoff-StockControlPanel/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/galile0ff/galileoff-StockControlPanel?style=social)](https://github.com/galile0ff/galileoff-StockControlPanel/stargazers)
 
 **galileoff Giyim Stok Takip Paneli**
 <br>
-Modern ve hızlı bir web paneli ile ürünlerini, stoklarını, beden ve renk seçeneklerini yönet.<br>
+Modern ve hızlı bir web paneli ile ürünlerini, stoklarını, beden ve renk seçeneklerini yönet.
+<br>
 Dashboard üzerinden kritik stok seviyelerini ve satış performansını anlık takip et.
 
 ---
@@ -21,6 +22,7 @@ Dashboard üzerinden kritik stok seviyelerini ve satış performansını anlık 
   - Toplam envanter değeri ve ürün adetleri.
 - **👤 Kullanıcı Yönetimi:** Admin yetkilendirme ve güvenli giriş sistemi.
 - **🎨 Modern UI:** Minimalist tasarım, tamamen responsive ve mobil uyumlu.
+- **🌙 Açık ve Koyu Tema Desteği:** Kullanıcı tercihine göre arayüz temasını değiştirme özelliği.
 
 ---
 
@@ -35,6 +37,46 @@ Proje, performans ve ölçeklenebilirlik için en güncel teknolojilerle gelişt
 | **Veritabanı** | Supabase (PostgreSQL + Auth) | ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white) |
 | **Data Fetch** | SWR (Stale-While-Revalidate) | ![SWR](https://img.shields.io/badge/SWR-000000?style=flat&logo=vercel&logoColor=white) |
 | **Hosting** | Vercel | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white) |
+
+---
+
+## ⚡ Başlarken
+
+Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin.
+
+### 1. Projeyi Klonlayın
+
+```bash
+git clone https://github.com/galile0ff/galileoff-StockControlPanel.git
+cd galileoff-StockControlPanel
+```
+
+### 2. Supabase Ayarları
+
+Bu proje, veritabanı ve kimlik doğrulama için **Supabase** kullanır.
+
+-   [Supabase](https://supabase.com/)'e kaydolun ve yeni bir proje oluşturun.
+-   Proje kontrol panelinizdeki **SQL Editor** bölümüne gidin.
+-   `supabase_schema.sql` dosyasının içeriğini kopyalayıp editörde çalıştırarak veritabanı şemanızı oluşturun.
+-   **Settings > API** bölümünden `Project URL` ve `anon public` anahtarınızı alın.
+
+### 3. Ortam Değişkenlerini Ayarlayın
+
+Proje kök dizininde `.env.local` adında bir dosya oluşturun ve Supabase'den aldığınız bilgileri içine ekleyin.
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=SUPABASE_PROJE_URL'İNİZ
+NEXT_PUBLIC_SUPABASE_ANON_KEY=SUPABASE_ANON_KEY'İNİZ
+```
+
+### 4. Bağımlılıkları Yükleyin ve Çalıştırın
+
+```bash
+npm install
+npm run dev
+```
+
+Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalışıyor olacaktır.
 
 ---
 
@@ -59,19 +101,6 @@ galileoff-StockControlPanel/
 │   └── sales.tsx
 └── styles/               # CSS Modülleri ve Global stiller
 ```
----
-
-## ⚡ Kullanım
-
-Proje ayağa kalktıktan sonra temel dosya yapısı ve işlevleri aşağıdaki gibidir. Frontend, `pages/api` altındaki serverless fonksiyonlar ile haberleşir.
-
-| Sayfa / Yol | Açıklama |
-| :--- | :--- |
-| `pages/index.tsx` | **Dashboard:** Özet istatistikler, azalan stoklar ve çok satanlar. |
-| `pages/manage/add-product.tsx` | **Ürün Yönetimi:** Yeni ürün ekleme formu. |
-| `pages/api/*` | **Backend:** Veritabanı ile konuşan CRUD endpoint'leri. |
-| `lib/supabaseClient.ts` | **Config:** Supabase istemci bağlantı ayarları. |
-
 ---
 
 ## 📄 API Dokümantasyonu
@@ -106,12 +135,6 @@ Uygulama, veri yönetimi için aşağıdaki RESTful API rotalarını kullanır.
 | `POST` | `/api/sales` | Yeni bir satış işlemi kaydeder. |
 | `GET` | `/api/dashboard-stats` | Dashboard için özet verileri (toplam stok, ciro vb.) getirir. |
 
-### 🔐 Yetkilendirme (Auth)
-
-| Metot | Endpoint | Açıklama |
-| :--- | :--- | :--- |
-| `POST` | `/api/auth` | Kullanıcı girişi ve token yönetimi. |
-
 ---
 
 ## 🎨 UI Mockup’ları
@@ -125,30 +148,14 @@ Arayüz tasarımı minimal ve kullanıcı odaklıdır.
 
 ---
 
-## 👤 Demo Kullanıcı
-
-Demo ortamını test etmek için Supabase panelinizden `auth` tablosuna manuel kullanıcı ekleyebilir veya aşağıdaki varsayılan yapıyı kullanabilirsiniz (Geliştirme aşaması için).
-
-> **Not:** Üretim ortamında (Production) Supabase Auth politikalarını (RLS) aktif ettiğinizden emin olun.
-
----
-
-## 📦 Vercel Deploy
-
-Bu projeyi **Vercel** üzerine tek tıkla deploy edebilirsiniz.
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fusername%2Fgalileoff-StockControlPanel)
-
----
-
 ## ☕ Bana Kahve Ismarla
 
 Bu proje işine yaradıysa ve geliştirmemi desteklemek istiyorsan, bana bir kahve ısmarlayabilirsin! Ayrıca projeyi beğendiysen **GitHub'da yıldız (⭐)** vererek de destek olabilirsin. Desteklerin projeyi daha ileri taşımam için motive ediyor. 🚀
 
 [![Buy Me a Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=☕&slug=galileoff&button_colour=FF5F5F&font_colour=ffffff&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/galileoff)
 <div>
-  <a href="https://github.com/galile0ff/galileoff-AutoSockPressIron/stargazers">
-    <img src="https://img.shields.io/github/stars/galile0ff/galileoff-AutoSockPressIron?style=social&label=Star&height=40" alt="GitHub Star" height="40" />
+  <a href="https://github.com/galile0ff/galileoff-StockControlPanel/stargazers">
+    <img src="https://img.shields.io/github/stars/galile0ff/galileoff-StockControlPanel?style=social&label=Star&height=40" alt="GitHub Star" height="40" />
   </a>
 </div>
 
