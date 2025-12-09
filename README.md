@@ -7,9 +7,6 @@
 <div align="center">
 
 [![Node.js CI](https://github.com/galile0ff/galileoff-StockControlPanel/actions/workflows/ci.yml/badge.svg)](https://github.com/galile0ff/galileoff-StockControlPanel/actions/workflows/ci.yml)
-[![Oturum Aç ve Çalıştır](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/galile0ff/galileoff-StockControlPanel)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgalile0ff%2Fgalileoff-StockControlPanel)
-
 ![GitHub last commit](https://img.shields.io/github/last-commit/galile0ff/galileoff-StockControlPanel?style=for-the-badge&logo=github)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/galile0ff/galileoff-StockControlPanel?style=for-the-badge&logo=github)
 ![License](https://img.shields.io/github/license/galile0ff/galileoff-StockControlPanel?style=for-the-badge&color=blue)
@@ -22,8 +19,6 @@
 </p>
 
 ---
-
-<br>
 
 ## 📋 İçindekiler
 
@@ -39,24 +34,18 @@
 - [☕ Destek Olun](#-destek-olun)
 - [📝 Lisans](#-lisans)
 
-<br>
-
 ---
 
-### <p align="center">🖼️ Proje Galerisi</p>
+## 🖼️ Proje Galerisi
 <div align="center">
 
-*Ekran görüntülerini `docs/images` klasörüne eklediğinizde burada görüneceklerdir.*
-
-| Dashboard | Ürün Listesi | Ürün Ekleme |
-| :---: | :---: | :---: |
-| ![Dashboard Ekranı](./docs/images/01-dashboard.png) | ![Ürün Listesi](./docs/images/02-product-list.png) | ![Ürün Ekleme Formu](./docs/images/03-add-product.png) |
+*Not: Proje ekran görüntüleri yakında eklenecektir.*
 
 </div>
 
 ---
 
-### <p align="center">✨ Temel Özellikler</p>
+## ✨ Temel Özellikler
 -   **📦 Kapsamlı Ürün Yönetimi:** Ürünleri fotoğraf, kategori, tedarikçi, alış fiyatı, satış fiyatı, sağlam/defolu stok adedi gibi zengin detaylarla yönetin.
 -   **🎨 Sınırsız Varyasyon:** Projenize özel sınırsız sayıda Kategori, Renk ve Beden tanımlayın ve bunları ürünlerle ilişkilendirin.
 -   **📈 Akıllı Satış ve İade Takibi:** Yapılan satışları ve iadeleri kaydederek stok durumunu anlık ve otomatik olarak güncelleyin.
@@ -70,11 +59,8 @@
 
 ---
 
-### <p align="center">🏗️ Teknik Mimari</p>
-<p align="center">
+## 🏗️ Teknik Mimari
 Bu proje, modern web geliştirme standartlarına uygun, ölçeklenebilir ve bakımı kolay bir mimari üzerine inşa edilmiştir.
-</p>
-<div align="center">
 
 ```
 ┌───────────────────┐      ┌─────────────────────────┐      ┌────────────────────────┐
@@ -86,11 +72,10 @@ Bu proje, modern web geliştirme standartlarına uygun, ölçeklenebilir ve bak�
          └──────────────────────────▼──────────────────────────┘
                   (SWR ile Veri Çekme ve Önbellekleme)
 ```
-</div>
 
 ---
 
-### <p align="center">💻 Teknoloji Yığını</p>
+## 💻 Teknoloji Yığını
 | Katman | Teknoloji | Açıklama |
 | :--- | :--- | :--- |
 | **Framework** | **Next.js 13** | React tabanlı, sunucu taraflı render ve statik site oluşturma. |
@@ -103,21 +88,15 @@ Bu proje, modern web geliştirme standartlarına uygun, ölçeklenebilir ve bak�
 
 ---
 
-### <p align="center">🚀 Yerelde Çalıştırma</p>
+## 🚀 Yerelde Çalıştırma
 
-#### Adım 1: Projeyi Klonlayın veya Gitpod'da Açın
+### Adım 1: Projeyi Klonlayın
+```bash
+git clone https://github.com/galile0ff/galileoff-StockControlPanel.git
+cd galileoff-StockControlPanel
+```
 
-- **Seçenek A: Gitpod (Önerilen - Sıfır Kurulum)**<br>
-  [![Oturum Aç ve Çalıştır](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/galile0ff/galileoff-StockControlPanel)<br>
-  Yukarıdaki butona tıklayarak projeyi anında tarayıcınızda, tüm kurulumları yapılmış bir geliştirme ortamında açabilirsiniz.
-
-- **Seçenek B: Yerel Makine**
-  ```bash
-  git clone https://github.com/galile0ff/galileoff-StockControlPanel.git
-  cd galileoff-StockControlPanel
-  ```
-
-#### Adım 2: Supabase Projesini Ayarlayın
+### Adım 2: Supabase Projesini Ayarlayın
 Projenin çalışması için bir Supabase projesine ihtiyacınız var.
 1. [Supabase](https://supabase.com/)'e kaydolun ve yeni bir proje oluşturun.
 2. Proje panelindeki **SQL Editor**'e gidin.
@@ -125,7 +104,7 @@ Projenin çalışması için bir Supabase projesine ihtiyacınız var.
 4. `supabase_storage_policies.sql` içeriğini de aynı şekilde çalıştırın.
 5. **Settings > API** bölümünden `Project URL`, `anon public` Key ve `service_role` Secret Key'i kopyalayın.
 
-#### Adım 3: Ortam Değişkenlerini Oluşturun
+### Adım 3: Ortam Değişkenlerini Oluşturun
 <details>
 <summary>👉 Proje kök dizininde <code>.env.local</code> adında bir dosya oluşturun ve içeriğini buraya tıklayarak kopyalayın.</summary>
 
@@ -140,7 +119,7 @@ SUPABASE_SERVICE_ROLE_KEY=[SUPABASE_SERVICE_ROLE_KEY'İNİZ]
 ```
 </details>
 
-#### Adım 4: Bağımlılıkları Yükleyin ve Çalıştırın
+### Adım 4: Bağımlılıkları Yükleyin ve Çalıştırın
 ```bash
 npm install
 npm run dev
@@ -149,7 +128,7 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 
 ---
 
-### <p align="center">⚙️ Sürekli Entegrasyon (CI)</p>
+## ⚙️ Sürekli Entegrasyon (CI)
 
 Bu proje, kod kalitesini ve kararlılığını sağlamak için **GitHub Actions** üzerinde çalışan bir Sürekli Entegrasyon (CI) boru hattı (pipeline) kullanır.
 
@@ -167,7 +146,7 @@ Bu süreç, projenin her zaman çalışır ve kararlı durumda kalmasını sağl
 
 ---
 
-### <p align="center">🗂️ Proje Yapısı</p>
+## 🗂️ Proje Yapısı
 <details>
 <summary>👉 Projenin detaylı dosya ve klasör yapısını görmek için tıklayın.</summary>
 
@@ -216,7 +195,7 @@ Bu süreç, projenin her zaman çalışır ve kararlı durumda kalmasını sağl
 
 ---
 
-### <p align="center">📄 API Uç Noktaları</p>
+## 📄 API Uç Noktaları
 
 | Metot | Endpoint | Açıklama |
 | :--- | :--- | :--- |
@@ -257,11 +236,9 @@ Yeni bir satış kaydetmek için gönderilen örnek JSON body'si.
 ```
 </details>
 
-<br>
-
 ---
 
-### <p align="center">🤝 Katkıda Bulunma</p>
+## 🤝 Katkıda Bulunma
 
 Katkılarınız projeyi daha iyi hale getirecektir! Lütfen `CONTRIBUTING.md` dosyasını inceleyin.
 
@@ -273,46 +250,16 @@ Katkılarınız projeyi daha iyi hale getirecektir! Lütfen `CONTRIBUTING.md` do
 
 ---
 
-### <p align="center">☕ Destek Olun</p>
+## ☕ Destek Olun
 <p align="center">
 Bu proje işinize yaradıysa ve geliştirmemi desteklemek istiyorsanız, bana bir kahve ısmarlayabilirsiniz!
-</p>
-<p align="center">
+<br><br>
 <a href="https://www.buymeacoffee.com/galileoff" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 </p>
 
 ---
 
-### <p align="center">📝 Lisans</p>
-<p align="center">
-Bu proje <a href="LICENSE">MIT</a> lisansı ile lisanslanmıştır.
-</p>
-
----
-
-### <p align="center">🤝 Katkıda Bulunma</p>
-
-Katkılarınız projeyi daha iyi hale getirecektir! Lütfen `CONTRIBUTING.md` dosyasını inceleyin.
-
-1.  Bu repoyu fork'layın.
-2.  Yeni bir özellik dalı oluşturun (`git checkout -b feature/yeni-ozellik`).
-3.  Değişikliklerinizi commit'leyin (`git commit -m 'feat: Yeni bir özellik eklendi'`).
-4.  Dalınızı push'layın (`git push origin feature/yeni-ozellik`).
-5.  Bir Pull Request açın.
-
----
-
-### <p align="center">☕ Destek Olun</p>
-<p align="center">
-Bu proje işinize yaradıysa ve geliştirmemi desteklemek istiyorsanız, bana bir kahve ısmarlayabilirsiniz!
-</p>
-<p align="center">
-<a href="https://www.buymeacoffee.com/galileoff" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-</p>
-
----
-
-### <p align="center">📝 Lisans</p>
+## 📝 Lisans
 <p align="center">
 Bu proje <a href="LICENSE">MIT</a> lisansı ile lisanslanmıştır.
 </p>
