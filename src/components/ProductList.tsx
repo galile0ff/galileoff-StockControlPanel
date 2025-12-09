@@ -107,7 +107,31 @@ const ProductList = () => {
     });
 
     if (salesRes.ok) {
-      mutate(swrKey);
+      mutate(swrKey, (currentData: Product[] | undefined) => {
+        if (!currentData) return [];
+        return currentData.map(p => {
+          const variant = p.product_variants.find(v => v.id === variantId);
+          if (variant) {
+            const newProduct = JSON.parse(JSON.stringify(p));
+            const newVariant = newProduct.product_variants.find((v: ProductVariant) => v.id === variantId);
+            
+            if (saleType === 'sound') {
+              newVariant.stock_sound -= 1;
+            } else {
+              newVariant.stock_defective -= 1;
+            }
+
+            const productIsNowLowStock = newProduct.product_variants.some((v: ProductVariant) => v.stock_sound <= 3);
+            newProduct.is_low_stock = productIsNowLowStock;
+
+            return newProduct;
+          }
+          return p;
+        });
+      }, false); 
+
+      mutate('/api/dashboard-stats');
+
       setSaleModalOpen(false);
       setSaleModalInfo(null);
     } else {
