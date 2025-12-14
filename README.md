@@ -183,7 +183,8 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 ├── next-env.d.ts               # Next.js için TypeScript tip tanımlamaları
 ├── package.json                # Proje bağımlılıkları ve script'leri
 ├── README.md                   # Bu dosya
-├── supabase_schema.sql         # Supabase veritabanı şeması, tablolar ve RLS poliçeleri
+├── CONTRIBUTING.md             # Projeye katkıda bulunma yönergeleri
+├── supabase_schema.sql         # Supabase veritabanı şeması, tablolar ve RLS politikaları
 ├── supabase_storage_policies.sql # Supabase depolama güvenlik kuralları
 ├── tsconfig.json               # TypeScript derleyici ayarları
 ├── public/
