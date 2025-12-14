@@ -140,15 +140,13 @@ git clone https://github.com/galile0ff/galileoff-StockControlPanel.git
 cd galileoff-StockControlPanel
 ```
 
-### Adım 2: Supabase Projesini Ayarlayın
-Projenin çalışması için bir Supabase projesine ihtiyacınız var.
-1. [Supabase](https://supabase.com/)'e kaydolun ve yeni bir proje oluşturun.
-2. Proje panelindeki **SQL Editor**'e gidin.
-3. `supabase_schema.sql` dosyasının içeriğini kopyalayıp çalıştırın.
-4. `supabase_storage_policies.sql` içeriğini de aynı şekilde çalıştırın.
-5. **Settings > API** bölümünden `Project URL`, `anon public` Key ve `service_role` Secret Key'i kopyalayın.
+### Adım 2: Veritabanı Kurulumu
+
+> [!IMPORTANT]
+> Güvenlik nedeniyle veritabanı şema dosyaları (`.sql`) artık bu repoda bulunmamaktadır. Projeyi kurmak için gerekli olan en güncel `.sql` dosyalarını almak için lütfen [Telegram üzerinden @galileoff](https://t.me/galileoff) benimle iletişime geçin.
 
 ### Adım 3: Ortam Değişkenlerini Oluşturun
+Supabase projenizi kurduktan sonra **Settings > API** bölümünden ilgili anahtarları alın.
 
 <summary>👉 Proje kök dizininde <code>.env.local</code> adında bir dosya oluşturun ve içeriğini kopyalayın.</summary>
 
@@ -163,6 +161,8 @@ SUPABASE_SERVICE_ROLE_KEY=[SUPABASE_SERVICE_ROLE_KEY'İNİZ]
 ```
 
 ### Adım 4: Bağımlılıkları Yükleyin ve Çalıştırın
+Proje `npm` paket yöneticisini kullanmaktadır.
+
 ```bash
 npm install
 npm run dev

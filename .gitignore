@@ -34,3 +34,9 @@ Thumbs.db
 *.log
 tmp/
 temp/
+
+# Package manager lock file
+pnpm-lock.yaml
+
+# Database schema files
+*.sql
