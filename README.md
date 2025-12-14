@@ -143,7 +143,7 @@ cd galileoff-StockControlPanel
 ### Adım 2: Veritabanı Kurulumu
 
 > [!IMPORTANT]
-> Güvenlik nedeniyle veritabanı şema dosyaları (`.sql`) artık bu repoda bulunmamaktadır. Projeyi kurmak için gerekli olan en güncel `.sql` dosyalarını almak için lütfen [Telegram üzerinden @galileoff](https://t.me/galileoff) benimle iletişime geçin.
+> Güvenlik nedeniyle veritabanı şema dosyaları (`.sql`) artık bu repoda bulunmamaktadır. Projeyi kurmak için gerekli olan en güncel `.sql` dosyalarını almak için lütfen [Telegram üzerinden (@galileoff)](https://t.me/galileoff) benimle iletişime geçin.
 
 ### Adım 3: Ortam Değişkenlerini Oluşturun
 Supabase projenizi kurduktan sonra **Settings > API** bölümünden ilgili anahtarları alın.
