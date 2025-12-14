@@ -19,7 +19,7 @@
 
 ## 📋 İçindekiler
 
-> [!İçindekiler]
+> [!NOTE]
 > - [🖼️ Proje Galerisi](#️-proje-galerisi)
 > - [✨ Temel Özellikler](#-temel-özellikler)
 > - [🏗️ Teknik Mimari](#️-teknik-mimari)
