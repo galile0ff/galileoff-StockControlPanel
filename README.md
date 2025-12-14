@@ -4,14 +4,10 @@
   <p><strong>Gelişmiş Giyim Stok ve Satış Yönetim Paneli</strong></p>
 </div>
 
-<div align="center">
-
 ![GitHub last commit](https://img.shields.io/github/last-commit/galile0ff/galileoff-StockControlPanel?style=for-the-badge&logo=github)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/galile0ff/galileoff-StockControlPanel?style=for-the-badge&logo=github)
 ![License](https://img.shields.io/github/license/galile0ff/galileoff-StockControlPanel?style=for-the-badge&color=blue)
 ![GitHub stars](https://img.shields.io/github/stars/galile0ff/galileoff-StockControlPanel?style=for-the-badge&logo=github&label=Yıldızla)
-
-</div>
 
 <p align="center">
   Modern ve hızlı bir web paneli ile ürünlerinizi, stoklarınızı, satışlarınızı ve iadelerinizi yönetin. Dashboard üzerinden kritik stok seviyelerini, en çok satan ürünleri ve satış performansını anlık olarak takip edin.
