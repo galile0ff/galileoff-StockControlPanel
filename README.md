@@ -301,6 +301,18 @@ Katkılarınız projeyi daha iyi hale getirecektir! Lütfen `CONTRIBUTING.md` do
 
 ---
 
+## 📈 Star History
+
+<a href="https://www.star-history.com/#galile0ff/galileoff-StockControlPanel&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=galile0ff/galileoff-StockControlPanel&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=galile0ff/galileoff-StockControlPanel&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=galile0ff/galileoff-StockControlPanel&type=date&legend=top-left" />
+ </picture>
+</a>
+
+---
+
 ## ☕ Destek Olun
 
 <p align="center">
@@ -320,3 +332,9 @@ Bu proje işinize yaradıysa ve geliştirmemi desteklemek istiyorsanız, bana bi
 <p align="center">
 Bu proje <a href="LICENSE">MIT</a> lisansı ile lisanslanmıştır.
 </p>
+
+---
+<div align="center">
+Developed with ☕ by <a href="https://github.com/galile0ff">galile0ff</a>
+</div>
+---
