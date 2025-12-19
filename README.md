@@ -337,4 +337,3 @@ Bu proje <a href="LICENSE">MIT</a> lisansı ile lisanslanmıştır.
 <div align="center">
 Developed with ☕ by <a href="https://github.com/galile0ff">galile0ff</a>
 </div>
----
