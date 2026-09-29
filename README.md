@@ -17,23 +17,23 @@
 
 ---
 
-## 📋 İçindekiler
+## İçindekiler
 
 > [!NOTE]
-> - [🖼️ Proje Galerisi](#️-proje-galerisi)
-> - [✨ Temel Özellikler](#-temel-özellikler)
-> - [🏗️ Teknik Mimari](#️-teknik-mimari)
-> - [💻 Teknoloji Yığını](#-teknoloji-yığını)
-> - [🚀 Yerelde Çalıştırma](#-yerelde-çalıştırma)
-> - [🗂️ Proje Yapısı](#️-proje-yapısı)
-> - [📄 API Uç Noktaları](#-api-uç-noktaları)
-> - [🤝 Katkıda Bulunma](#-katkıda-bulunma)
-> - [☕ Destek Olun](#-destek-olun)
-> - [📝 Lisans](#-lisans)
+> - [Proje Galerisi](#️-proje-galerisi)
+> - [Temel Özellikler](#-temel-özellikler)
+> - [Teknik Mimari](#️-teknik-mimari)
+> - [Teknoloji Yığını](#-teknoloji-yığını)
+> - [Yerelde Çalıştırma](#-yerelde-çalıştırma)
+> - [Proje Yapısı](#️-proje-yapısı)
+> - [API Uç Noktaları](#-api-uç-noktaları)
+> - [Katkıda Bulunma](#-katkıda-bulunma)
+> - [Destek Olun](#-destek-olun)
+> - [Lisans](#-lisans)
 
 ---
 
-## 🖼️ Proje Galerisi
+## Proje Galerisi
 <div align="center">
 <details>
   <summary>Giriş Sayfası</summary>
@@ -87,21 +87,21 @@
 
 ---
 
-## ✨ Temel Özellikler
--   **📦 Kapsamlı Ürün Yönetimi:** Ürünleri fotoğraf, kategori, tedarikçi, alış fiyatı, satış fiyatı, sağlam/defolu stok adedi gibi zengin detaylarla yönetin.
--   **🎨 Sınırsız Varyasyon:** Projenize özel sınırsız sayıda Kategori, Renk ve Beden tanımlayın ve bunları ürünlerle ilişkilendirin.
--   **📈 Akıllı Satış ve İade Takibi:** Yapılan satışları ve iadeleri kaydederek stok durumunu anlık ve otomatik olarak güncelleyin.
--   **📊 Gelişmiş Dashboard:**
+## Temel Özellikler
+-   ** Kapsamlı Ürün Yönetimi:** Ürünleri fotoğraf, kategori, tedarikçi, alış fiyatı, satış fiyatı, sağlam/defolu stok adedi gibi zengin detaylarla yönetin.
+-   ** Sınırsız Varyasyon:** Projenize özel sınırsız sayıda Kategori, Renk ve Beden tanımlayın ve bunları ürünlerle ilişkilendirin.
+-   ** Akıllı Satış ve İade Takibi:** Yapılan satışları ve iadeleri kaydederek stok durumunu anlık ve otomatik olarak güncelleyin.
+-   ** Gelişmiş Dashboard:**
     -   **Kritik Stok Uyarıları:** Stoğu azalan ürünleri anında tespit edin.
     -   **En Çok Satanlar:** Performanslarına göre en popüler ürünleri ve kategorileri listeleyin.
     -   **Finansal Analiz:** Toplam satış geliri, iade maliyetleri ve potansiyel kâr gibi metrikleri izleyin.
     -   **Görsel Raporlar:** Satış trendleri, stok dağılımı gibi verileri interaktif grafiklerle analiz edin.
--   **🔐 Güvenli Kimlik Doğrulama:** Supabase Auth ile modern ve güvenli kullanıcı girişi. Rol tabanlı yetkilendirme ile yönetim paneline sadece adminler erişebilir.
--   **🌙 Modern ve Duyarlı Arayüz:** Kullanıcı tercihine göre Açık ve Koyu Tema desteği sunan, tüm cihazlarla uyumlu (responsive) minimalist tasarım.
+-   ** Güvenli Kimlik Doğrulama:** Supabase Auth ile modern ve güvenli kullanıcı girişi. Rol tabanlı yetkilendirme ile yönetim paneline sadece adminler erişebilir.
+-   ** Modern ve Duyarlı Arayüz:** Kullanıcı tercihine göre Açık ve Koyu Tema desteği sunan, tüm cihazlarla uyumlu (responsive) minimalist tasarım.
 
 ---
 
-## 🏗️ Teknik Mimari
+## Teknik Mimari
 Bu proje, modern web geliştirme standartlarına uygun, ölçeklenebilir ve bakımı kolay bir mimari üzerine inşa edilmiştir.
 
 ```
@@ -117,7 +117,7 @@ Bu proje, modern web geliştirme standartlarına uygun, ölçeklenebilir ve bak�
 
 ---
 
-## 💻 Teknoloji Yığını
+## Teknoloji Yığını
 | Katman | Teknoloji | Açıklama |
 | :--- | :--- | :--- |
 | **Framework** | **Next.js 13** | React tabanlı, sunucu taraflı render ve statik site oluşturma. |
@@ -130,7 +130,7 @@ Bu proje, modern web geliştirme standartlarına uygun, ölçeklenebilir ve bak�
 
 ---
 
-## 🚀 Yerelde Çalıştırma
+## Yerelde Çalıştırma
 
 ### Adım 1: Projeyi Klonlayın
 ```bash
@@ -146,7 +146,7 @@ cd galileoff-StockControlPanel
 ### Adım 3: Ortam Değişkenlerini Oluşturun
 Supabase projenizi kurduktan sonra **Settings > API** bölümünden ilgili anahtarları alın.
 
-<summary>👉 Proje kök dizininde <code>.env.local</code> adında bir dosya oluşturun ve içeriğini kopyalayın.</summary>
+<summary> Proje kök dizininde <code>.env.local</code> adında bir dosya oluşturun ve içeriğini kopyalayın.</summary>
 
 ```bash
 # Genel istemci tarafı erişim için
@@ -169,9 +169,9 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 
 ---
 
-## 🗂️ Proje Yapısı
+## Proje Yapısı
 
-<summary>👉 Projenin detaylı dosya ve klasör yapısı.</summary>
+<summary>Projenin detaylı dosya ve klasör yapısı.</summary>
 
 ```
 /
@@ -217,7 +217,7 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 
 ---
 
-## 📄 API Uç Noktaları
+## API Uç Noktaları
 
 | Metot | Endpoint | Açıklama |
 | :--- | :--- | :--- |
@@ -230,7 +230,7 @@ Uygulama artık [http://localhost:3000](http://localhost:3000) adresinde çalı�
 | `GET` | `/api/dashboard-stats` | Dashboard için tüm istatistiksel verileri toplar. |
 
 
-<summary>👉 Örnek API İstek Body'leri.</summary>
+<summary>Örnek API İstek Body'leri.</summary>
 
 #### `POST /api/products`
 Yeni bir ürün ve varyantları oluşturur.
@@ -289,7 +289,7 @@ Bir iade kaydeder. Stoklar otomatik olarak güncellenir.
 
 ---
 
-## 🤝 Katkıda Bulunma
+## Katkıda Bulunma
 
 Katkılarınız projeyi daha iyi hale getirecektir! Lütfen `CONTRIBUTING.md` dosyasını inceleyin.
 
@@ -301,7 +301,7 @@ Katkılarınız projeyi daha iyi hale getirecektir! Lütfen `CONTRIBUTING.md` do
 
 ---
 
-## 📈 Star History
+## Star History
 
 <a href="https://www.star-history.com/#galile0ff/galileoff-StockControlPanel&type=date&legend=top-left">
  <picture>
@@ -313,7 +313,7 @@ Katkılarınız projeyi daha iyi hale getirecektir! Lütfen `CONTRIBUTING.md` do
 
 ---
 
-## ☕ Destek Olun
+## Destek Olun
 
 <p align="center">
 Bu proje işinize yaradıysa ve geliştirmemi desteklemek istiyorsanız, bana bir kahve ısmarlayabilirsiniz!
@@ -328,7 +328,7 @@ Bu proje işinize yaradıysa ve geliştirmemi desteklemek istiyorsanız, bana bi
 
 ---
 
-## 📝 Lisans
+## Lisans
 <p align="center">
 Bu proje <a href="LICENSE">MIT</a> lisansı ile lisanslanmıştır.
 </p>
